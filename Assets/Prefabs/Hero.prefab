@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6140105975915262992, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
       propertyPath: m_Name
-      value: BaseCharacter
+      value: Hero
       objectReference: {fileID: 0}
     - target: {fileID: 6140105975915262995, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
       propertyPath: m_RootOrder
@@ -57,3 +57,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+--- !u!1 &7180191080166702539 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2784873082225910610, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+  m_PrefabInstance: {fileID: 4972241096833556121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8282599735413749889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7180191080166702539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b113e22ce36b42029028358e40e88bb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
