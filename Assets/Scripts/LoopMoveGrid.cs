@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using DefaultNamespace;
+using Unity.Mathematics;
 using UnityEngine;
 
 class MoveSocketStruct
 {
     public LoopBlock Block;
+
     public MoveSocketStruct Next;
     // public MoveSocketStruct Prev;
 }
@@ -39,11 +42,11 @@ public class LoopMoveGrid : MonoBehaviour
         _endPos = MoveSockets[^1].transform.localPosition.x;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         bool doMove = false;
         MoveSocketStruct lastSocket = new MoveSocketStruct();
-        float distance = MoveSpeed * Time.deltaTime;
+        float distance = MoveSpeed * Time.fixedDeltaTime;
         foreach (var socket in MoveSocketStructs)
         {
             var pos = socket.Block.transform.localPosition;
@@ -64,6 +67,8 @@ public class LoopMoveGrid : MonoBehaviour
             var movePos = lastSocket.Next.Block.transform.localPosition;
             movePos.x += MoveWidth;
             lastSocket.Block.transform.localPosition = movePos;
+            var encounter = Instantiate(GameManager.Instance.EncounterGo, lastSocket.Block.IncidentSocket);
+            encounter.transform.localPosition = Vector3.zero;
         }
     }
 }

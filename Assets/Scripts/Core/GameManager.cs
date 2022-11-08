@@ -33,6 +33,9 @@ namespace Core
         MMPersistentSingleton<GameManager>,
         MMEventListener<CoreGameEvent>
     {
+
+        public GameObject EncounterGo;
+        
         public void OnMMEvent(CoreGameEvent eventType)
         {
             switch (eventType.EventType)
