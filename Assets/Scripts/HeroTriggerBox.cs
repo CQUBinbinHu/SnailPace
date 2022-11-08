@@ -8,8 +8,8 @@ namespace DefaultNamespace
     {
         private void OnTriggerEnter2D(Collider2D other)
         {
-            CoreGameEvent.Trigger(CoreGameEventTypes.EncounterBattle);
-            Destroy(other.attachedRigidbody.gameObject);
+            RunGameEvent.Trigger(RunEventTypes.Encounter);
+            SPDebug.Instance.EncounterGo(other.attachedRigidbody.gameObject);
         }
     }
 }

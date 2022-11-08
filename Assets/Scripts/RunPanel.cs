@@ -1,11 +1,12 @@
 ﻿using System;
 using Core;
+using MoreMountains.Tools;
 using TMPro;
 using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class ShowRunClock : MonoBehaviour
+    public class RunPanel : MonoBehaviour, MMEventListener<RunGameEvent>
     {
         [SerializeField] private TextMeshProUGUI TextMeshPro;
 
@@ -38,6 +39,37 @@ namespace DefaultNamespace
                     break;
                 case MoveStatus.Run:
                     TextMeshPro.text = GameManager.Instance.RunClock.ToString("0.00");
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// OnDisable, we start listening to events.
+        /// </summary>
+        protected virtual void OnEnable()
+        {
+            // this.MMEventStartListening<CoreGameEvent>();
+            this.MMEventStartListening<RunGameEvent>();
+        }
+
+        /// <summary>
+        /// OnDisable, we stop listening to events.
+        /// </summary>
+        protected virtual void OnDisable()
+        {
+            // this.MMEventStopListening<CoreGameEvent>();
+            this.MMEventStopListening<RunGameEvent>();
+        }
+
+        public void OnMMEvent(RunGameEvent eventType)
+        {
+            switch (eventType.EventType)
+            {
+                case RunEventTypes.RunStart:
+                    break;
+                case RunEventTypes.Encounter:
+                    break;
+                case RunEventTypes.Continue:
                     break;
             }
         }

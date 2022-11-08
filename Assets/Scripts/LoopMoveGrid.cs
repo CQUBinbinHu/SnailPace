@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Core;
 using DefaultNamespace;
+using MoreMountains.Tools;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -13,16 +14,18 @@ class MoveSocketStruct
     // public MoveSocketStruct Prev;
 }
 
-public class LoopMoveGrid : MonoBehaviour
+public class LoopMoveGrid : MonoBehaviour, MMEventListener<RunGameEvent>
 {
     public float MoveWidth = 6;
     public float MoveSpeed = 0;
     public List<LoopBlock> MoveSockets;
     private List<MoveSocketStruct> MoveSocketStructs;
     private float _endPos;
+    private MoveStatus _status;
 
     void Start()
     {
+        _status = MoveStatus.Idle;
         MoveSocketStructs = new List<MoveSocketStruct>();
         foreach (var socket in MoveSockets)
         {
@@ -44,6 +47,11 @@ public class LoopMoveGrid : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (_status != MoveStatus.Run)
+        {
+            return;
+        }
+
         bool doMove = false;
         MoveSocketStruct lastSocket = new MoveSocketStruct();
         float distance = MoveSpeed * Time.fixedDeltaTime;
@@ -70,5 +78,38 @@ public class LoopMoveGrid : MonoBehaviour
             var encounter = Instantiate(GameManager.Instance.EncounterGo, lastSocket.Block.IncidentSocket);
             encounter.transform.localPosition = Vector3.zero;
         }
+    }
+
+    public void OnMMEvent(RunGameEvent eventType)
+    {
+        switch (eventType.EventType)
+        {
+            case RunEventTypes.RunStart:
+                _status = MoveStatus.Run;
+                break;
+            case RunEventTypes.Encounter:
+                _status = MoveStatus.Encounter;
+                break;
+            case RunEventTypes.Continue:
+                _status = MoveStatus.Run;
+                break;
+        }
+    }
+    /// <summary>
+    /// OnDisable, we start listening to events.
+    /// </summary>
+    protected virtual void OnEnable()
+    {
+        // this.MMEventStartListening<CoreGameEvent>();
+        this.MMEventStartListening<RunGameEvent>();
+    }
+
+    /// <summary>
+    /// OnDisable, we stop listening to events.
+    /// </summary>
+    protected virtual void OnDisable()
+    {
+        // this.MMEventStopListening<CoreGameEvent>();
+        this.MMEventStopListening<RunGameEvent>();
     }
 }

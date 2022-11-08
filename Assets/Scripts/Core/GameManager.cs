@@ -10,7 +10,14 @@ namespace Core
         Start,
         GameOver,
         Pause,
-        EncounterBattle
+        Continue
+    }
+
+    public enum RunEventTypes
+    {
+        RunStart,
+        Encounter,
+        Continue
     }
 
     public struct CoreGameEvent
@@ -25,6 +32,24 @@ namespace Core
         static CoreGameEvent e;
 
         public static void Trigger(CoreGameEventTypes eventType)
+        {
+            e.EventType = eventType;
+            MMEventManager.TriggerEvent(e);
+        }
+    }
+
+    public struct RunGameEvent
+    {
+        public RunEventTypes EventType;
+
+        public RunGameEvent(RunEventTypes eventType)
+        {
+            EventType = eventType;
+        }
+
+        static RunGameEvent e;
+
+        public static void Trigger(RunEventTypes eventType)
         {
             e.EventType = eventType;
             MMEventManager.TriggerEvent(e);
@@ -47,7 +72,8 @@ namespace Core
 
     public class GameManager :
         MMPersistentSingleton<GameManager>,
-        MMEventListener<CoreGameEvent>
+        MMEventListener<CoreGameEvent>,
+        MMEventListener<RunGameEvent>
     {
         private float _runClock;
         public GameObject EncounterGo;
@@ -91,28 +117,13 @@ namespace Core
             }
         }
 
-        public void OnMMEvent(CoreGameEvent eventType)
-        {
-            switch (eventType.EventType)
-            {
-                case CoreGameEventTypes.Start:
-                    break;
-                case CoreGameEventTypes.GameOver:
-                    break;
-                case CoreGameEventTypes.Pause:
-                    break;
-                case CoreGameEventTypes.EncounterBattle:
-                    Debug.Log("Debug EncounterBattle");
-                    break;
-            }
-        }
-
         /// <summary>
         /// OnDisable, we start listening to events.
         /// </summary>
         protected virtual void OnEnable()
         {
             this.MMEventStartListening<CoreGameEvent>();
+            this.MMEventStartListening<RunGameEvent>();
         }
 
         /// <summary>
@@ -121,6 +132,7 @@ namespace Core
         protected virtual void OnDisable()
         {
             this.MMEventStopListening<CoreGameEvent>();
+            this.MMEventStopListening<RunGameEvent>();
         }
 
         private class Idle : FsmState<GameManager, MoveStatus, MoveTransition>
@@ -138,6 +150,8 @@ namespace Core
 
             public override void Exit()
             {
+                RunGameEvent.Trigger(RunEventTypes.RunStart);
+                CoreGameEvent.Trigger(CoreGameEventTypes.Start);
             }
 
             public override void Reason(float deltaTime = 0)
@@ -197,6 +211,34 @@ namespace Core
 
             public override void Act(float deltaTime = 0)
             {
+            }
+        }
+
+        public void OnMMEvent(CoreGameEvent eventType)
+        {
+            switch (eventType.EventType)
+            {
+                case CoreGameEventTypes.Start:
+                    break;
+                case CoreGameEventTypes.GameOver:
+                    break;
+                case CoreGameEventTypes.Pause:
+                    break;
+            }
+        }
+
+        public void OnMMEvent(RunGameEvent eventType)
+        {
+            switch (eventType.EventType)
+            {
+                case RunEventTypes.RunStart:
+                    break;
+                case RunEventTypes.Encounter:
+                    _stateMachine.PerformTransition(MoveTransition.Encounter);
+                    break;
+                case RunEventTypes.Continue:
+                    _stateMachine.PerformTransition(MoveTransition.ContinueRun);
+                    break;
             }
         }
     }
