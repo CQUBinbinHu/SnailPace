@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 class MoveSocketStruct
 {
-    public Transform Socket;
+    public LoopBlock Block;
     public MoveSocketStruct Next;
     // public MoveSocketStruct Prev;
 }
@@ -13,7 +14,7 @@ public class LoopMoveGrid : MonoBehaviour
 {
     public float MoveWidth = 6;
     public float MoveSpeed = 0;
-    public List<Transform> MoveSockets;
+    public List<LoopBlock> MoveSockets;
     private List<MoveSocketStruct> MoveSocketStructs;
     private float _endPos;
 
@@ -24,7 +25,7 @@ public class LoopMoveGrid : MonoBehaviour
         {
             MoveSocketStructs.Add(new MoveSocketStruct()
             {
-                Socket = socket
+                Block = socket
             });
         }
 
@@ -35,7 +36,7 @@ public class LoopMoveGrid : MonoBehaviour
             // MoveSocketStructs[i].Prev = MoveSocketStructs[(i + num - 1) % num];
         }
 
-        _endPos = MoveSockets[^1].localPosition.x;
+        _endPos = MoveSockets[^1].transform.localPosition.x;
     }
 
     void Update()
@@ -45,7 +46,7 @@ public class LoopMoveGrid : MonoBehaviour
         float distance = MoveSpeed * Time.deltaTime;
         foreach (var socket in MoveSocketStructs)
         {
-            var pos = socket.Socket.localPosition;
+            var pos = socket.Block.transform.localPosition;
             pos.x -= distance;
             if (pos.x < _endPos)
             {
@@ -54,15 +55,15 @@ public class LoopMoveGrid : MonoBehaviour
             }
             else
             {
-                socket.Socket.localPosition = pos;
+                socket.Block.transform.localPosition = pos;
             }
         }
 
         if (doMove)
         {
-            var movePos = lastSocket.Next.Socket.localPosition;
+            var movePos = lastSocket.Next.Block.transform.localPosition;
             movePos.x += MoveWidth;
-            lastSocket.Socket.localPosition = movePos;
+            lastSocket.Block.transform.localPosition = movePos;
         }
     }
 }
