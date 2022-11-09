@@ -4,28 +4,32 @@ using Core;
 using DG.Tweening;
 using MoreMountains.Tools;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 namespace DefaultNamespace
 {
     public class CameraManager : MonoBehaviour, MMEventListener<RunGameEvent>
     {
-        [SerializeField] private float OrthoSize_Run = 4.5f;
-        [SerializeField] private float OrthoSize_Focus = 3.0f;
+        [SerializeField] private int assetsPPU_Run = 120;
+        [SerializeField] private int assetsPPU_Foc = 150;
 
-        private CinemachineVirtualCamera _camera;
-        private float _orthoSize;
+        private const float FocusDuration = 0.8f;
+
+        // private CinemachineVirtualCamera _camera;
+        private PixelPerfectCamera _pixel;
 
         private void Awake()
         {
-            _camera = GetComponent<CinemachineVirtualCamera>();
+            // _camera = GetComponent<CinemachineVirtualCamera>();
+            _pixel = GetComponent<PixelPerfectCamera>();
         }
 
         private void Start()
         {
-            _orthoSize = OrthoSize_Run;
-            _camera.m_Lens.OrthographicSize = _orthoSize;
+            // _camera.m_Lens.OrthographicSize = _orthoSize;
+            _pixel.assetsPPU = assetsPPU_Run;
         }
-        
+
         public void OnMMEvent(CoreGameEvent eventType)
         {
             switch (eventType.EventType)
@@ -56,20 +60,20 @@ namespace DefaultNamespace
 
         private void DoContinue()
         {
-            DOTween.To(() => _camera.m_Lens.OrthographicSize,
-                x => _camera.m_Lens.OrthographicSize = x,
-                OrthoSize_Run,
-                0.8f);
+            DOTween.To(() => _pixel.assetsPPU,
+                (x) => _pixel.assetsPPU = x,
+                assetsPPU_Run,
+                FocusDuration);
         }
 
         private void DoEncounter()
         {
-            DOTween.To(() => _camera.m_Lens.OrthographicSize,
-                x => _camera.m_Lens.OrthographicSize = x,
-                OrthoSize_Focus,
-                0.8f);
+            DOTween.To(() => _pixel.assetsPPU,
+                (x) => _pixel.assetsPPU = x,
+                assetsPPU_Foc,
+                FocusDuration);
         }
-        
+
         /// <summary>
         /// OnDisable, we start listening to events.
         /// </summary>
