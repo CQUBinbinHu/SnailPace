@@ -23,13 +23,13 @@ namespace DefaultNamespace
             RewardPanel.SetActive(false);
         }
 
+        public void OpenReward()
+        {
+            RewardPanel.SetActive(true);
+        }
+        
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                RewardPanel.SetActive(true);
-            }
-
             if (Input.GetKeyDown(KeyCode.S))
             {
                 var item = Instantiate(ItemBase, HeroItems.transform);

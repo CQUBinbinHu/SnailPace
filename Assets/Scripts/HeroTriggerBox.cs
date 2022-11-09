@@ -9,7 +9,7 @@ namespace DefaultNamespace
         private void OnTriggerEnter2D(Collider2D other)
         {
             RunGameEvent.Trigger(RunEventTypes.Encounter);
-            SPDebug.Instance.EncounterGo(other.attachedRigidbody.gameObject);
+            BattleManager.Instance.SetEncounter(other.attachedRigidbody.GetComponent<Character>());
         }
     }
 }
