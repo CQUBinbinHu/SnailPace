@@ -20,7 +20,6 @@ namespace DefaultNamespace
             {
                 if (_encounterGo)
                 {
-                    RunGameEvent.Trigger(RunEventTypes.Continue);
                     Destroy(_encounterGo);
                 }
             }
