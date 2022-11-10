@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Core;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,11 +17,11 @@ namespace DefaultNamespace
 
         private const float Duration = 0.5f;
         private const float Delay = 0.1f;
+        private HealthComponent _healthComponent;
 
-        private void Start()
+        private void Awake()
         {
-            CurrentRatio = 1;
-            UpdateDamageBar();
+            _healthComponent = GetComponentInParent<HealthComponent>();
         }
 
         private void Update()
@@ -40,6 +41,12 @@ namespace DefaultNamespace
                 UpdateDamageBar();
             }
 #endif
+        }
+
+        public void UpdateHealthBar()
+        {
+            CurrentRatio = _healthComponent.HpRatio;
+            UpdateDamageBar();
         }
 
         private void UpdateDamageBar()
