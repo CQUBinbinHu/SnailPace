@@ -3183,8 +3183,58 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1722236372523585708, guid: 009abaa2cc1bd5c46ab8d7b3a3b7ae3f, type: 3}
+      propertyPath: m_Name
+      value: Damage
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603159122037144832, guid: 009abaa2cc1bd5c46ab8d7b3a3b7ae3f, type: 3}
+      propertyPath: m_Name
+      value: Health
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 009abaa2cc1bd5c46ab8d7b3a3b7ae3f, type: 3}
+--- !u!1 &1881917750 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8506818974583272455, guid: 009abaa2cc1bd5c46ab8d7b3a3b7ae3f, type: 3}
+  m_PrefabInstance: {fileID: 1881917749}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1881917751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881917750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa9f953fed374b3c94ed81c11a04ed03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarImage: {fileID: 1881917752}
+  DamageBarImage: {fileID: 1881917753}
+  CurrentRatio: 1
+--- !u!114 &1881917752 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6571628569409219059, guid: 009abaa2cc1bd5c46ab8d7b3a3b7ae3f, type: 3}
+  m_PrefabInstance: {fileID: 1881917749}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1881917753 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 625283503153809323, guid: 009abaa2cc1bd5c46ab8d7b3a3b7ae3f, type: 3}
+  m_PrefabInstance: {fileID: 1881917749}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1884551614
 GameObject:
   m_ObjectHideFlags: 0
