@@ -2,6 +2,7 @@
 using DefaultNamespace;
 using MoreMountains.Tools;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Core
 {
@@ -15,11 +16,14 @@ namespace Core
         [SerializeField] private GameObject PlayerControlPanel;
         [SerializeField] private CoolDownBar HeroCoolDownBar;
         [SerializeField] private CoolDownBar EnemyCoolDownBar;
+        [SerializeField] private int FixedFrame = 3;
 
-        private PackSystem _packSystem;
+        private Button[] PlayerControlButtons;
+        [SerializeField] private PackSystem _packSystem;
         private Character _hero;
         private Character _encounterEnemy;
-        private const int FixedFrame = 6;
+        public Character EncounterEnemy => _encounterEnemy;
+
         private int _frameCount;
         private bool _heroEnableTick;
         private bool _enemyEnableTick;
@@ -36,7 +40,6 @@ namespace Core
         {
             base.Awake();
             BattlePanel.SetActive(false);
-            _packSystem = GetComponent<PackSystem>();
             _enableTick = false;
         }
 
@@ -59,11 +62,6 @@ namespace Core
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                OnBattleEnd();
-            }
-
             if (_enableTick)
             {
                 HeroCoolDownBar.SetFillAmount(HeroCoolDownRatio);
@@ -113,7 +111,11 @@ namespace Core
 
         private void EnablePlayerController(bool enable)
         {
-            PlayerControlPanel.SetActive(enable);
+            // PlayerControlPanel.SetActive(enable);
+            foreach (var button in PlayerControlButtons)
+            {
+                button.enabled = enable;
+            }
         }
 
         private void SetHero(Character character)
@@ -149,29 +151,10 @@ namespace Core
             switch (eventType.EventType)
             {
                 case RunEventTypes.Encounter:
-                    _enableTick = true;
-                    BattlePanel.SetActive(true);
+                    InitializeBattlePanel();
                     InitializeCharacterBattle();
                     break;
             }
-        }
-
-        private void InitializeCharacterBattle()
-        {
-            Hero.BehaviourController.Initialize();
-            _encounterEnemy.BehaviourController.Initialize();
-        }
-
-        public void OnBattleEnd()
-        {
-            if (_encounterEnemy)
-            {
-                Destroy(_encounterEnemy.gameObject);
-            }
-
-            _enableTick = false;
-            BattlePanel.SetActive(false);
-            _packSystem.OpenReward();
         }
 
         public void OnMMEvent(CoreGameEvent eventType)
@@ -181,7 +164,39 @@ namespace Core
                 case CoreGameEventTypes.Start:
                     OnGameStart();
                     break;
+                case CoreGameEventTypes.EnemyDead:
+                    OnBattleEnd();
+                    break;
+                case CoreGameEventTypes.GameOver:
+                    OnGameOver();
+                    break;
             }
+        }
+
+        private void InitializeBattlePanel()
+        {
+            _enableTick = true;
+            BattlePanel.SetActive(true);
+            PlayerControlButtons = PlayerControlPanel.GetComponentsInChildren<Button>();
+            EnablePlayerController(false);
+        }
+
+        private void InitializeCharacterBattle()
+        {
+            Hero.BehaviourController.Initialize();
+            _encounterEnemy.BehaviourController.Initialize();
+        }
+
+        private void OnBattleEnd()
+        {
+            _enableTick = false;
+            BattlePanel.SetActive(false);
+            _packSystem.OpenReward();
+        }
+
+        private void OnGameOver()
+        {
+            // TODO: do GameOver
         }
 
         private void OnGameStart()
@@ -208,11 +223,6 @@ namespace Core
                     SetEnemyTickEnable(true);
                     break;
             }
-        }
-
-        public void Test()
-        {
-            Debug.Log("Test");
         }
     }
 }

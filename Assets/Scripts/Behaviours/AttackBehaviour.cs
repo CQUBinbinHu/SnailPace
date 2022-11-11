@@ -8,7 +8,8 @@ namespace Core
 
         public override void Perform()
         {
-            Character.BehaviourController.CoolDownTimer = CoolDown;
+            Controller.Target.Health.TakeDamage(Atk);
+            Controller.CoolDownTimer = CoolDown;
             BattleManager.Instance.OnPlayerContinue(Character.CharacterType);
         }
     }

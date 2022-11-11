@@ -7,6 +7,7 @@ namespace Core
     public abstract class BaseBehaviour : MonoBehaviour
     {
         protected Character Character;
+        protected BehaviourController Controller;
         public string BehaviourName;
         public int CoolDown;
         public abstract void Perform();
@@ -14,6 +15,7 @@ namespace Core
         private void Awake()
         {
             Character = GetComponent<Character>();
+            Controller = GetComponent<BehaviourController>();
         }
     }
 }

@@ -7,7 +7,8 @@ namespace Core
         public override void Initialize()
         {
             base.Initialize();
-            _currentBehaviour = _behaviours["Attack"];
+            SetTarget(BattleManager.Instance.EncounterEnemy);
+            SetCurrent("Sleep");
             CoolDownTimer = 0;
         }
     }

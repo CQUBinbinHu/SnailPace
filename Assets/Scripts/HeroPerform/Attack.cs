@@ -1,9 +1,9 @@
 ﻿using Core;
 using UnityEngine;
 
-namespace DefaultNamespace.HeroMove
+namespace HeroPerform
 {
-    public class Attack : MonoBehaviour
+    public class Attack : MonoBehaviour, IUsePerform
     {
         public void OnUse()
         {

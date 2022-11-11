@@ -8,7 +8,8 @@ namespace Core
         public override void Initialize()
         {
             base.Initialize();
-            _currentBehaviour = _behaviours["Sleep"];
+            SetTarget(BattleManager.Instance.Hero);
+            SetCurrent("Sleep");
             CoolDownTimer = _currentBehaviour.CoolDown;
         }
 

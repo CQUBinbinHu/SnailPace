@@ -6,10 +6,12 @@ namespace Core
 {
     public class BehaviourController : MonoBehaviour
     {
+        private Character _target;
         protected Dictionary<string, BaseBehaviour> _behaviours;
         protected BaseBehaviour _currentBehaviour;
         public int CoolDownTimer { get; set; }
         public BaseBehaviour CurrentBehaviour => _currentBehaviour;
+        public Character Target => _target;
 
         private void Awake()
         {
@@ -22,6 +24,11 @@ namespace Core
 
         public virtual void Initialize()
         {
+        }
+
+        public void SetTarget(Character target)
+        {
+            _target = target;
         }
 
         public virtual void TickCoolDown()
