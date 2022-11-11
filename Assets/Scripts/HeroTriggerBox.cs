@@ -8,8 +8,8 @@ namespace DefaultNamespace
     {
         private void OnTriggerEnter2D(Collider2D other)
         {
-            RunGameEvent.Trigger(RunEventTypes.Encounter);
             BattleManager.Instance.SetEncounter(other.attachedRigidbody.GetComponent<Character>());
+            RunGameEvent.Trigger(RunEventTypes.Encounter);
         }
     }
 }

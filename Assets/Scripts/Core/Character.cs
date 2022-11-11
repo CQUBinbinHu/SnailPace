@@ -25,10 +25,5 @@ namespace Core
             _health = GetComponent<HealthComponent>();
             _behaviourController = GetComponent<BehaviourController>();
         }
-
-        public void BehaviourTick()
-        {
-            _behaviourController.Tick();
-        }
     }
 }

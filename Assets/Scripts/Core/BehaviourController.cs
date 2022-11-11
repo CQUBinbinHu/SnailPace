@@ -8,7 +8,7 @@ namespace Core
     {
         protected Dictionary<string, BaseBehaviour> _behaviours;
         protected BaseBehaviour _currentBehaviour;
-
+        public int CoolDownTimer { get; set; }
         public BaseBehaviour CurrentBehaviour => _currentBehaviour;
 
         private void Awake()
@@ -20,8 +20,22 @@ namespace Core
             }
         }
 
+        public virtual void Initialize()
+        {
+        }
+
+        public virtual void TickCoolDown()
+        {
+            CoolDownTimer -= 1;
+        }
+
         public virtual void Tick()
         {
+        }
+
+        public void SetCurrent(string behaviourName)
+        {
+            _currentBehaviour = _behaviours[behaviourName];
         }
     }
 }

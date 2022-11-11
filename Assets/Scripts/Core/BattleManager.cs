@@ -12,16 +12,49 @@ namespace Core
         [SerializeField] private GameObject BattlePanel;
         [SerializeField] private GameObject HeroPrefab;
         [SerializeField] private Transform SpawnSocket;
+        [SerializeField] private GameObject PlayerControlPanel;
+        [SerializeField] private CoolDownBar HeroCoolDownBar;
+        [SerializeField] private CoolDownBar EnemyCoolDownBar;
 
         private PackSystem _packSystem;
         private Character _hero;
         private Character _encounterEnemy;
+        private const int FixedFrame = 6;
+        private int _frameCount;
+        private bool _heroEnableTick;
+        private bool _enemyEnableTick;
+        private bool _enableTick;
+        public Character Hero => _hero;
+
+        public float HeroCoolDownRatio => (float)_hero.BehaviourController.CoolDownTimer
+                                          / _hero.BehaviourController.CurrentBehaviour.CoolDown;
+
+        public float EnemyCoolDownRatio => (float)_encounterEnemy.BehaviourController.CoolDownTimer
+                                           / _encounterEnemy.BehaviourController.CurrentBehaviour.CoolDown;
 
         protected override void Awake()
         {
             base.Awake();
             BattlePanel.SetActive(false);
             _packSystem = GetComponent<PackSystem>();
+            _enableTick = false;
+        }
+
+        private void Start()
+        {
+            _frameCount = 0;
+            SetHeroTickEnable(true);
+            SetEnemyTickEnable(true);
+        }
+
+        public void SetHeroTickEnable(bool enable)
+        {
+            _heroEnableTick = enable;
+        }
+
+        public void SetEnemyTickEnable(bool enable)
+        {
+            _enemyEnableTick = enable;
         }
 
         private void Update()
@@ -30,6 +63,57 @@ namespace Core
             {
                 OnBattleEnd();
             }
+
+            if (_enableTick)
+            {
+                HeroCoolDownBar.SetFillAmount(HeroCoolDownRatio);
+                EnemyCoolDownBar.SetFillAmount(EnemyCoolDownRatio);
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (!_enableTick)
+            {
+                return;
+            }
+
+            CheckBehaviourCoolDown();
+            if (!(_enemyEnableTick && _heroEnableTick))
+            {
+                return;
+            }
+
+            if (_frameCount == FixedFrame)
+            {
+                _frameCount = 0;
+                Hero.BehaviourController.TickCoolDown();
+                _encounterEnemy.BehaviourController.TickCoolDown();
+            }
+            else
+            {
+                _frameCount += 1;
+            }
+        }
+
+        private void CheckBehaviourCoolDown()
+        {
+            if (_hero.BehaviourController.CoolDownTimer == 0)
+            {
+                _enableTick = false;
+                SetHeroTickEnable(false);
+                EnablePlayerController(true);
+            }
+            else if (_encounterEnemy.BehaviourController.CoolDownTimer == 0)
+            {
+                SetEnemyTickEnable(false);
+                _encounterEnemy.BehaviourController.Tick();
+            }
+        }
+
+        private void EnablePlayerController(bool enable)
+        {
+            PlayerControlPanel.SetActive(enable);
         }
 
         private void SetHero(Character character)
@@ -65,9 +149,17 @@ namespace Core
             switch (eventType.EventType)
             {
                 case RunEventTypes.Encounter:
+                    _enableTick = true;
                     BattlePanel.SetActive(true);
+                    InitializeCharacterBattle();
                     break;
             }
+        }
+
+        private void InitializeCharacterBattle()
+        {
+            Hero.BehaviourController.Initialize();
+            _encounterEnemy.BehaviourController.Initialize();
         }
 
         public void OnBattleEnd()
@@ -77,6 +169,7 @@ namespace Core
                 Destroy(_encounterEnemy.gameObject);
             }
 
+            _enableTick = false;
             BattlePanel.SetActive(false);
             _packSystem.OpenReward();
         }
@@ -95,6 +188,31 @@ namespace Core
         {
             var hero = Instantiate(HeroPrefab, SpawnSocket.position, Quaternion.identity);
             SetHero(hero.GetComponent<Character>());
+        }
+
+        public void OnPerform()
+        {
+            EnablePlayerController(false);
+            Hero.BehaviourController.CurrentBehaviour.Perform();
+        }
+
+        public void OnPlayerContinue(CharacterType characterType)
+        {
+            _enableTick = true;
+            switch (characterType)
+            {
+                case CharacterType.Hero:
+                    SetHeroTickEnable(true);
+                    break;
+                case CharacterType.Enemy:
+                    SetEnemyTickEnable(true);
+                    break;
+            }
+        }
+
+        public void Test()
+        {
+            Debug.Log("Test");
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System;
+using Core;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
-    public class EnergyBar : MonoBehaviour
+    public class CoolDownBar : MonoBehaviour
     {
         [SerializeField] private Image EnergyBarImage;
 
