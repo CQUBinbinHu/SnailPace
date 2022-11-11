@@ -553,6 +553,9 @@ GameObject:
   - component: {fileID: 5769397808533724343}
   - component: {fileID: 5661890569281737781}
   - component: {fileID: 2739630090002508196}
+  - component: {fileID: 907562090761815195}
+  - component: {fileID: 2738638756201096612}
+  - component: {fileID: 1862808699043153368}
   m_Layer: 0
   m_Name: BaseCharacter
   m_TagString: Untagged
@@ -627,3 +630,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHp: 100
   ShowHealthBar: 1
+--- !u!114 &907562090761815195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140105975915262992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ac5059ef3b4f1a93b20b87ceaf797d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BehaviourName: Attack
+  CoolDown: 100
+  Atk: 10
+--- !u!114 &2738638756201096612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140105975915262992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612e9e1c1a1e49d687b35a908029ff8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BehaviourName: Defense
+  CoolDown: 50
+  Armor: 5
+--- !u!114 &1862808699043153368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140105975915262992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb95f59c3f5494193d9eecce761faaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BehaviourName: Sleep
+  CoolDown: 200
