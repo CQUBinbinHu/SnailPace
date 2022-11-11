@@ -6,10 +6,15 @@ using UnityEngine;
 namespace Core
 {
     public class BattleManager : MMSingleton<BattleManager>,
-        MMEventListener<RunGameEvent>
+        MMEventListener<RunGameEvent>,
+        MMEventListener<CoreGameEvent>
     {
         [SerializeField] private GameObject BattlePanel;
+        [SerializeField] private GameObject HeroPrefab;
+        [SerializeField] private Transform SpawnSocket;
+
         private PackSystem _packSystem;
+        private Character _hero;
         private Character _encounterEnemy;
 
         protected override void Awake()
@@ -27,6 +32,11 @@ namespace Core
             }
         }
 
+        private void SetHero(Character character)
+        {
+            _hero = character;
+        }
+
         public void SetEncounter(Character character)
         {
             _encounterEnemy = character;
@@ -37,7 +47,7 @@ namespace Core
         /// </summary>
         protected virtual void OnEnable()
         {
-            // this.MMEventStartListening<CoreGameEvent>();
+            this.MMEventStartListening<CoreGameEvent>();
             this.MMEventStartListening<RunGameEvent>();
         }
 
@@ -46,7 +56,7 @@ namespace Core
         /// </summary>
         protected virtual void OnDisable()
         {
-            // this.MMEventStopListening<CoreGameEvent>();
+            this.MMEventStopListening<CoreGameEvent>();
             this.MMEventStopListening<RunGameEvent>();
         }
 
@@ -69,6 +79,22 @@ namespace Core
 
             BattlePanel.SetActive(false);
             _packSystem.OpenReward();
+        }
+
+        public void OnMMEvent(CoreGameEvent eventType)
+        {
+            switch (eventType.EventType)
+            {
+                case CoreGameEventTypes.Start:
+                    OnGameStart();
+                    break;
+            }
+        }
+
+        private void OnGameStart()
+        {
+            var hero = Instantiate(HeroPrefab, SpawnSocket.position, Quaternion.identity);
+            SetHero(hero.GetComponent<Character>());
         }
     }
 }

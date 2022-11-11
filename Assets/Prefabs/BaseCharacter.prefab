@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1.75, y: 0.15}
+  m_SizeDelta: {x: 2, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7376979545450613745
 CanvasRenderer:
@@ -71,7 +71,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.549
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -112,7 +112,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1.75, y: 0.15}
+  m_SizeDelta: {x: 2, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1398471100414374618
 CanvasRenderer:
@@ -250,8 +250,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.5}
-  m_SizeDelta: {x: 1, y: 0.5173}
+  m_AnchoredPosition: {x: 0, y: 2.062}
+  m_SizeDelta: {x: 2, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1236262991147765890
 Canvas:
@@ -365,7 +365,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1.75, y: 0.15}
+  m_SizeDelta: {x: 2, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5022649924652915739
 CanvasRenderer:
@@ -400,7 +400,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.549
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -481,7 +481,7 @@ SpriteRenderer:
   m_SortingLayerID: -1696828773
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1622665798, guid: 31373edfd832216449b7abc1ad003ca5, type: 3}
+  m_Sprite: {fileID: 321030827, guid: f5dee6d997b587a4aaaa024dd4bb0a3c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -505,7 +505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Library: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 973dbb0b4e43d0c409e8e264e143e2a3, type: 3}
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 9cc6edef94aeb5c45bc39a6924c160d3, type: 3}
 --- !u!95 &6140105974655100052
 Animator:
   serializedVersion: 4
@@ -611,7 +611,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b881344e04a24eec842fa66e3d182aa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  CharacterType: 1
+  Name: Slime
 --- !u!114 &2739630090002508196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,5 +625,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1163e2dab2184f16bd7e430880466e65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHp: 0
-  ShowHealthBar: 0
+  MaxHp: 100
+  ShowHealthBar: 1

@@ -146,12 +146,12 @@ namespace Core
             public override void Enter()
             {
                 _timer = 0;
+                CoreGameEvent.Trigger(CoreGameEventTypes.Start);
             }
 
             public override void Exit()
             {
                 RunGameEvent.Trigger(RunEventTypes.RunStart);
-                CoreGameEvent.Trigger(CoreGameEventTypes.Start);
             }
 
             public override void Reason(float deltaTime = 0)
