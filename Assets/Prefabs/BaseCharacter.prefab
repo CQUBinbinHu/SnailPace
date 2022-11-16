@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7376979545450613745}
   - component: {fileID: 2176346598390183786}
   m_Layer: 0
-  m_Name: Top
+  m_Name: HealthTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 1398471100414374618}
   - component: {fileID: 6207317781348637202}
   m_Layer: 0
-  m_Name: Bottom
+  m_Name: HealthBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -341,7 +341,7 @@ GameObject:
   - component: {fileID: 5022649924652915739}
   - component: {fileID: 5597278236359383346}
   m_Layer: 0
-  m_Name: Color
+  m_Name: HealthColor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

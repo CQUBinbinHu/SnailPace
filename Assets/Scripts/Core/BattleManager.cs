@@ -105,7 +105,8 @@ namespace Core
             else if (_encounterEnemy.BehaviourController.CoolDownTimer == 0)
             {
                 SetEnemyTickEnable(false);
-                _encounterEnemy.BehaviourController.Tick();
+                // TODO: update Tick   
+                // _encounterEnemy.BehaviourController.Tick();
             }
         }
 

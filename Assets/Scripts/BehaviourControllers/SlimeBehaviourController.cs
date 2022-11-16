@@ -13,9 +13,9 @@ namespace Core
             CoolDownTimer = _currentBehaviour.CoolDown;
         }
 
-        public override void Tick()
+        public override void Tick(float deltaTime)
         {
-            base.Tick();
+            base.Tick(deltaTime);
             _currentBehaviour = _behaviours["Attack"];
             _currentBehaviour.Perform();
         }
