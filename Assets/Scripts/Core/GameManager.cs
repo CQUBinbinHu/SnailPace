@@ -111,10 +111,12 @@ namespace Core
 
         private void FixedUpdate()
         {
-            if (CurrentRun == MoveStatus.Run)
+            switch (CurrentRun)
             {
-                //TODO: 计时
-                _runClock += Time.fixedDeltaTime;
+                case MoveStatus.Run:
+                case MoveStatus.Encounter:
+                    _runClock += Time.fixedDeltaTime;
+                    break;
             }
         }
 

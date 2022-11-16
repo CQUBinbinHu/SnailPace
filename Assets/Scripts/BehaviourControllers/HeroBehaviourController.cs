@@ -9,7 +9,6 @@ namespace Core
             base.Initialize();
             SetTarget(BattleManager.Instance.EncounterEnemy);
             SetCurrent("Sleep");
-            CoolDownTimer = 0;
         }
     }
 }

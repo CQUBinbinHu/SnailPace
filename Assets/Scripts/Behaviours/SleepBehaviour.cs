@@ -6,8 +6,7 @@ namespace Core
     {
         public override void Perform()
         {
-            Character.BehaviourController.CoolDownTimer = CoolDown;
-            BattleManager.Instance.OnPlayerContinue(Character.CharacterType);
+            BattleManager.Instance.BattleCallBack(Character.CharacterType);
         }
     }
 }

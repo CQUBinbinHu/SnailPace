@@ -14,7 +14,6 @@ namespace Core
         private int CurrentEnergy;
         protected Dictionary<string, BaseBehaviour> _behaviours;
         protected BaseBehaviour _currentBehaviour;
-        public int CoolDownTimer { get; set; }
         public BaseBehaviour CurrentBehaviour => _currentBehaviour;
         public Character Target => _target;
         public float EnergyRatio => (float)CurrentEnergy / MaxEnergy;
@@ -34,6 +33,14 @@ namespace Core
             CurrentEnergy = MaxEnergy;
         }
 
+        private void UpdateEnergyBar()
+        {
+            if (_energyBar)
+            {
+                _energyBar.UpdateBar();
+            }
+        }
+
         public bool TryCostEnergy(int energy)
         {
             if (energy > CurrentEnergy)
@@ -43,7 +50,7 @@ namespace Core
 
             CurrentEnergy -= energy;
             CurrentEnergy = Mathf.Clamp(CurrentEnergy, 0, MaxEnergy);
-            _energyBar.UpdateBar();
+            UpdateEnergyBar();
             return true;
         }
 
@@ -52,19 +59,10 @@ namespace Core
             _target = target;
         }
 
-        public virtual void TickCoolDown()
-        {
-            CoolDownTimer -= 1;
-        }
-
         public virtual void FixedTick(float deltaTime)
         {
             CurrentEnergy += (int)(deltaTime * EnergyRecovery);
-        }
-
-        public virtual void Tick(float deltaTime)
-        {
-            _energyBar.UpdateBar();
+            UpdateEnergyBar();
         }
 
         public void SetCurrent(string behaviourName)

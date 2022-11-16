@@ -15,7 +15,7 @@ namespace DefaultNamespace
 
         [Range(0, 1)] public float CurrentRatio;
 
-        private const float Duration = 0.5f;
+        private const float Duration = 0.4f;
         private const float Delay = 0.1f;
         private HealthComponent _healthComponent;
 

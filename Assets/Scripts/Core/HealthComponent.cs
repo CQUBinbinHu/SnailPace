@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using DefaultNamespace;
 using UnityEngine;
 
@@ -73,7 +74,7 @@ namespace Core
                     break;
             }
 
-            Destroy(gameObject);
+            StartCoroutine(DelayDead_Cro(0.6f));
         }
 
         private void UpdatePresentation()
@@ -82,6 +83,12 @@ namespace Core
             {
                 _healthBar.UpdateHealthBar();
             }
+        }
+
+        IEnumerator DelayDead_Cro(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            Destroy(gameObject);
         }
     }
 }
