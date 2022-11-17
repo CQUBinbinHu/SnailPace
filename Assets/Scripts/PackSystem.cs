@@ -9,7 +9,6 @@ namespace DefaultNamespace
     {
         [SerializeField] private GameObject ItemBase;
         [SerializeField] private GameObject HeroItems;
-        [SerializeField] private GameObject RewardItems;
         [SerializeField] private GameObject RewardPanel;
         private HashSet<GameObject> _itemGOs;
 
@@ -18,16 +17,6 @@ namespace DefaultNamespace
             _itemGOs = new HashSet<GameObject>();
         }
 
-        private void Start()
-        {
-            RewardPanel.SetActive(false);
-        }
-
-        public void OpenReward()
-        {
-            RewardPanel.SetActive(true);
-        }
-        
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.S))
@@ -46,11 +35,6 @@ namespace DefaultNamespace
                     Destroy(item);
                 }
             }
-        }
-
-        public void OnContinue()
-        {
-            RewardPanel.SetActive(false);
         }
     }
 }

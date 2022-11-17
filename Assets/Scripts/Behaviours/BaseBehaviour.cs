@@ -9,7 +9,6 @@ namespace Core
         protected Character Character;
         protected BehaviourController Controller;
         public string BehaviourName;
-        public int CoolDown;
         public abstract void Perform();
 
         private void Awake()

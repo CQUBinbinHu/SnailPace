@@ -16,7 +16,7 @@ namespace DefaultNamespace
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.K))
             {
                 if (_encounterGo)
                 {

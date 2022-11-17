@@ -18,6 +18,7 @@ namespace Core
     {
         RunStart,
         Encounter,
+        Reward,
         Continue
     }
 
@@ -61,14 +62,16 @@ namespace Core
     {
         Idle,
         Run,
-        Encounter
+        Encounter,
+        Reward
     }
 
     public enum MoveTransition
     {
         StartRun,
         Encounter,
-        ContinueRun
+        ContinueRun,
+        Reward
     }
 
     public class GameManager :
@@ -89,12 +92,16 @@ namespace Core
             var idleState = new Idle(MoveStatus.Idle);
             var runState = new Run(MoveStatus.Run);
             var encounter = new Encounter(MoveStatus.Encounter);
+            var reward = new Reward(MoveStatus.Reward);
             idleState.AddTransition(MoveTransition.StartRun, MoveStatus.Run);
             runState.AddTransition(MoveTransition.Encounter, MoveStatus.Encounter);
+            runState.AddTransition(MoveTransition.Reward, MoveStatus.Reward);
             encounter.AddTransition(MoveTransition.ContinueRun, MoveStatus.Run);
+            reward.AddTransition(MoveTransition.ContinueRun, MoveStatus.Run);
             _stateMachine.AddState(idleState);
             _stateMachine.AddState(runState);
             _stateMachine.AddState(encounter);
+            _stateMachine.AddState(reward);
         }
 
         private void Start()
@@ -217,6 +224,29 @@ namespace Core
             }
         }
 
+        private class Reward : FsmState<GameManager, MoveStatus, MoveTransition>
+        {
+            public Reward(MoveStatus stateId) : base(stateId)
+            {
+            }
+
+            public override void Enter()
+            {
+            }
+
+            public override void Exit()
+            {
+            }
+
+            public override void Reason(float deltaTime = 0)
+            {
+            }
+
+            public override void Act(float deltaTime = 0)
+            {
+            }
+        }
+
         public void OnMMEvent(CoreGameEvent eventType)
         {
             switch (eventType.EventType)
@@ -238,6 +268,9 @@ namespace Core
                     break;
                 case RunEventTypes.Encounter:
                     _stateMachine.PerformTransition(MoveTransition.Encounter);
+                    break;
+                case RunEventTypes.Reward:
+                    _stateMachine.PerformTransition(MoveTransition.Reward);
                     break;
                 case RunEventTypes.Continue:
                     _stateMachine.PerformTransition(MoveTransition.ContinueRun);

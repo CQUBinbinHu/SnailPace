@@ -10,25 +10,31 @@ namespace Core
         MMEventListener<RunGameEvent>,
         MMEventListener<CoreGameEvent>
     {
-        [SerializeField] private GameObject BattlePanel;
+        [SerializeField] private Transform SkillSocket;
+        [SerializeField] private GameObject SkillPrefab;
         [SerializeField] private GameObject HeroPrefab;
         [SerializeField] private Transform SpawnSocket;
         [SerializeField] private GameObject PlayerControlPanel;
+        [SerializeField] private GameObject RewardPanel;
 
-        private Button[] PlayerControlButtons;
-        [SerializeField] private PackSystem _packSystem;
         private bool _enableTick;
+        private Button[] PlayerControlButtons;
         private Character _hero;
         private Character _encounterEnemy;
-        public Character EncounterEnemy => _encounterEnemy;
-
         public Character Hero => _hero;
+        public Character EncounterEnemy => _encounterEnemy;
 
         protected override void Awake()
         {
             base.Awake();
-            BattlePanel.SetActive(false);
             _enableTick = false;
+        }
+
+        private void Start()
+        {
+            ResetRewardPanel();
+            InitializeBattlePanel();
+            EnablePlayerController(false);
         }
 
         private void FixedUpdate()
@@ -47,7 +53,7 @@ namespace Core
             // PlayerControlPanel.SetActive(enable);
             foreach (var button in PlayerControlButtons)
             {
-                button.enabled = enable;
+                button.interactable = enable;
             }
         }
 
@@ -84,10 +90,20 @@ namespace Core
             switch (eventType.EventType)
             {
                 case RunEventTypes.Encounter:
-                    InitializeBattlePanel();
                     InitializeCharacterBattle();
+                    StartEncounter();
+                    break;
+                case RunEventTypes.Continue:
+                    EnablePlayerController(false);
+                    ResetRewardPanel();
                     break;
             }
+        }
+
+        private void StartEncounter()
+        {
+            _enableTick = true;
+            EnablePlayerController(true);
         }
 
         public void OnMMEvent(CoreGameEvent eventType)
@@ -108,10 +124,8 @@ namespace Core
 
         private void InitializeBattlePanel()
         {
-            _enableTick = true;
-            BattlePanel.SetActive(true);
             PlayerControlButtons = PlayerControlPanel.GetComponentsInChildren<Button>();
-            EnablePlayerController(true);
+            EnablePlayerController(false);
         }
 
         private void InitializeCharacterBattle()
@@ -123,8 +137,28 @@ namespace Core
         private void OnBattleEnd()
         {
             _enableTick = false;
-            BattlePanel.SetActive(false);
-            _packSystem.OpenReward();
+            RunGameEvent.Trigger(RunEventTypes.Reward);
+            EnablePlayerController(false);
+            AddRandomRewards();
+        }
+
+        private void AddRandomRewards()
+        {
+            RewardPanel.SetActive(true);
+            for (int i = 0; i < 3; i++)
+            {
+                Instantiate(SkillPrefab, SkillSocket);
+            }
+        }
+
+        private void ResetRewardPanel()
+        {
+            for (int i = 0; i < SkillSocket.childCount; i++)
+            {
+                Destroy(SkillSocket.GetChild(i).gameObject);
+            }
+
+            RewardPanel.SetActive(false);
         }
 
         private void OnGameOver()
@@ -145,7 +179,6 @@ namespace Core
 
         public void BattleCallBack(CharacterType characterType)
         {
-            _enableTick = true;
         }
     }
 }
