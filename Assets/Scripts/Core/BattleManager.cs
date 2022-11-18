@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DefaultNamespace;
 using MoreMountains.Tools;
 using UnityEngine;
@@ -10,13 +11,20 @@ namespace Core
         MMEventListener<RunGameEvent>,
         MMEventListener<CoreGameEvent>
     {
-        [SerializeField] private Transform SkillSocket;
+        [SerializeField] private SkillObject SkillObject;
+        [SerializeField] private Transform SkillTransform;
+        [SerializeField] private Transform[] SkillSockets;
+        [SerializeField] private Transform RewardSkillSocket;
         [SerializeField] private GameObject SkillPrefab;
         [SerializeField] private GameObject HeroPrefab;
         [SerializeField] private Transform SpawnSocket;
         [SerializeField] private GameObject PlayerControlPanel;
         [SerializeField] private GameObject RewardPanel;
 
+        public bool IsFullSkill;
+        private List<LoopSocket> _loopSockets;
+        private LoopSocket _currentSocket;
+        private int _currentSkillSocketIndex;
         private bool _enableTick;
         private Button[] PlayerControlButtons;
         private Character _hero;
@@ -27,7 +35,9 @@ namespace Core
         protected override void Awake()
         {
             base.Awake();
+            _loopSockets = new List<LoopSocket>();
             _enableTick = false;
+            _currentSkillSocketIndex = 0;
         }
 
         private void Start()
@@ -35,6 +45,51 @@ namespace Core
             ResetRewardPanel();
             InitializeBattlePanel();
             EnablePlayerController(false);
+            InitializeSkillSockets();
+        }
+
+        private void InitializeSkillSockets()
+        {
+            IsFullSkill = false;
+            int index = 0;
+            foreach (var trans in SkillSockets)
+            {
+                _loopSockets.Add(new LoopSocket(index, trans));
+                index++;
+            }
+
+            for (int i = 1; i < _loopSockets.Count; i++)
+            {
+                _loopSockets[i].Prev = _loopSockets[i - 1];
+            }
+
+            for (int i = 0; i < _loopSockets.Count - 1; i++)
+            {
+                _loopSockets[i].Next = _loopSockets[i + 1];
+            }
+
+            _currentSocket = _loopSockets[0];
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                if (_currentSocket.Index == 3)
+                {
+                    IsFullSkill = true;
+                }
+                else
+                {
+                    IsFullSkill = false;
+                    _currentSocket = _currentSocket.Next;
+                }
+
+                CoreGameEvent.Trigger(CoreGameEventTypes.AddSkill);
+                var skill = Instantiate(SkillObject, SkillTransform);
+                skill.transform.position = 3 * Vector3.up;
+                skill.SetFollow(_currentSocket);
+            }
         }
 
         private void FixedUpdate()
@@ -147,15 +202,15 @@ namespace Core
             RewardPanel.SetActive(true);
             for (int i = 0; i < 3; i++)
             {
-                Instantiate(SkillPrefab, SkillSocket);
+                Instantiate(SkillPrefab, RewardSkillSocket);
             }
         }
 
         private void ResetRewardPanel()
         {
-            for (int i = 0; i < SkillSocket.childCount; i++)
+            for (int i = 0; i < RewardSkillSocket.childCount; i++)
             {
-                Destroy(SkillSocket.GetChild(i).gameObject);
+                Destroy(RewardSkillSocket.GetChild(i).gameObject);
             }
 
             RewardPanel.SetActive(false);

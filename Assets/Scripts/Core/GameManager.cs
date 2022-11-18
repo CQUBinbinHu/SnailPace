@@ -11,7 +11,8 @@ namespace Core
         GameOver,
         Pause,
         Continue,
-        EnemyDead
+        EnemyDead,
+        AddSkill
     }
 
     public enum RunEventTypes

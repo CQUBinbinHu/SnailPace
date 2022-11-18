@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 907562090761815195, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
       propertyPath: Atk
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 907562090761815195, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
       propertyPath: CoolDown
@@ -142,3 +142,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53eb77c7c33241ae964b2acb415b6fee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxEnergy: 0
+  EnergyRecovery: 0
