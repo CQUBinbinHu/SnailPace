@@ -97,6 +97,7 @@ namespace Core
             runState.AddTransition(MoveTransition.Encounter, MoveStatus.Encounter);
             runState.AddTransition(MoveTransition.Reward, MoveStatus.Reward);
             encounter.AddTransition(MoveTransition.ContinueRun, MoveStatus.Run);
+            encounter.AddTransition(MoveTransition.Reward, MoveStatus.Reward);
             reward.AddTransition(MoveTransition.ContinueRun, MoveStatus.Run);
             _stateMachine.AddState(idleState);
             _stateMachine.AddState(runState);
