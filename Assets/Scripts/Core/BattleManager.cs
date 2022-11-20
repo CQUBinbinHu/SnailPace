@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 using DefaultNamespace;
 using MoreMountains.Tools;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Core
 {
@@ -11,7 +14,7 @@ namespace Core
         MMEventListener<RunGameEvent>,
         MMEventListener<CoreGameEvent>
     {
-        [SerializeField] private SkillComponent SkillComponent;
+        [SerializeField] private SkillData SkillData;
         [SerializeField] private Transform SkillTransform;
         [SerializeField] private Transform[] SkillSockets;
         [SerializeField] private Transform RewardSkillSocket;
@@ -31,20 +34,43 @@ namespace Core
         public Character Hero => _hero;
         public Character EncounterEnemy => _encounterEnemy;
         public LoopSocket CurrentSkillSocket => _currentSocket;
+        private Dictionary<string, SkillReward> _skillRewardDict;
+        private List<string> _skillRefs;
 
         protected override void Awake()
         {
             base.Awake();
             _loopSockets = new List<LoopSocket>();
+            _skillRewardDict = new Dictionary<string, SkillReward>();
+            _skillRefs = new List<string>();
             _enableTick = false;
         }
 
         private void Start()
         {
             ContinueButton.SetActive(false);
+            InitSkillData();
             ResetBattlePanel();
             EnablePlayerController(false);
             InitializeSkillSockets();
+        }
+
+        private void InitSkillData()
+        {
+            foreach (var skill in SkillData.SkillRewards)
+            {
+                if (_skillRewardDict.ContainsKey(skill.name))
+                {
+                    Debug.LogWarning("the skill with this name already exists: " + skill.name, gameObject);
+                }
+                else
+                {
+                    _skillRewardDict.Add(skill.name, skill);
+                }
+            }
+
+            _skillRefs.Clear();
+            _skillRefs = _skillRewardDict.Keys.ToList();
         }
 
         private void InitializeSkillSockets()
@@ -74,7 +100,7 @@ namespace Core
         {
         }
 
-        public void AddSkill(Vector3 initPosition)
+        public void AddSkill(SkillComponent skill, Vector3 initPosition)
         {
             if (_currentSocket.Index == 3)
             {
@@ -87,8 +113,9 @@ namespace Core
             }
 
             CoreGameEvent.Trigger(CoreGameEventTypes.AddSkill);
-            var skill = Instantiate(SkillComponent, SkillTransform);
-            skill.transform.position = initPosition;
+            Transform skillTransform;
+            (skillTransform = skill.transform).SetParent(SkillTransform);
+            skillTransform.position = initPosition;
             skill.SetOwner(Hero);
             skill.SetFollow(_currentSocket);
             RunGameEvent.Trigger(RunEventTypes.Continue);
@@ -202,9 +229,31 @@ namespace Core
 
         private void AddRandomRewards()
         {
-            for (int i = 0; i < 3; i++)
+            List<int> record = new List<int>();
+            int count = 0;
+            while (count < 3)
             {
-                Instantiate(SkillPrefab, RewardSkillSocket);
+                int rand = Random.Range(0, _skillRefs.Count);
+                bool ok = false;
+                while (!ok)
+                {
+                    if (record.Contains(rand))
+                    {
+                        rand = Random.Range(0, _skillRefs.Count);
+                    }
+                    else
+                    {
+                        ok = true;
+                    }
+                }
+
+                record.Add(rand);
+                count += 1;
+            }
+
+            foreach (var index in record)
+            {
+                Instantiate(_skillRewardDict[_skillRefs[index]], RewardSkillSocket);
             }
         }
 

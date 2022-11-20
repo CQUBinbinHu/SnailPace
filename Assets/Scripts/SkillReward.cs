@@ -12,6 +12,7 @@ namespace DefaultNamespace
         MMEventListener<CoreGameEvent>,
         MMEventListener<RunGameEvent>
     {
+        public SkillComponent SkillObject;
         private Image[] _images;
 
         private void Awake()
@@ -21,7 +22,7 @@ namespace DefaultNamespace
 
         public void OnAddSkill()
         {
-            BattleManager.Instance.AddSkill(transform.position);
+            BattleManager.Instance.AddSkill(Instantiate(SkillObject), transform.position);
         }
 
         public void OnMMEvent(CoreGameEvent eventType)

@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 2473258263193706706}
   - component: {fileID: 2473258263193706709}
   m_Layer: 5
-  m_Name: Attack
+  m_Name: SkillBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

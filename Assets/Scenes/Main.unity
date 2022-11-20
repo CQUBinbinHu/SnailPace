@@ -4404,7 +4404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89be9d2f447c49239d5d035f79dc1716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SkillComponent: {fileID: 2473258263193706709, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+  SkillData: {fileID: 11400000, guid: 7c1967b12f30cc049b769f8a83c990cd, type: 2}
   SkillTransform: {fileID: 462484139}
   SkillSockets:
   - {fileID: 1422050043}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3548418280444213818}
   - component: {fileID: 8555063812307318468}
   m_Layer: 5
-  m_Name: SkillPrefab
+  m_Name: SkillRewardBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee83f874de6840a0b8a39e48bf859e28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainPortrait: {fileID: 3548418280444213797}
+  SkillObject: {fileID: 2473258263193706709, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
 --- !u!1 &3548418281258570629
 GameObject:
   m_ObjectHideFlags: 0
