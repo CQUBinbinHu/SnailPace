@@ -27,6 +27,7 @@ namespace DefaultNamespace
     public abstract class SkillComponent : MonoBehaviour,
         MMEventListener<CoreGameEvent>
     {
+        public string SkillName;
         protected Character Owner;
         protected Character Target;
         private LoopSocket _follow;

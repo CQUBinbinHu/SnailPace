@@ -35,14 +35,16 @@ namespace Core
         public Character EncounterEnemy => _encounterEnemy;
         public LoopSocket CurrentSkillSocket => _currentSocket;
         private Dictionary<string, SkillReward> _skillRewardDict;
-        private List<string> _skillRefs;
+        private Dictionary<string, SkillComponent> _skillDict;
+        private List<string> _skillNames;
 
         protected override void Awake()
         {
             base.Awake();
             _loopSockets = new List<LoopSocket>();
             _skillRewardDict = new Dictionary<string, SkillReward>();
-            _skillRefs = new List<string>();
+            _skillDict = new Dictionary<string, SkillComponent>();
+            _skillNames = new List<string>();
             _enableTick = false;
         }
 
@@ -57,20 +59,29 @@ namespace Core
 
         private void InitSkillData()
         {
-            foreach (var skill in SkillData.SkillRewards)
+            foreach (var skillReward in SkillData.SkillRewards)
             {
-                if (_skillRewardDict.ContainsKey(skill.name))
+                if (_skillRewardDict.ContainsKey(skillReward.SkillName))
                 {
-                    Debug.LogWarning("the skill with this name already exists: " + skill.name, gameObject);
+                    Debug.LogWarning("the skill with this name already exists: " + skillReward.name, gameObject);
                 }
                 else
                 {
-                    _skillRewardDict.Add(skill.name, skill);
+                    _skillRewardDict.Add(skillReward.SkillName, skillReward);
                 }
             }
 
-            _skillRefs.Clear();
-            _skillRefs = _skillRewardDict.Keys.ToList();
+            _skillNames.Clear();
+            _skillNames = _skillRewardDict.Keys.ToList();
+
+            var skills = Resources.LoadAll<SkillComponent>("Skills");
+            foreach (var skill in skills)
+            {
+                if (!_skillDict.ContainsKey(skill.SkillName))
+                {
+                    _skillDict.Add(skill.SkillName, skill);
+                }
+            }
         }
 
         private void InitializeSkillSockets()
@@ -137,7 +148,10 @@ namespace Core
             // PlayerControlPanel.SetActive(enable);
             foreach (var button in PlayerControlButtons)
             {
-                button.interactable = enable;
+                if (button)
+                {
+                    button.interactable = enable;
+                }
             }
         }
 
@@ -233,13 +247,13 @@ namespace Core
             int count = 0;
             while (count < 3)
             {
-                int rand = Random.Range(0, _skillRefs.Count);
+                int rand = Random.Range(0, _skillNames.Count);
                 bool ok = false;
                 while (!ok)
                 {
                     if (record.Contains(rand))
                     {
-                        rand = Random.Range(0, _skillRefs.Count);
+                        rand = Random.Range(0, _skillNames.Count);
                     }
                     else
                     {
@@ -253,7 +267,9 @@ namespace Core
 
             foreach (var index in record)
             {
-                Instantiate(_skillRewardDict[_skillRefs[index]], RewardSkillSocket);
+                var skillName = _skillNames[index];
+                var skillReward = Instantiate(_skillRewardDict[skillName], RewardSkillSocket);
+                skillReward.SetSkillObject(_skillDict[skillName]);
             }
         }
 
