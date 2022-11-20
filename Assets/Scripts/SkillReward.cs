@@ -9,7 +9,8 @@ using UnityEngine.UI;
 namespace DefaultNamespace
 {
     public class SkillReward : MonoBehaviour,
-        MMEventListener<CoreGameEvent>
+        MMEventListener<CoreGameEvent>,
+        MMEventListener<RunGameEvent>
     {
         private Image[] _images;
 
@@ -52,11 +53,23 @@ namespace DefaultNamespace
         private void OnEnable()
         {
             this.MMEventStartListening<CoreGameEvent>();
+            this.MMEventStartListening<RunGameEvent>();
         }
 
         private void OnDisable()
         {
             this.MMEventStopListening<CoreGameEvent>();
+            this.MMEventStopListening<RunGameEvent>();
+        }
+
+        public void OnMMEvent(RunGameEvent eventType)
+        {
+            switch (eventType.EventType)
+            {
+                case RunEventTypes.Continue:
+                    DestroySelf();
+                    break;
+            }
         }
     }
 }

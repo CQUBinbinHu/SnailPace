@@ -5,7 +5,9 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class ContinueRunComponent : MonoBehaviour, MMEventListener<CoreGameEvent>
+    public class ContinueRunComponent : MonoBehaviour,
+        MMEventListener<CoreGameEvent>,
+        MMEventListener<RunGameEvent>
     {
         public void OnContinue()
         {
@@ -17,7 +19,7 @@ namespace DefaultNamespace
             switch (eventType.EventType)
             {
                 case CoreGameEventTypes.AddSkill:
-                    OnContinue();
+                    this.gameObject.SetActive(false);
                     break;
             }
         }
@@ -25,11 +27,23 @@ namespace DefaultNamespace
         private void OnEnable()
         {
             this.MMEventStartListening<CoreGameEvent>();
+            this.MMEventStartListening<RunGameEvent>();
         }
 
         private void OnDisable()
         {
             this.MMEventStopListening<CoreGameEvent>();
+            this.MMEventStopListening<RunGameEvent>();
+        }
+
+        public void OnMMEvent(RunGameEvent eventType)
+        {
+            switch (eventType.EventType)
+            {
+                case RunEventTypes.Continue:
+                    this.gameObject.SetActive(false);
+                    break;
+            }
         }
     }
 }

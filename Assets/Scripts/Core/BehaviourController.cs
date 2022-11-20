@@ -12,6 +12,7 @@ namespace Core
         private Character _target;
         private EnergyBar _energyBar;
         private int CurrentEnergy;
+        private HashSet<SkillComponent> _skills;
         protected Dictionary<string, BaseBehaviour> _behaviours;
         protected BaseBehaviour _currentBehaviour;
         public BaseBehaviour CurrentBehaviour => _currentBehaviour;
@@ -22,6 +23,7 @@ namespace Core
         {
             _energyBar = GetComponentInChildren<EnergyBar>();
             _behaviours = new Dictionary<string, BaseBehaviour>();
+            _skills = new HashSet<SkillComponent>();
             foreach (var behaviour in GetComponents<BaseBehaviour>())
             {
                 _behaviours.Add(behaviour.BehaviourName, behaviour);
@@ -39,6 +41,16 @@ namespace Core
             {
                 _energyBar.UpdateBar();
             }
+        }
+
+        public void AddSkill(SkillComponent skill)
+        {
+            _skills.Add(skill);
+        }
+
+        private void RemoveSkill(SkillComponent skill)
+        {
+            _skills.Remove(skill);
         }
 
         public bool TryCostEnergy(int energy)
@@ -68,6 +80,14 @@ namespace Core
         public void SetCurrent(string behaviourName)
         {
             _currentBehaviour = _behaviours[behaviourName];
+        }
+
+        public void SetEncounter(Character target)
+        {
+            foreach (var skill in _skills)
+            {
+                skill.SetTarget(target);
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Core
         MMEventListener<RunGameEvent>,
         MMEventListener<CoreGameEvent>
     {
-        [SerializeField] private SkillObject SkillObject;
+        [SerializeField] private SkillComponent SkillComponent;
         [SerializeField] private Transform SkillTransform;
         [SerializeField] private Transform[] SkillSockets;
         [SerializeField] private Transform RewardSkillSocket;
@@ -19,7 +19,7 @@ namespace Core
         [SerializeField] private GameObject HeroPrefab;
         [SerializeField] private Transform SpawnSocket;
         [SerializeField] private GameObject PlayerControlPanel;
-        [SerializeField] private GameObject RewardPanel;
+        [SerializeField] private GameObject ContinueButton;
 
         public bool IsFullSkill;
         private List<LoopSocket> _loopSockets;
@@ -41,8 +41,8 @@ namespace Core
 
         private void Start()
         {
-            ResetRewardPanel();
-            InitializeBattlePanel();
+            ContinueButton.SetActive(false);
+            ResetBattlePanel();
             EnablePlayerController(false);
             InitializeSkillSockets();
         }
@@ -87,9 +87,11 @@ namespace Core
             }
 
             CoreGameEvent.Trigger(CoreGameEventTypes.AddSkill);
-            var skill = Instantiate(SkillObject, SkillTransform);
+            var skill = Instantiate(SkillComponent, SkillTransform);
             skill.transform.position = initPosition;
+            skill.SetOwner(Hero);
             skill.SetFollow(_currentSocket);
+            RunGameEvent.Trigger(RunEventTypes.Continue);
         }
 
         private void FixedUpdate()
@@ -117,9 +119,10 @@ namespace Core
             _hero = character;
         }
 
-        public void SetEncounter(Character character)
+        public void SetEncounter(Character target)
         {
-            _encounterEnemy = character;
+            _encounterEnemy = target;
+            Hero.BehaviourController.SetEncounter(target);
         }
 
         /// <summary>
@@ -149,8 +152,7 @@ namespace Core
                     StartEncounter();
                     break;
                 case RunEventTypes.Continue:
-                    EnablePlayerController(false);
-                    ResetRewardPanel();
+                    ResetBattlePanel();
                     break;
             }
         }
@@ -177,7 +179,7 @@ namespace Core
             }
         }
 
-        private void InitializeBattlePanel()
+        private void ResetBattlePanel()
         {
             PlayerControlButtons = PlayerControlPanel.GetComponentsInChildren<Button>();
             EnablePlayerController(false);
@@ -195,25 +197,15 @@ namespace Core
             RunGameEvent.Trigger(RunEventTypes.Reward);
             EnablePlayerController(false);
             AddRandomRewards();
+            ContinueButton.SetActive(true);
         }
 
         private void AddRandomRewards()
         {
-            RewardPanel.SetActive(true);
             for (int i = 0; i < 3; i++)
             {
                 Instantiate(SkillPrefab, RewardSkillSocket);
             }
-        }
-
-        private void ResetRewardPanel()
-        {
-            for (int i = 0; i < RewardSkillSocket.childCount; i++)
-            {
-                Destroy(RewardSkillSocket.GetChild(i).gameObject);
-            }
-
-            RewardPanel.SetActive(false);
         }
 
         private void OnGameOver()
@@ -225,11 +217,6 @@ namespace Core
         {
             var hero = Instantiate(HeroPrefab, SpawnSocket.position, Quaternion.identity);
             SetHero(hero.GetComponent<Character>());
-        }
-
-        public void OnPerform()
-        {
-            Hero.BehaviourController.CurrentBehaviour.Perform();
         }
 
         public void BattleCallBack(CharacterType characterType)

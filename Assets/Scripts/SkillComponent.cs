@@ -24,21 +24,25 @@ namespace DefaultNamespace
         public LoopSocket Prev;
     }
 
-    public class SkillObject : MonoBehaviour,
+    public abstract class SkillComponent : MonoBehaviour,
         MMEventListener<CoreGameEvent>
     {
+        protected Character Owner;
+        protected Character Target;
         private LoopSocket _follow;
 
-        public void AddSkill()
+        public void SetOwner(Character owner)
         {
-            RunGameEvent.Trigger(RunEventTypes.Continue);
+            Owner = owner;
+            owner.BehaviourController.AddSkill(this);
         }
 
-        public void OnUse()
+        public void SetTarget(Character target)
         {
-            BattleManager.Instance.Hero.BehaviourController.SetCurrent("Attack");
-            BattleManager.Instance.OnPerform();
+            Target = target;
         }
+
+        public abstract void OnUse();
 
         public void SetFollow(LoopSocket follow)
         {
