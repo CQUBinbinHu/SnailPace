@@ -10,14 +10,14 @@ namespace DefaultNamespace
     public class LoopSocket
     {
         private readonly int _index;
-        private readonly Transform _current;
+        private readonly Transform _trans;
         public int Index => _index;
-        public Transform Current => _current;
+        public Transform Trans => _trans;
 
         public LoopSocket(int index, Transform transform)
         {
             _index = index;
-            _current = transform;
+            _trans = transform;
         }
 
         public LoopSocket Next;
@@ -43,7 +43,7 @@ namespace DefaultNamespace
         public void SetFollow(LoopSocket follow)
         {
             _follow = follow;
-            transform.DOMove(follow.Current.position, 0.5f);
+            transform.DOMove(follow.Trans.position, 0.5f);
         }
 
         public void OnMMEvent(CoreGameEvent eventType)
@@ -65,7 +65,7 @@ namespace DefaultNamespace
             else if (BattleManager.Instance.IsFullSkill)
             {
                 _follow = _follow.Prev;
-                transform.DOMove(_follow.Current.position, 0.5f);
+                transform.DOMove(_follow.Trans.position, 0.5f);
             }
         }
 

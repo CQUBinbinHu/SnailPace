@@ -134,18 +134,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkillPrefab
       objectReference: {fileID: 0}
-    - target: {fileID: 3548418280444213818, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 54871987}
-    - target: {fileID: 3548418280444213818, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: AddSkill
-      objectReference: {fileID: 0}
-    - target: {fileID: 3548418280444213818, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DefaultNamespace.SkillObject, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -176,11 +164,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 264
       objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 374
       objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -237,17 +225,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
   m_PrefabInstance: {fileID: 54871984}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &54871987 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5488407761535479543, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
-  m_PrefabInstance: {fileID: 54871984}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e3d6bf7248a4679ac91c2dc59c18a1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &93704034
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,6 +494,7 @@ GameObject:
   m_Component:
   - component: {fileID: 184547712}
   - component: {fileID: 184547713}
+  - component: {fileID: 184547714}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -554,6 +532,18 @@ MonoBehaviour:
   AutomaticallyUnparentOnAwake: 1
   EncounterGo: {fileID: 1168397356319795849, guid: 0d9a5f7cf7ff2eb41967058934f30fe0, type: 3}
   CurrentRun: 0
+--- !u!114 &184547714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184547711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29ce39a871c1419a92400b57ed2cd6d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &193816736
 GameObject:
   m_ObjectHideFlags: 0
@@ -2132,11 +2122,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 264
       objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 374
       objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3079,7 +3069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveWidth: 16
-  MoveSpeed: 3
+  MoveSpeed: 10
   MoveSockets:
   - {fileID: 1624070495}
   - {fileID: 1017557085}
@@ -3423,7 +3413,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 87.9}
-  m_SizeDelta: {x: 984.4, y: 374}
+  m_SizeDelta: {x: 1000, y: 374}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1372127116
 MonoBehaviour:
@@ -3443,11 +3433,11 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 96.2
+  m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -3895,11 +3885,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 264
       objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 374
       objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_LocalPosition.x

@@ -18,9 +18,9 @@ namespace DefaultNamespace
         {
             if (Input.GetKeyDown(KeyCode.K))
             {
-                if (_encounterGo)
+                if (BattleManager.Instance.EncounterEnemy)
                 {
-                    Destroy(_encounterGo);
+                    BattleManager.Instance.EncounterEnemy.Health.TakeDamage(1000);
                 }
             }
         }

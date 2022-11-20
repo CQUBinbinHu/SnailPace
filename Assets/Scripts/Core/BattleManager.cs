@@ -24,20 +24,19 @@ namespace Core
         public bool IsFullSkill;
         private List<LoopSocket> _loopSockets;
         private LoopSocket _currentSocket;
-        private int _currentSkillSocketIndex;
         private bool _enableTick;
         private Button[] PlayerControlButtons;
         private Character _hero;
         private Character _encounterEnemy;
         public Character Hero => _hero;
         public Character EncounterEnemy => _encounterEnemy;
+        public LoopSocket CurrentSkillSocket => _currentSocket;
 
         protected override void Awake()
         {
             base.Awake();
             _loopSockets = new List<LoopSocket>();
             _enableTick = false;
-            _currentSkillSocketIndex = 0;
         }
 
         private void Start()
@@ -73,23 +72,24 @@ namespace Core
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                if (_currentSocket.Index == 3)
-                {
-                    IsFullSkill = true;
-                }
-                else
-                {
-                    IsFullSkill = false;
-                    _currentSocket = _currentSocket.Next;
-                }
+        }
 
-                CoreGameEvent.Trigger(CoreGameEventTypes.AddSkill);
-                var skill = Instantiate(SkillObject, SkillTransform);
-                skill.transform.position = 3 * Vector3.up;
-                skill.SetFollow(_currentSocket);
+        public void AddSkill(Vector3 initPosition)
+        {
+            if (_currentSocket.Index == 3)
+            {
+                IsFullSkill = true;
             }
+            else
+            {
+                IsFullSkill = false;
+                _currentSocket = _currentSocket.Next;
+            }
+
+            CoreGameEvent.Trigger(CoreGameEventTypes.AddSkill);
+            var skill = Instantiate(SkillObject, SkillTransform);
+            skill.transform.position = initPosition;
+            skill.SetFollow(_currentSocket);
         }
 
         private void FixedUpdate()
