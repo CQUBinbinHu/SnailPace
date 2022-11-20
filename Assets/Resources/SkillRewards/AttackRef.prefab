@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3548418280444213816, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_Name
-      value: AttackRef1
+      value: AttackRef
       objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_Pivot.x
@@ -97,7 +97,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8555063812307318468, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: SkillName
-      value: Attack1
+      value: Attack
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 412be621e0320ad46a79609e4e09431a, type: 3}

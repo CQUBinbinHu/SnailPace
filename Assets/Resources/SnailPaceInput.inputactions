@@ -1,0 +1,74 @@
+{
+    "name": "SnailPaceInput",
+    "maps": [
+        {
+            "name": "MainKeyboard",
+            "id": "5a79cf07-f162-466b-af79-8c6415362cf6",
+            "actions": [
+                {
+                    "name": "OnUseSkill_1",
+                    "type": "Button",
+                    "id": "3fb55a62-2116-46d8-aa50-8b30388b19c5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "OnUseSkill_2",
+                    "type": "Button",
+                    "id": "edec807b-b590-4064-897c-103eb280f7cb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "OnUseSkill_3",
+                    "type": "Button",
+                    "id": "151b4632-5f93-4e70-ba91-1335abef61a2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2c32a368-bb38-4dfb-b6cd-e44e782a0a8f",
+                    "path": "<Keyboard>/q",
+                    "interactions": "Press(pressPoint=1.401298E-45)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OnUseSkill_1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8a667b96-f209-4377-b9d9-6321c5833580",
+                    "path": "<Keyboard>/w",
+                    "interactions": "Press(pressPoint=1.401298E-45)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OnUseSkill_2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "51d08f30-a075-40ce-89ba-474ff52402f0",
+                    "path": "<Keyboard>/e",
+                    "interactions": "Press(pressPoint=1.401298E-45)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OnUseSkill_3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

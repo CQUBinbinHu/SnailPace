@@ -9,6 +9,7 @@ namespace DefaultNamespace
 {
     public class LoopSocket
     {
+        private InputConnector _inputConnector;
         private readonly int _index;
         private readonly Transform _trans;
         public int Index => _index;
@@ -18,10 +19,16 @@ namespace DefaultNamespace
         {
             _index = index;
             _trans = transform;
+            _inputConnector = transform.GetComponent<InputConnector>();
         }
 
         public LoopSocket Next;
         public LoopSocket Prev;
+
+        public void SetSkill(SkillComponent skill)
+        {
+            _inputConnector.SetSkill(skill);
+        }
     }
 
     public abstract class SkillComponent : MonoBehaviour,
@@ -44,10 +51,12 @@ namespace DefaultNamespace
         }
 
         public abstract void OnUse();
+        public abstract void OnCancel();
 
         public void SetFollow(LoopSocket follow)
         {
             _follow = follow;
+            _follow.SetSkill(this);
             transform.DOMove(follow.Trans.position, 0.5f);
         }
 
@@ -63,14 +72,20 @@ namespace DefaultNamespace
 
         private void OnAddSkill()
         {
+            if (!BattleManager.Instance.IsFullSkill)
+            {
+                return;
+            }
+
+            _follow = _follow.Prev;
+            transform.DOMove(_follow.Trans.position, 0.5f);
             if (_follow.Index == 0)
             {
                 Kill();
             }
-            else if (BattleManager.Instance.IsFullSkill)
+            else
             {
-                _follow = _follow.Prev;
-                transform.DOMove(_follow.Trans.position, 0.5f);
+                _follow.SetSkill(this);
             }
         }
 

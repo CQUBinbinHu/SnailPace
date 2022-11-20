@@ -13,5 +13,9 @@ namespace HeroPerform
             Target.Health.TakeDamage(Atk);
             BattleManager.Instance.BattleCallBack(Owner.CharacterType);
         }
+
+        public override void OnCancel()
+        {
+        }
     }
 }

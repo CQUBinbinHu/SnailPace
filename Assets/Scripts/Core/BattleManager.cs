@@ -25,18 +25,17 @@ namespace Core
         [SerializeField] private GameObject ContinueButton;
 
         public bool IsFullSkill;
+        private bool _enableTick;
+        private List<string> _skillNames;
         private List<LoopSocket> _loopSockets;
         private LoopSocket _currentSocket;
-        private bool _enableTick;
-        private Button[] PlayerControlButtons;
         private Character _hero;
         private Character _encounterEnemy;
+        private Dictionary<string, SkillReward> _skillRewardDict;
+        private Dictionary<string, SkillComponent> _skillDict;
         public Character Hero => _hero;
         public Character EncounterEnemy => _encounterEnemy;
         public LoopSocket CurrentSkillSocket => _currentSocket;
-        private Dictionary<string, SkillReward> _skillRewardDict;
-        private Dictionary<string, SkillComponent> _skillDict;
-        private List<string> _skillNames;
 
         protected override void Awake()
         {
@@ -53,7 +52,6 @@ namespace Core
             ContinueButton.SetActive(false);
             InitSkillData();
             ResetBattlePanel();
-            EnablePlayerController(false);
             InitializeSkillSockets();
         }
 
@@ -143,18 +141,6 @@ namespace Core
             _encounterEnemy.BehaviourController.FixedTick(Time.deltaTime);
         }
 
-        private void EnablePlayerController(bool enable)
-        {
-            // PlayerControlPanel.SetActive(enable);
-            foreach (var button in PlayerControlButtons)
-            {
-                if (button)
-                {
-                    button.interactable = enable;
-                }
-            }
-        }
-
         private void SetHero(Character character)
         {
             _hero = character;
@@ -201,7 +187,6 @@ namespace Core
         private void StartEncounter()
         {
             _enableTick = true;
-            EnablePlayerController(true);
         }
 
         public void OnMMEvent(CoreGameEvent eventType)
@@ -222,8 +207,7 @@ namespace Core
 
         private void ResetBattlePanel()
         {
-            PlayerControlButtons = PlayerControlPanel.GetComponentsInChildren<Button>();
-            EnablePlayerController(false);
+            // TODO: ResetBattlePanel
         }
 
         private void InitializeCharacterBattle()
@@ -236,7 +220,6 @@ namespace Core
         {
             _enableTick = false;
             RunGameEvent.Trigger(RunEventTypes.Reward);
-            EnablePlayerController(false);
             AddRandomRewards();
             ContinueButton.SetActive(true);
         }
