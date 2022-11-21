@@ -9,7 +9,6 @@ namespace Core
         public override void Perform()
         {
             Controller.Target.Health.TakeDamage(Atk);
-            BattleManager.Instance.BattleCallBack(Character.CharacterType);
         }
     }
 }

@@ -4,14 +4,11 @@ using UnityEngine;
 
 namespace HeroPerform
 {
-    public class Attack : SkillComponent
+    public class Enhancement : SkillComponent
     {
-        public int Atk;
-        private int Damage => (int)(Owner.GetBuffAtkMultiplier() * Atk);
-
         public override void OnUse()
         {
-            Target.Health.TakeDamage(Damage);
+            Owner.AddBuff(BuffType.Enhancement);
         }
 
         public override void OnCancel()

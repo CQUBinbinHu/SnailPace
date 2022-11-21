@@ -4,14 +4,11 @@ using UnityEngine;
 
 namespace HeroPerform
 {
-    public class Attack : SkillComponent
+    public class Weekness : SkillComponent
     {
-        public int Atk;
-        private int Damage => (int)(Owner.GetBuffAtkMultiplier() * Atk);
-
         public override void OnUse()
         {
-            Target.Health.TakeDamage(Damage);
+            Target.AddBuff(BuffType.Week);
         }
 
         public override void OnCancel()

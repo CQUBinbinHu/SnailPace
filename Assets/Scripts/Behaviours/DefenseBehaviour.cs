@@ -8,7 +8,6 @@ namespace Core
 
         public override void Perform()
         {
-            BattleManager.Instance.BattleCallBack(Character.CharacterType);
         }
     }
 }

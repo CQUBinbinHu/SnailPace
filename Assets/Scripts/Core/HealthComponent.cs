@@ -9,8 +9,9 @@ namespace Core
     {
         [SerializeField] private int MaxHp;
         [SerializeField] private bool ShowHealthBar;
-        private Character _owner;
+        private int _armor;
         private bool _isDead;
+        private Character _owner;
         private HealthBar _healthBar;
         public int CurrentHp { get; private set; }
         public float HpRatio => (float)CurrentHp / (float)MaxHp;
@@ -23,6 +24,7 @@ namespace Core
 
         private void Start()
         {
+            _armor = 0;
             _isDead = false;
             ResetHp();
             _healthBar.gameObject.SetActive(ShowHealthBar);
@@ -42,7 +44,10 @@ namespace Core
 
         public void TakeDamage(int damage)
         {
-            ChangeHp(-damage);
+            damage = (int)(_owner.GetBuffDamageMultiplier() * damage);
+            damage = _armor - damage;
+            damage = Mathf.Clamp(damage, damage, 0);
+            ChangeHp(damage);
             UpdatePresentation();
         }
 
@@ -89,6 +94,16 @@ namespace Core
         {
             yield return new WaitForSeconds(delay);
             Destroy(gameObject);
+        }
+
+        public void AddArmor(int armor)
+        {
+            _armor += armor;
+        }
+
+        public void RemoveArmor(int armor)
+        {
+            _armor -= armor;
         }
     }
 }

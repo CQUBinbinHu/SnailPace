@@ -266,9 +266,5 @@ namespace Core
             var hero = Instantiate(HeroPrefab, SpawnSocket.position, Quaternion.identity);
             SetHero(hero.GetComponent<Character>());
         }
-
-        public void BattleCallBack(CharacterType characterType)
-        {
-        }
     }
 }
