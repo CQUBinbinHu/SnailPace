@@ -77,6 +77,11 @@ namespace DefaultNamespace
                 return;
             }
 
+            if (_follow == null)
+            {
+                return;
+            }
+
             _follow = _follow.Prev;
             transform.DOMove(_follow.Trans.position, 0.5f);
             if (_follow.Index == 0)
