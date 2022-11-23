@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using DefaultNamespace;
+using DG.Tweening;
+using Lean.Pool;
 using MoreMountains.Tools;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,11 +22,10 @@ namespace Core
         [SerializeField] private Transform SkillTransform;
         [SerializeField] private Transform[] SkillSockets;
         [SerializeField] private Transform RewardSkillSocket;
-        [SerializeField] private GameObject SkillPrefab;
         [SerializeField] private GameObject HeroPrefab;
         [SerializeField] private Transform SpawnSocket;
-        [SerializeField] private GameObject PlayerControlPanel;
         [SerializeField] private GameObject ContinueButton;
+        [SerializeField] private Image ChoosePanel;
 
         public bool IsFullSkill;
         private bool _enableTick;
@@ -37,7 +38,6 @@ namespace Core
         private Dictionary<string, SkillComponent> _skillDict;
         public Character Hero => _hero;
         public Character EncounterEnemy => _encounterEnemy;
-        public LoopSocket CurrentSkillSocket => _currentSocket;
 
         protected override void Awake()
         {
@@ -111,7 +111,7 @@ namespace Core
         {
         }
 
-        public void AddSkill(SkillComponent skill, Vector3 initPosition)
+        public void AddSkill(SkillComponent skill)
         {
             if (_currentSocket.Index == 3)
             {
@@ -124,9 +124,7 @@ namespace Core
             }
 
             CoreGameEvent.Trigger(CoreGameEventTypes.AddSkill);
-            Transform skillTransform;
-            (skillTransform = skill.transform).SetParent(SkillTransform);
-            skillTransform.position = initPosition;
+            skill.transform.SetParent(SkillTransform);
             skill.SetOwner(Hero);
             skill.SetFollow(_currentSocket);
             RunGameEvent.Trigger(RunEventTypes.Continue);
@@ -181,7 +179,11 @@ namespace Core
                     StartEncounter();
                     break;
                 case RunEventTypes.Continue:
+                    ChoosePanel.DOFade(0, 0.3f);
                     ResetBattlePanel();
+                    break;
+                case RunEventTypes.Reward:
+                    ChoosePanel.DOFade(0.3f, 0.3f);
                     break;
             }
         }
@@ -253,7 +255,7 @@ namespace Core
             foreach (var index in record)
             {
                 var skillName = _skillNames[index];
-                var skillReward = Instantiate(_skillRewardDict[skillName], RewardSkillSocket);
+                var skillReward = LeanPool.Spawn(_skillRewardDict[skillName], RewardSkillSocket);
                 skillReward.SetSkillObject(_skillDict[skillName]);
             }
         }

@@ -2,7 +2,9 @@
 using System.Collections;
 using Core;
 using DG.Tweening;
+using Lean.Pool;
 using MoreMountains.Tools;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,10 +35,12 @@ namespace DefaultNamespace
     }
 
     public abstract class SkillComponent : MonoBehaviour,
-        MMEventListener<CoreGameEvent>
+        MMEventListener<CoreGameEvent>,
+        IPoolable
     {
         [SerializeField] private int NeedEnergy = 10;
         [SerializeField] private Image SkillMask;
+        [SerializeField] private TextMeshProUGUI Text;
         public string SkillName;
         protected Character Owner;
         protected Character Target;
@@ -45,7 +49,8 @@ namespace DefaultNamespace
 
         private void Start()
         {
-            IsEnergySatisfied = false;
+            Text.text = NeedEnergy.ToString();
+            IsEnergySatisfied = true;
             EnableSkillMask(IsEnergySatisfied);
         }
 
@@ -65,6 +70,11 @@ namespace DefaultNamespace
 
         private void Update()
         {
+            if (!Owner)
+            {
+                return;
+            }
+
             CheckEnergy();
         }
 
@@ -153,18 +163,12 @@ namespace DefaultNamespace
             Destroy(this.gameObject);
         }
 
-        /// <summary>
-        /// OnDisable, we start listening to events.
-        /// </summary>
-        protected virtual void OnEnable()
+        public void OnSpawn()
         {
             this.MMEventStartListening<CoreGameEvent>();
         }
 
-        /// <summary>
-        /// OnDisable, we stop listening to events.
-        /// </summary>
-        protected virtual void OnDisable()
+        public void OnDespawn()
         {
             this.MMEventStopListening<CoreGameEvent>();
         }

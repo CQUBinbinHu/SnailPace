@@ -9,6 +9,7 @@ namespace DefaultNamespace
         MMEventListener<CoreGameEvent>,
         MMEventListener<RunGameEvent>
     {
+        [SerializeField] private GameObject Target;
         public void OnContinue()
         {
             RunGameEvent.Trigger(RunEventTypes.Continue);
@@ -19,7 +20,7 @@ namespace DefaultNamespace
             switch (eventType.EventType)
             {
                 case CoreGameEventTypes.AddSkill:
-                    this.gameObject.SetActive(false);
+                    Target.SetActive(false);
                     break;
             }
         }
@@ -41,7 +42,7 @@ namespace DefaultNamespace
             switch (eventType.EventType)
             {
                 case RunEventTypes.Continue:
-                    this.gameObject.SetActive(false);
+                    Target.SetActive(false);
                     break;
             }
         }
