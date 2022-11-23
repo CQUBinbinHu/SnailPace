@@ -91,10 +91,17 @@ public class LoopMoveGrid : MonoBehaviour, MMEventListener<RunGameEvent>
                 _status = MoveStatus.Encounter;
                 break;
             case RunEventTypes.Continue:
-                _status = MoveStatus.Run;
+                StartCoroutine(ContinueRunDelay_Cro(0.3f));
                 break;
         }
     }
+
+    IEnumerator ContinueRunDelay_Cro(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        _status = MoveStatus.Run;
+    }
+
     /// <summary>
     /// OnDisable, we start listening to events.
     /// </summary>
