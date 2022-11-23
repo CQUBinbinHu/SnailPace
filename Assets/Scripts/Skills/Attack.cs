@@ -11,6 +11,11 @@ namespace HeroPerform
 
         public override void OnUse()
         {
+            if (!Target)
+            {
+                return;
+            }
+
             Target.Health.TakeDamage(Damage);
         }
 
