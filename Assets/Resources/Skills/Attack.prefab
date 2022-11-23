@@ -49,11 +49,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2473258263193706705, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 75
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2473258263193706705, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 75
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2473258263193706705, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_LocalPosition.x
@@ -104,16 +104,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2473258263193706709, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: Atk
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473258263193706709, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: SkillName
       value: Attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 2473258263193706709, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: NeedEnergy
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6531425030940289084, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9115044280807839628, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
-      propertyPath: m_Color.a
-      value: 0.69803923
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}

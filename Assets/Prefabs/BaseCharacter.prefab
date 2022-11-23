@@ -915,7 +915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abf28c6f502f4963bde4b5054abd05ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnergyBarImage: {fileID: 0}
+  EnergyBarImage: {fileID: 7864893610019432061}
 --- !u!1 &5482356095102451227
 GameObject:
   m_ObjectHideFlags: 0

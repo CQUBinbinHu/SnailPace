@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 namespace Core
@@ -16,14 +17,19 @@ namespace Core
         [SerializeField] private string Name;
 
         private HealthComponent _health;
+        private EnergyComponent _energyComponent;
         private BehaviourController _behaviourController;
         private Dictionary<BuffType, float> _buffAtkMultiplier;
         private Dictionary<BuffType, float> _buffDamageMultiplier;
         public HealthComponent Health => _health;
+        public EnergyComponent Energy => _energyComponent;
         public BehaviourController BehaviourController => _behaviourController;
+        public float CurrentEnergy => _energyComponent.Current;
 
         private void Awake()
         {
+            TryGetComponent(out _energyComponent);
+            TryGetComponent(out _health);
             _health = GetComponent<HealthComponent>();
             _behaviourController = GetComponent<BehaviourController>();
             _buffAtkMultiplier = new Dictionary<BuffType, float>();
@@ -51,7 +57,7 @@ namespace Core
 
             return multiplier;
         }
-        
+
         public void AddAtkMultiplier(BuffType origin, float multiplier)
         {
             if (!_buffAtkMultiplier.ContainsKey(origin))

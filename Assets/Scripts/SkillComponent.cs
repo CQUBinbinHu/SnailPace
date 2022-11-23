@@ -4,6 +4,7 @@ using Core;
 using DG.Tweening;
 using MoreMountains.Tools;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
@@ -34,10 +35,19 @@ namespace DefaultNamespace
     public abstract class SkillComponent : MonoBehaviour,
         MMEventListener<CoreGameEvent>
     {
+        [SerializeField] private int NeedEnergy = 10;
+        [SerializeField] private Image SkillMask;
         public string SkillName;
         protected Character Owner;
         protected Character Target;
         private LoopSocket _follow;
+        private bool IsEnergySatisfied;
+
+        private void Start()
+        {
+            IsEnergySatisfied = false;
+            EnableSkillMask(IsEnergySatisfied);
+        }
 
         public void SetOwner(Character owner)
         {
@@ -52,6 +62,44 @@ namespace DefaultNamespace
 
         public abstract void OnUse();
         public abstract void OnCancel();
+
+        private void Update()
+        {
+            CheckEnergy();
+        }
+
+        public bool TryCostEnergy()
+        {
+            bool ok = CheckEnergy();
+            if (ok)
+            {
+                Owner.Energy.CostEnemy(NeedEnergy);
+            }
+
+            return ok;
+        }
+
+        private bool CheckEnergy()
+        {
+            if (GetEnergyStatus())
+            {
+                EnableSkillMask(IsEnergySatisfied);
+            }
+
+            return IsEnergySatisfied;
+        }
+
+        private bool GetEnergyStatus()
+        {
+            bool temp = IsEnergySatisfied;
+            IsEnergySatisfied = NeedEnergy <= Owner.CurrentEnergy;
+            return temp != IsEnergySatisfied;
+        }
+
+        private void EnableSkillMask(bool enable)
+        {
+            SkillMask.DOFade(enable ? 0 : 0.6f, 0.2f);
+        }
 
         public void SetFollow(LoopSocket follow)
         {

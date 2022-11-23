@@ -8,16 +8,24 @@ namespace DefaultNamespace
     public class EnergyBar : MonoBehaviour
     {
         [SerializeField] private Image EnergyBarImage;
-        private BehaviourController _behaviourController;
+        private EnergyComponent _energyComponent;
 
         private void Awake()
         {
-            _behaviourController = GetComponentInParent<BehaviourController>();
+            _energyComponent = GetComponentInParent<EnergyComponent>();
         }
 
-        public void UpdateBar()
+        private void Update()
         {
-            EnergyBarImage.fillAmount = _behaviourController.EnergyRatio;
+            UpdateBar();
+        }
+
+        private void UpdateBar()
+        {
+            if (_energyComponent)
+            {
+                EnergyBarImage.fillAmount = _energyComponent.EnergyRatio;
+            }
         }
     }
 }

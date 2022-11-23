@@ -1,6 +1,4 @@
-﻿using Core;
-using DefaultNamespace;
-using UnityEngine;
+﻿using DefaultNamespace;
 
 namespace HeroPerform
 {
@@ -12,6 +10,11 @@ namespace HeroPerform
         public override void OnUse()
         {
             if (!Target)
+            {
+                return;
+            }
+
+            if (!TryCostEnergy())
             {
                 return;
             }
