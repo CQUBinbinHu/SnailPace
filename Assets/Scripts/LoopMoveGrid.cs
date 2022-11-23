@@ -75,7 +75,7 @@ public class LoopMoveGrid : MonoBehaviour, MMEventListener<RunGameEvent>
             var movePos = lastSocket.Next.Block.transform.localPosition;
             movePos.x += MoveWidth;
             lastSocket.Block.transform.localPosition = movePos;
-            var encounter = Instantiate(GameManager.Instance.EncounterGo, lastSocket.Block.IncidentSocket);
+            var encounter = Instantiate(BattleManager.Instance.EncounterEnemyPrefab, lastSocket.Block.IncidentSocket);
             encounter.transform.localPosition = Vector3.zero;
         }
     }

@@ -81,7 +81,6 @@ namespace Core
         MMEventListener<RunGameEvent>
     {
         private float _runClock;
-        public GameObject EncounterGo;
         public MoveStatus CurrentRun;
         private StateMachine<GameManager, MoveStatus, MoveTransition> _stateMachine;
         public float RunClock => _runClock;

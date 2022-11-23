@@ -15,6 +15,7 @@ namespace Core
         MMEventListener<RunGameEvent>,
         MMEventListener<CoreGameEvent>
     {
+        [SerializeField] public GameObject EncounterEnemyPrefab;
         [SerializeField] private SkillData SkillData;
         [SerializeField] private Transform SkillTransform;
         [SerializeField] private Transform[] SkillSockets;
