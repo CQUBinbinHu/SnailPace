@@ -95,6 +95,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7000990150898887418, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8555063812307318468, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: SkillName
       value: Weekness

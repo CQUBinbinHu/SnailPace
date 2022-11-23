@@ -24,11 +24,18 @@ namespace DefaultNamespace
         public string Introduction;
         private SkillComponent _skillObject;
         private SkillComponent _skillTarget;
-        private Image[] _images;
+        private bool _isAddSkill;
+        private Button _button;
 
         private void Awake()
         {
-            _images = GetComponentsInChildren<Image>();
+            _button = GetComponent<Button>();
+        }
+
+        private void Initialize()
+        {
+            _isAddSkill = false;
+            _button.interactable = true;
         }
 
         private void InitializeSkillObject()
@@ -40,22 +47,23 @@ namespace DefaultNamespace
 
         public void OnAddSkill()
         {
+            _isAddSkill = true;
             BattleManager.Instance.AddSkill(_skillTarget);
         }
 
         private void DestroySelf()
         {
-            foreach (var image in _images)
-            {
-                image.DOFade(0, 0.2f);
-            }
-
             StartCoroutine(DestroyDelay(0.3f));
         }
 
         IEnumerator DestroyDelay(float delay)
         {
             yield return new WaitForSeconds(delay);
+            if (!_isAddSkill)
+            {
+                LeanPool.Despawn(_skillTarget);
+            }
+
             LeanPool.Despawn(this);
         }
 
@@ -87,12 +95,14 @@ namespace DefaultNamespace
 
         public void OnSpawn()
         {
+            Initialize();
             this.MMEventStartListening<CoreGameEvent>();
             this.MMEventStartListening<RunGameEvent>();
         }
 
         public void OnDespawn()
         {
+            _button.interactable = false;
             this.MMEventStopListening<CoreGameEvent>();
             this.MMEventStopListening<RunGameEvent>();
         }

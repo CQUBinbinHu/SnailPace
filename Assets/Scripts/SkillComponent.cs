@@ -47,8 +47,9 @@ namespace DefaultNamespace
         private LoopSocket _follow;
         private bool IsEnergySatisfied;
 
-        private void Start()
+        public void Initialize()
         {
+            _follow = null;
             Text.text = NeedEnergy.ToString();
             IsEnergySatisfied = true;
             EnableSkillMask(IsEnergySatisfied);
@@ -160,11 +161,12 @@ namespace DefaultNamespace
         IEnumerator DelayDestroy(float delay)
         {
             yield return new WaitForSeconds(delay);
-            Destroy(this.gameObject);
+            LeanPool.Despawn(this);
         }
 
         public void OnSpawn()
         {
+            Initialize();
             this.MMEventStartListening<CoreGameEvent>();
         }
 
