@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2181177711247211436, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.701
+      objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213797, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_Type
       value: 1
@@ -49,11 +53,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 420
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3548418280444213819, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -103,9 +107,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8555063812307318468, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
-      propertyPath: SkillName
-      value: Attack
+    - target: {fileID: 5133228605400711211, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 412be621e0320ad46a79609e4e09431a, type: 3}
