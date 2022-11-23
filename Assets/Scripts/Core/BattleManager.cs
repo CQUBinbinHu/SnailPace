@@ -183,7 +183,7 @@ namespace Core
                     ResetBattlePanel();
                     break;
                 case RunEventTypes.Reward:
-                    ChoosePanel.DOFade(0.3f, 0.3f);
+                    ChoosePanel.DOFade(0.5f, 0.3f);
                     break;
             }
         }
