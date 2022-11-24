@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using DefaultNamespace;
+using Lean.Pool;
 using UnityEngine;
 
 namespace Core
@@ -14,7 +15,8 @@ namespace Core
         private Character _owner;
         private HealthBar _healthBar;
         public int CurrentHp { get; private set; }
-        public float HpRatio => (float)CurrentHp / (float)MaxHp;
+        public int Armors => _armor;
+        public bool IsWithArmor => Armors != 0;
 
         private void Awake()
         {
@@ -31,6 +33,30 @@ namespace Core
             UpdatePresentation();
         }
 
+        public float GetHpRatio()
+        {
+            if (CurrentHp + Armors > MaxHp)
+            {
+                return (float)CurrentHp / (CurrentHp + Armors);
+            }
+            else
+            {
+                return (float)CurrentHp / MaxHp;
+            }
+        }
+
+        public float GetArmorRatio()
+        {
+            if (CurrentHp + Armors > MaxHp)
+            {
+                return 1;
+            }
+            else
+            {
+                return (float)(CurrentHp + Armors) / MaxHp;
+            }
+        }
+
         private void ResetHp()
         {
             CurrentHp = MaxHp;
@@ -45,8 +71,10 @@ namespace Core
         public void TakeDamage(int damage)
         {
             damage = (int)(_owner.GetBuffDamageMultiplier() * damage);
-            damage = _armor - damage;
-            damage = Mathf.Clamp(damage, damage, 0);
+            _armor -= damage;
+            damage = _armor;
+            _armor = Mathf.Clamp(_armor, 0, Int32.MaxValue);
+            damage = Mathf.Clamp(damage, Int32.MinValue, 0);
             ChangeHp(damage);
             UpdatePresentation();
         }
@@ -86,24 +114,28 @@ namespace Core
         {
             if (ShowHealthBar)
             {
-                _healthBar.UpdateHealthBar();
+                _healthBar.UpdateDamageBar();
             }
         }
 
         IEnumerator DelayDead_Cro(float delay)
         {
             yield return new WaitForSeconds(delay);
-            Destroy(gameObject);
+            LeanPool.Despawn(_owner.gameObject);
         }
 
         public void AddArmor(int armor)
         {
             _armor += armor;
+            _armor = Mathf.Clamp(_armor, 0, Int32.MaxValue);
+            UpdatePresentation();
         }
 
         public void RemoveArmor(int armor)
         {
             _armor -= armor;
+            _armor = Mathf.Clamp(_armor, 0, Int32.MaxValue);
+            UpdatePresentation();
         }
     }
 }

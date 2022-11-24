@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 437899297624758777, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -791664040, guid: 09e3bb9b596a12e44ac92f09a379c050, type: 3}
+    - target: {fileID: 437899297624758777, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2473258263193706704, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_Name
       value: Weekness
@@ -99,5 +107,40 @@ PrefabInstance:
       propertyPath: SkillName
       value: Weekness
       objectReference: {fileID: 0}
+    - target: {fileID: 7751173232433198232, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751173232433198232, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751173232433198232, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751173232433198232, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+--- !u!1 &9039763278551457044 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2473258263193706704, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+  m_PrefabInstance: {fileID: 6854891532908756420}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8085249866130858429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9039763278551457044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dd1e36c95e9442cbd310e7911bfd24e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NeedEnergy: 10
+  SkillName: Weekness

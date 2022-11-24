@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Core;
 using DefaultNamespace;
+using Lean.Pool;
 using MoreMountains.Tools;
 using Unity.Mathematics;
 using UnityEngine;
@@ -75,7 +76,7 @@ public class LoopMoveGrid : MonoBehaviour, MMEventListener<RunGameEvent>
             var movePos = lastSocket.Next.Block.transform.localPosition;
             movePos.x += MoveWidth;
             lastSocket.Block.transform.localPosition = movePos;
-            var encounter = Instantiate(BattleManager.Instance.EncounterEnemyPrefab, lastSocket.Block.IncidentSocket);
+            var encounter = LeanPool.Spawn(BattleManager.Instance.EncounterEnemyPrefab, lastSocket.Block.IncidentSocket);
             encounter.transform.localPosition = Vector3.zero;
         }
     }

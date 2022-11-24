@@ -39,20 +39,27 @@ namespace DefaultNamespace
         IPoolable
     {
         [SerializeField] private int NeedEnergy = 10;
-        [SerializeField] private Image SkillMask;
-        [SerializeField] private TextMeshProUGUI Text;
+        private SkillShowComponent _skillShow;
         public string SkillName;
         protected Character Owner;
         protected Character Target;
         private LoopSocket _follow;
         private bool IsEnergySatisfied;
 
+        private void Awake()
+        {
+            TryGetComponent(out _skillShow);
+        }
+
         public void Initialize()
         {
             _follow = null;
-            Text.text = NeedEnergy.ToString();
-            IsEnergySatisfied = true;
-            EnableSkillMask(IsEnergySatisfied);
+            if (_skillShow)
+            {
+                _skillShow.EnergyText.text = NeedEnergy.ToString();
+                IsEnergySatisfied = true;
+                EnableSkillMask(IsEnergySatisfied);
+            }
         }
 
         public void SetOwner(Character owner)
@@ -109,7 +116,10 @@ namespace DefaultNamespace
 
         private void EnableSkillMask(bool enable)
         {
-            SkillMask.DOFade(enable ? 0 : 0.6f, 0.2f);
+            if (_skillShow)
+            {
+                _skillShow.SkillMask.DOFade(enable ? 0 : 0.6f, 0.2f);
+            }
         }
 
         public void SetFollow(LoopSocket follow)

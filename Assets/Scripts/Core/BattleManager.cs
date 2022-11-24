@@ -17,12 +17,12 @@ namespace Core
         MMEventListener<RunGameEvent>,
         MMEventListener<CoreGameEvent>
     {
+        [SerializeField] private GameObject HeroPrefab;
         [SerializeField] public GameObject EncounterEnemyPrefab;
         [SerializeField] private SkillData SkillData;
         [SerializeField] private Transform SkillTransform;
         [SerializeField] private Transform[] SkillSockets;
         [SerializeField] private Transform RewardSkillSocket;
-        [SerializeField] private GameObject HeroPrefab;
         [SerializeField] private Transform SpawnSocket;
         [SerializeField] private GameObject ContinueButton;
         [SerializeField] private Image ChoosePanel;
@@ -267,7 +267,7 @@ namespace Core
 
         private void OnGameStart()
         {
-            var hero = Instantiate(HeroPrefab, SpawnSocket.position, Quaternion.identity);
+            var hero = LeanPool.Spawn(HeroPrefab, SpawnSocket.position, Quaternion.identity);
             SetHero(hero.GetComponent<Character>());
         }
     }

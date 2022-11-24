@@ -12,7 +12,8 @@ namespace DefaultNamespace
     {
         [SerializeField] private Image HealthBarImage;
         [SerializeField] private Image DamageBarImage;
-
+        [SerializeField] private Image WhiteBarImage;
+        [SerializeField] private SpriteRenderer ArmorIcon;
         [Range(0, 1)] public float CurrentRatio;
 
         private const float Duration = 0.4f;
@@ -43,15 +44,11 @@ namespace DefaultNamespace
 #endif
         }
 
-        public void UpdateHealthBar()
+        public void UpdateDamageBar()
         {
-            CurrentRatio = _healthComponent.HpRatio;
-            UpdateDamageBar();
-        }
-
-        private void UpdateDamageBar()
-        {
-            HealthBarImage.fillAmount = CurrentRatio;
+            ArmorIcon.DOFade(_healthComponent.IsWithArmor ? 1 : 0, 0.1f);
+            HealthBarImage.fillAmount = _healthComponent.GetHpRatio();
+            WhiteBarImage.fillAmount = _healthComponent.GetArmorRatio();
             StartCoroutine(UpdateDamageDelay_Cro(Delay));
         }
 

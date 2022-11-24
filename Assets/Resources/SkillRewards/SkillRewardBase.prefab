@@ -190,7 +190,7 @@ MonoBehaviour:
   TextSkillName: {fileID: 3548418281258570631}
   TextIntroduction: {fileID: 6223340427075295287}
   SkillName: Attack
-  Introduction: Deal 10 Damage
+  Introduction: Deal 6 Damage
 --- !u!1 &3548418281258570629
 GameObject:
   m_ObjectHideFlags: 0

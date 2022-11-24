@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DefaultNamespace;
+using Lean.Pool;
 using UnityEngine;
 
 namespace Core
@@ -11,7 +12,7 @@ namespace Core
         Enemy
     }
 
-    public class Character : MonoBehaviour
+    public class Character : MonoBehaviour,IPoolable
     {
         [SerializeField] public CharacterType CharacterType;
         [SerializeField] private string Name;
@@ -82,6 +83,14 @@ namespace Core
         public void RemoveBuffDamageMultiplier(BuffType buff)
         {
             _buffDamageMultiplier.Remove(buff);
+        }
+
+        public void OnSpawn()
+        {
+        }
+
+        public void OnDespawn()
+        {
         }
     }
 }
