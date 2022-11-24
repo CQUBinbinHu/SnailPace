@@ -25,6 +25,13 @@ namespace DefaultNamespace
             _healthComponent = GetComponentInParent<HealthComponent>();
         }
 
+        private void Start()
+        {
+            var color = Color.white;
+            color.a = 0;
+            ArmorIcon.color = color;
+        }
+
         private void Update()
         {
 // debug

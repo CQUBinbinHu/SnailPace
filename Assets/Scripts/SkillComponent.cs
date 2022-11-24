@@ -96,7 +96,7 @@ namespace DefaultNamespace
         {
             var showTip = LeanPool.Spawn(GameManager.Instance.ShowTipComponent);
             showTip.transform.position = transform.position;
-            showTip.SetTips(tip, 0.5f);
+            showTip.SetTips(tip, Color.white);
         }
 
         private void Update()

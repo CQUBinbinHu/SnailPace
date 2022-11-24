@@ -71,6 +71,11 @@ namespace Core
         public void TakeDamage(int damage)
         {
             damage = (int)(_owner.GetBuffDamageMultiplier() * damage);
+            // show tip
+            var tip = LeanPool.Spawn(GameManager.Instance.ShowTipComponent);
+            tip.transform.position = _owner.TipSocket.position;
+            tip.SetTips(damage.ToString(), Color.white);
+            // 
             _armor -= damage;
             damage = _armor;
             _armor = Mathf.Clamp(_armor, 0, Int32.MaxValue);

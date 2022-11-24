@@ -14,6 +14,7 @@ namespace Core
 
     public class Character : MonoBehaviour,IPoolable
     {
+        [SerializeField] public Transform TipSocket;
         [SerializeField] public CharacterType CharacterType;
         [SerializeField] private string Name;
 
