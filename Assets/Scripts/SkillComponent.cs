@@ -85,10 +85,18 @@ namespace DefaultNamespace
 
             if (!TryCostEnergy())
             {
+                ShowTips("lack mana");
                 return false;
             }
 
             return true;
+        }
+
+        private void ShowTips(string tip)
+        {
+            var showTip = LeanPool.Spawn(GameManager.Instance.ShowTipComponent);
+            showTip.transform.position = transform.position;
+            showTip.SetTips(tip, 0.5f);
         }
 
         private void Update()

@@ -8,6 +8,11 @@ namespace HeroPerform
     {
         public override void OnUse()
         {
+            if (!TryGetPermission())
+            {
+                return;
+            }
+
             Target.AddBuff(BuffType.Week);
         }
 

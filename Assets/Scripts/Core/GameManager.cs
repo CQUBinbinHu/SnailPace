@@ -1,4 +1,5 @@
 ﻿using System;
+using DefaultNamespace;
 using MoreMountains.Tools;
 using Tools;
 using UnityEngine;
@@ -80,6 +81,7 @@ namespace Core
         MMEventListener<CoreGameEvent>,
         MMEventListener<RunGameEvent>
     {
+        [SerializeField] public ShowTipComponent ShowTipComponent;
         private float _runClock;
         public MoveStatus CurrentRun;
         private StateMachine<GameManager, MoveStatus, MoveTransition> _stateMachine;
