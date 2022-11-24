@@ -369,6 +369,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthBarImage: {fileID: 6953177358857365356}
   DamageBarImage: {fileID: 3738212690312530228}
+  WhiteBarImage: {fileID: 9057756343771189862}
+  ArmorIcon: {fileID: 6600457252371713144}
   CurrentRatio: 1
 --- !u!1 &6498929598669626067
 GameObject:

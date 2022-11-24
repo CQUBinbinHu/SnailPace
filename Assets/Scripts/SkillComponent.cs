@@ -76,6 +76,21 @@ namespace DefaultNamespace
         public abstract void OnUse();
         public abstract void OnCancel();
 
+        public bool TryGetPermission()
+        {
+            if (!Target)
+            {
+                return false;
+            }
+
+            if (!TryCostEnergy())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private void Update()
         {
             if (!Owner)

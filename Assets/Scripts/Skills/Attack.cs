@@ -9,12 +9,7 @@ namespace HeroPerform
 
         public override void OnUse()
         {
-            if (!Target)
-            {
-                return;
-            }
-
-            if (!TryCostEnergy())
+            if (!TryGetPermission())
             {
                 return;
             }

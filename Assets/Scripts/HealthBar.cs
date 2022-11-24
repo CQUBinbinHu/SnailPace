@@ -46,8 +46,9 @@ namespace DefaultNamespace
 
         public void UpdateDamageBar()
         {
+            CurrentRatio = _healthComponent.GetHpRatio();
             ArmorIcon.DOFade(_healthComponent.IsWithArmor ? 1 : 0, 0.1f);
-            HealthBarImage.fillAmount = _healthComponent.GetHpRatio();
+            HealthBarImage.fillAmount = CurrentRatio;
             WhiteBarImage.fillAmount = _healthComponent.GetArmorRatio();
             StartCoroutine(UpdateDamageDelay_Cro(Delay));
         }
