@@ -7,13 +7,13 @@ namespace DefaultNamespace
     {
         private const float AtkMultiplier = 2f;
 
-        public override void OnAddBuff()
+        public override void OnAddBuff(Character owner)
         {
-            base.OnAddBuff();
+            base.OnAddBuff(owner);
             Owner.AddAtkMultiplier(BuffType.Enhancement, AtkMultiplier);
         }
 
-        public override void OnRemoveBuff()
+        protected override void OnRemoveBuff()
         {
             Owner.RemoveBuffAtkMultiplier(BuffType.Enhancement);
         }

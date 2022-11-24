@@ -12,8 +12,10 @@ namespace Core
         Enemy
     }
 
-    public class Character : MonoBehaviour,IPoolable
+    public class Character : MonoBehaviour, IPoolable
     {
+        [SerializeField] public Transform ShowBuffSocket;
+        [SerializeField] public Transform BuffSocket;
         [SerializeField] public Transform TipSocket;
         [SerializeField] public CharacterType CharacterType;
         [SerializeField] private string Name;
@@ -21,8 +23,10 @@ namespace Core
         private HealthComponent _health;
         private EnergyComponent _energyComponent;
         private BehaviourController _behaviourController;
+        private HashSet<Buff> _buffs;
         private Dictionary<BuffType, float> _buffAtkMultiplier;
         private Dictionary<BuffType, float> _buffDamageMultiplier;
+        public HashSet<Buff> Buffs => _buffs;
         public HealthComponent Health => _health;
         public EnergyComponent Energy => _energyComponent;
         public BehaviourController BehaviourController => _behaviourController;
@@ -32,10 +36,21 @@ namespace Core
         {
             TryGetComponent(out _energyComponent);
             TryGetComponent(out _health);
+            _buffs = new HashSet<Buff>();
             _health = GetComponent<HealthComponent>();
             _behaviourController = GetComponent<BehaviourController>();
             _buffAtkMultiplier = new Dictionary<BuffType, float>();
             _buffDamageMultiplier = new Dictionary<BuffType, float>();
+        }
+
+        public void AddBuff(Buff buff)
+        {
+            _buffs.Add(buff);
+        }
+
+        public void RemoveBuff(Buff buff)
+        {
+            _buffs.Remove(buff);
         }
 
         public float GetBuffAtkMultiplier()

@@ -9,17 +9,23 @@ namespace Core
     {
         public static void AddBuff(this Character target, BuffType buffType)
         {
+            Buff buff = null;
             switch (buffType)
             {
                 case BuffType.Week:
-                    target.gameObject.AddComponent<WeekBuff>();
+                    buff = target.gameObject.AddComponent<WeekBuff>();
                     break;
                 case BuffType.Enhancement:
-                    target.gameObject.AddComponent<EnhancementBuff>();
+                    buff = target.gameObject.AddComponent<EnhancementBuff>();
                     break;
                 case BuffType.Vulnerable:
-                    target.gameObject.AddComponent<VulnerableBuff>();
+                    buff = target.gameObject.AddComponent<VulnerableBuff>();
                     break;
+            }
+
+            if (buff != null)
+            {
+                buff.OnAddBuff(target);
             }
         }
     }
