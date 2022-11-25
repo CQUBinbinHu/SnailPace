@@ -23,5 +23,11 @@ namespace DefaultNamespace
         {
             Owner.AddAtkMultiplier(BuffType.Week, WeekMultiplier);
         }
+
+        public override void OnOverride(float duration)
+        {
+            base.OnOverride(duration);
+            ResetCoolDown(duration);
+        }
     }
 }

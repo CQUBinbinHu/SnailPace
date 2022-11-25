@@ -21,9 +21,11 @@ namespace Core
         protected Character Owner;
         private ShowBuffComponent _showBuffComponentTarget;
         public float lastCoolDown => _timer / Duration;
+        public bool IsBuffActivated { get; private set; }
 
         public virtual void OnAddBuff(Character owner, float duration = 1)
         {
+            IsBuffActivated = true;
             Owner = owner;
             owner.AddBuff(this);
             Duration = duration;
@@ -34,6 +36,7 @@ namespace Core
 
         protected virtual void OnRemoveBuff()
         {
+            IsBuffActivated = false;
             Owner.RemoveBuff(this);
             StartCoroutine(DespawnNextFrame());
         }
@@ -42,6 +45,11 @@ namespace Core
 
         public void FixedTick(float deltaTime)
         {
+            if (!IsBuffActivated)
+            {
+                return;
+            }
+
             if (_timer > 0)
             {
                 _timer -= deltaTime;
@@ -53,8 +61,14 @@ namespace Core
             }
         }
 
-        public virtual void OnOverride()
+        public virtual void OnOverride(float duration)
         {
+        }
+
+        protected void ResetCoolDown(float duration)
+        {
+            Duration = duration;
+            _timer = duration;
         }
 
         IEnumerator DespawnNextFrame()

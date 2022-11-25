@@ -62,11 +62,7 @@ namespace Core
             // Add Buffs
             foreach (var buff in _buffAddCurrent)
             {
-                if (_buffs.ContainsKey(buff.BuffType))
-                {
-                    _buffs[buff.BuffType].OnOverride();
-                }
-                else
+                if (!_buffs.ContainsKey(buff.BuffType))
                 {
                     _buffs.Add(buff.BuffType, buff);
                 }

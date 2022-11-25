@@ -1,5 +1,4 @@
 ﻿using DefaultNamespace;
-using MoreMountains.Tools;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,12 +12,40 @@ namespace Core
             switch (buffType)
             {
                 case BuffType.Week:
+                    if (target.BuffSocket.TryGetComponent(out WeekBuff weekBuff))
+                    {
+                        if (weekBuff.IsBuffActivated)
+                        {
+                            weekBuff.OnOverride(duration);
+                            break;
+                        }
+                    }
+
                     buff = target.BuffSocket.AddComponent<WeekBuff>();
                     break;
                 case BuffType.Enhancement:
+                    if (target.BuffSocket.TryGetComponent(out EnhancementBuff enhancementBuff))
+                    {
+                        if (enhancementBuff.IsBuffActivated)
+                        {
+                            enhancementBuff.OnOverride(duration);
+                            break;
+                        }
+                    }
+
                     buff = target.BuffSocket.AddComponent<EnhancementBuff>();
                     break;
                 case BuffType.Vulnerable:
+                    if (target.BuffSocket.TryGetComponent(out VulnerableBuff vulnerableBuff))
+                    {
+                        if (vulnerableBuff)
+                        {
+                            vulnerableBuff.OnOverride(duration);
+                            break;
+                        }
+                    }
+
+
                     buff = target.BuffSocket.AddComponent<VulnerableBuff>();
                     break;
                 default:
