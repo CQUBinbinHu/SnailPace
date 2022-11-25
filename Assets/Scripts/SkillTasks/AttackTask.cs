@@ -1,14 +1,16 @@
 ﻿using Core;
 using HeroPerform;
 using NodeCanvas.Framework;
+using ParadoxNotion.Design;
 using UnityEngine;
 
 namespace DefaultNamespace.SkillTasks
 {
+    [Category("Custom")]
     public class AttackTask : ActionTask
     {
         public Attack Attack;
-        public int Atk;
+        public BBParameter<int> Atk = 0;
 
         protected override string OnInit()
         {
@@ -19,7 +21,7 @@ namespace DefaultNamespace.SkillTasks
         protected override void OnExecute()
         {
             base.OnExecute();
-            Attack.Atk = Atk;
+            Attack.Atk = Atk.value;
             Attack.OnUse();
             EndAction(true);
         }

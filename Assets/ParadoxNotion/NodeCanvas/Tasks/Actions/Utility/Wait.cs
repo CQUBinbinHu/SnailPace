@@ -6,10 +6,9 @@ using ParadoxNotion.Design;
 namespace NodeCanvas.Tasks.Actions
 {
 
-    [Category("✫ Utility")]
+    [Category("Custom")]
     public class Wait : ActionTask
     {
-
         public BBParameter<float> waitTime = 1f;
         public CompactStatus finishStatus = CompactStatus.Success;
 

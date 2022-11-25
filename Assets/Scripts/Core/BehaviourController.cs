@@ -15,18 +15,21 @@ namespace Core
         private EnergyComponent _energy;
         private HashSet<SkillComponent> _skills;
         private BehaviourTree _behaviourTree;
-        public Character Target => _target;
+        private IntentComponent _intentComponent;
+        public IntentComponent Intent => _intentComponent;
+        public int CountDown { get; set; }
+        public bool IsOnCountDown { get; set; }
+        public float CountDownRatio { get; set; }
 
         private void Awake()
         {
             TryGetComponent(out _owner);
             TryGetComponent(out _energy);
+            _intentComponent = GetComponentInChildren<IntentComponent>();
             if (_behaviourTreeOwner)
             {
                 _behaviourTreeOwner.updateMode = Graph.UpdateMode.Manual;
                 _behaviourTreeOwner.updateInterval = Time.fixedDeltaTime;
-                // _behaviourTree = _behaviourTreeOwner.behaviour;
-                // _behaviourTree = Instantiate(_behaviourTreeOwner.behaviour);
             }
 
             _skills = new HashSet<SkillComponent>();
@@ -83,10 +86,6 @@ namespace Core
             {
                 _behaviourTreeOwner.UpdateBehaviour();
             }
-            // if (_behaviourTree)
-            // {
-            //     _behaviourTree.UpdateGraph(deltaTime);
-            // }
         }
     }
 }
