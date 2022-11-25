@@ -22,8 +22,8 @@ namespace DefaultNamespace
             TipsText.text = tips;
             TipsText.color = color;
             _duration = duration;
-            TipsText.DOFade(0, _duration);
             HandleChild.transform.DOLocalJump(JumpVec, JumpPower, 1, _duration);
+            StartCoroutine(FadeDelay(0.5f * _duration));
             StartCoroutine(DespawnDelay(_duration + FixedDelay));
         }
 
@@ -40,6 +40,12 @@ namespace DefaultNamespace
 
         public void OnDespawn()
         {
+        }
+
+        IEnumerator FadeDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            TipsText.DOFade(0, _duration - delay);
         }
     }
 }

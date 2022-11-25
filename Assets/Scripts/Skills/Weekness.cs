@@ -6,6 +6,8 @@ namespace HeroPerform
 {
     public class Weekness : SkillComponent
     {
+        public float Duration = 3;
+
         public override void OnUse()
         {
             if (!TryGetPermission())
@@ -13,7 +15,7 @@ namespace HeroPerform
                 return;
             }
 
-            Target.AddBuff(BuffType.Week);
+            Target.AddBuff(BuffType.Week, Duration);
         }
 
         public override void OnCancel()

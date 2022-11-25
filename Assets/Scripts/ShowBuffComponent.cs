@@ -6,14 +6,14 @@ using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
-    public class ShowBuff : MonoBehaviour, IPoolable
+    public class ShowBuffComponent : MonoBehaviour, IPoolable
     {
-        [SerializeField] private Image Progress;
+        [SerializeField] private Image CoolDown;
         private Buff _buff;
 
         public void OnSpawn()
         {
-            Progress.fillAmount = 1;
+            CoolDown.fillAmount = 1;
         }
 
         public void SetOwner(Buff buff)
@@ -23,7 +23,7 @@ namespace DefaultNamespace
 
         private void Update()
         {
-            Progress.fillAmount = _buff.lastCoolDown;
+            CoolDown.fillAmount = _buff.lastCoolDown;
         }
 
         public void OnDespawn()

@@ -7,25 +7,29 @@ namespace Core
 {
     public static class BuffSystem
     {
-        public static void AddBuff(this Character target, BuffType buffType)
+        public static void AddBuff(this Character target, BuffType buffType, float duration = 1)
         {
             Buff buff = null;
             switch (buffType)
             {
                 case BuffType.Week:
-                    buff = target.gameObject.AddComponent<WeekBuff>();
+                    buff = target.BuffSocket.AddComponent<WeekBuff>();
                     break;
                 case BuffType.Enhancement:
-                    buff = target.gameObject.AddComponent<EnhancementBuff>();
+                    buff = target.BuffSocket.AddComponent<EnhancementBuff>();
                     break;
                 case BuffType.Vulnerable:
-                    buff = target.gameObject.AddComponent<VulnerableBuff>();
+                    buff = target.BuffSocket.AddComponent<VulnerableBuff>();
                     break;
+                default:
+                    Debug.LogWarning("Not find Buff " + buffType);
+                    return;
             }
 
             if (buff != null)
             {
-                buff.OnAddBuff(target);
+                buff.BuffType = buffType;
+                buff.OnAddBuff(target, duration);
             }
         }
     }

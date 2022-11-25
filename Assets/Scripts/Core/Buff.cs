@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using DefaultNamespace;
 using Lean.Pool;
 using UnityEngine;
@@ -14,33 +15,34 @@ namespace Core
 
     public abstract class Buff : MonoBehaviour
     {
-        [SerializeField] private ShowBuff ShowBuff;
-        public float Duration = 1;
+        public BuffType BuffType;
+        public float Duration;
         private float _timer;
         protected Character Owner;
-        private ShowBuff ShowBuffTarget;
+        private ShowBuffComponent _showBuffComponentTarget;
         public float lastCoolDown => _timer / Duration;
 
-        public virtual void OnAddBuff(Character owner)
+        public virtual void OnAddBuff(Character owner, float duration = 1)
         {
             Owner = owner;
             owner.AddBuff(this);
+            Duration = duration;
             _timer = Duration;
-            ShowBuffTarget = LeanPool.Spawn(ShowBuff, Owner.ShowBuffSocket);
-            ShowBuffTarget.SetOwner(this);
+            _showBuffComponentTarget = LeanPool.Spawn(GameManager.Instance.BuffShowData.ShowBuffs[BuffType], Owner.ShowBuffSocket);
+            _showBuffComponentTarget.SetOwner(this);
         }
 
         protected virtual void OnRemoveBuff()
         {
             Owner.RemoveBuff(this);
-            LeanPool.Despawn(ShowBuffTarget);
+            StartCoroutine(DespawnNextFrame());
         }
 
         protected abstract void OnBuffTick(float deltaTime);
 
         public void FixedTick(float deltaTime)
         {
-            if (_timer < Duration)
+            if (_timer > 0)
             {
                 _timer -= deltaTime;
                 OnBuffTick(deltaTime);
@@ -49,6 +51,17 @@ namespace Core
             {
                 OnRemoveBuff();
             }
+        }
+
+        public virtual void OnOverride()
+        {
+        }
+
+        IEnumerator DespawnNextFrame()
+        {
+            yield return new WaitForFixedUpdate();
+            LeanPool.Despawn(_showBuffComponentTarget);
+            Destroy(this);
         }
     }
 }

@@ -25,11 +25,15 @@ namespace DefaultNamespace
             _healthComponent = GetComponentInParent<HealthComponent>();
         }
 
-        private void Start()
+        public void Initialize()
         {
             var color = Color.white;
             color.a = 0;
             ArmorIcon.color = color;
+            WhiteBarImage.fillAmount = _healthComponent.GetArmorRatio();
+            CurrentRatio = _healthComponent.GetHpRatio();
+            HealthBarImage.fillAmount = CurrentRatio;
+            DamageBarImage.fillAmount = CurrentRatio;
         }
 
         private void Update()

@@ -23,10 +23,12 @@ namespace Core
         private HealthComponent _health;
         private EnergyComponent _energyComponent;
         private BehaviourController _behaviourController;
-        private HashSet<Buff> _buffs;
+        private List<Buff> _buffAddCurrent;
+        private List<Buff> _buffRemoveCurrent;
+        private Dictionary<BuffType, Buff> _buffs;
         private Dictionary<BuffType, float> _buffAtkMultiplier;
         private Dictionary<BuffType, float> _buffDamageMultiplier;
-        public HashSet<Buff> Buffs => _buffs;
+        public Dictionary<BuffType, Buff> Buffs => _buffs;
         public HealthComponent Health => _health;
         public EnergyComponent Energy => _energyComponent;
         public BehaviourController BehaviourController => _behaviourController;
@@ -36,7 +38,9 @@ namespace Core
         {
             TryGetComponent(out _energyComponent);
             TryGetComponent(out _health);
-            _buffs = new HashSet<Buff>();
+            _buffAddCurrent = new List<Buff>();
+            _buffRemoveCurrent = new List<Buff>();
+            _buffs = new Dictionary<BuffType, Buff>();
             _health = GetComponent<HealthComponent>();
             _behaviourController = GetComponent<BehaviourController>();
             _buffAtkMultiplier = new Dictionary<BuffType, float>();
@@ -45,12 +49,40 @@ namespace Core
 
         public void AddBuff(Buff buff)
         {
-            _buffs.Add(buff);
+            _buffAddCurrent.Add(buff);
         }
 
         public void RemoveBuff(Buff buff)
         {
-            _buffs.Remove(buff);
+            _buffRemoveCurrent.Add(buff);
+        }
+
+        private void LateUpdate()
+        {
+            // Add Buffs
+            foreach (var buff in _buffAddCurrent)
+            {
+                if (_buffs.ContainsKey(buff.BuffType))
+                {
+                    _buffs[buff.BuffType].OnOverride();
+                }
+                else
+                {
+                    _buffs.Add(buff.BuffType, buff);
+                }
+            }
+
+            // Remove Buffs
+            foreach (var buff in _buffRemoveCurrent)
+            {
+                if (_buffs.ContainsKey(buff.BuffType))
+                {
+                    _buffs.Remove(buff.BuffType);
+                }
+            }
+
+            _buffAddCurrent.Clear();
+            _buffRemoveCurrent.Clear();
         }
 
         public float GetBuffAtkMultiplier()
@@ -103,6 +135,7 @@ namespace Core
 
         public void OnSpawn()
         {
+            _health.Initialize();
         }
 
         public void OnDespawn()

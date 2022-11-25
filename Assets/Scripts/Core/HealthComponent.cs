@@ -24,13 +24,15 @@ namespace Core
             _healthBar = GetComponentInChildren<HealthBar>();
         }
 
-        private void Start()
+        public void Initialize()
         {
-            _armor = 0;
             _isDead = false;
             ResetHp();
             _healthBar.gameObject.SetActive(ShowHealthBar);
-            UpdatePresentation();
+            if (ShowHealthBar)
+            {
+                _healthBar.Initialize();
+            }
         }
 
         public float GetHpRatio()
@@ -59,6 +61,7 @@ namespace Core
 
         private void ResetHp()
         {
+            _armor = 0;
             CurrentHp = MaxHp;
         }
 

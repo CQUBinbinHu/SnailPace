@@ -7,6 +7,7 @@ namespace Core
 {
     public class BehaviourController : MonoBehaviour
     {
+        private Character _owner;
         private Character _target;
         private EnergyComponent _energy;
         private HashSet<SkillComponent> _skills;
@@ -17,6 +18,7 @@ namespace Core
 
         private void Awake()
         {
+            TryGetComponent(out _owner);
             TryGetComponent(out _energy);
             _behaviours = new Dictionary<string, BaseBehaviour>();
             _skills = new HashSet<SkillComponent>();
@@ -50,6 +52,11 @@ namespace Core
             if (_energy)
             {
                 _energy.FixedTick(deltaTime);
+            }
+
+            foreach (var buff in _owner.Buffs.Values)
+            {
+                buff.FixedTick(deltaTime);
             }
         }
 

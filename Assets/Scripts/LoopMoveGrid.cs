@@ -39,11 +39,21 @@ public class LoopMoveGrid : MonoBehaviour, MMEventListener<RunGameEvent>
         int num = MoveSocketStructs.Count;
         for (int i = 0; i < num; i++)
         {
-            MoveSocketStructs[i].Next = MoveSocketStructs[(i + 1) % num];
-            // MoveSocketStructs[i].Prev = MoveSocketStructs[(i + num - 1) % num];
+            MoveSocketStructs[i].Next = MoveSocketStructs[(i + num - 1) % num];
         }
 
-        _endPos = MoveSockets[^1].transform.localPosition.x;
+        _endPos = MoveSockets[0].transform.localPosition.x;
+
+        InitStartEncounters();
+    }
+
+    private void InitStartEncounters()
+    {
+        for (int i = 3; i < MoveSocketStructs.Count; i++)
+        {
+            var encounter = LeanPool.Spawn(BattleManager.Instance.EncounterEnemyPrefab, MoveSocketStructs[i].Block.IncidentSocket);
+            encounter.transform.localPosition = Vector3.zero;
+        }
     }
 
     void FixedUpdate()
@@ -53,7 +63,7 @@ public class LoopMoveGrid : MonoBehaviour, MMEventListener<RunGameEvent>
             return;
         }
 
-        bool doMove = false;
+        bool doUpdate = false;
         MoveSocketStruct lastSocket = new MoveSocketStruct();
         float distance = MoveSpeed * Time.fixedDeltaTime;
         foreach (var socket in MoveSocketStructs)
@@ -62,7 +72,7 @@ public class LoopMoveGrid : MonoBehaviour, MMEventListener<RunGameEvent>
             pos.x -= distance;
             if (pos.x < _endPos)
             {
-                doMove = true;
+                doUpdate = true;
                 lastSocket = socket;
             }
             else
@@ -71,7 +81,7 @@ public class LoopMoveGrid : MonoBehaviour, MMEventListener<RunGameEvent>
             }
         }
 
-        if (doMove)
+        if (doUpdate)
         {
             var movePos = lastSocket.Next.Block.transform.localPosition;
             movePos.x += MoveWidth;

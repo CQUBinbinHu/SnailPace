@@ -81,6 +81,7 @@ namespace Core
         MMEventListener<CoreGameEvent>,
         MMEventListener<RunGameEvent>
     {
+        [SerializeField] public BuffShowData BuffShowData;
         [SerializeField] public ShowTipComponent ShowTipComponent;
         private float _runClock;
         public MoveStatus CurrentRun;
@@ -110,6 +111,7 @@ namespace Core
         private void Start()
         {
             _runClock = 0;
+            BuffShowData.Initialize();
             _stateMachine.SetCurrent(MoveStatus.Idle);
         }
 
