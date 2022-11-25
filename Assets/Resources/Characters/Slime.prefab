@@ -19,6 +19,23 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 1.44
       objectReference: {fileID: 0}
+    - target: {fileID: 4577403215481695376, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+      propertyPath: _boundGraphSerialization
+      value: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":527.0,"y":328.0},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"0"},{"random":true,"_position":{"x":406.0,"y":499.0},"$type":"NodeCanvas.BehaviourTrees.Selector","$id":"1"},{"_action":{"waitTime":{"_value":1.0},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":339.0,"y":603.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"2"},{"_action":{"waitTime":{"_value":3.0},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":476.0,"y":601.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"3"},{"_action":{"log":{"_value":"Hello
+        World"},"$type":"NodeCanvas.Tasks.Actions.DebugLogText"},"_position":{"x":636.0,"y":499.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"4"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{}},"derivedData":{"repeat":true,"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4577403215481695376, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+      propertyPath: _boundGraphSource._version
+      value: 3.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4577403215481695376, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+      propertyPath: _boundGraphSource._comments
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4577403215481695376, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+      propertyPath: _lockBoundGraphPrefabOverrides
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4939176534792883703, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -85,49 +102,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
---- !u!1 &6601545136371749258 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6140105975915262992, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
-  m_PrefabInstance: {fileID: 1057061173084284314}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4956749592687803652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6601545136371749258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53eb77c7c33241ae964b2acb415b6fee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxEnergy: 0
-  EnergyRecovery: 0
---- !u!114 &4322956901785609455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6601545136371749258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fb95f59c3f5494193d9eecce761faaa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BehaviourName: Sleep
---- !u!114 &5831668812877531337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6601545136371749258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6ac5059ef3b4f1a93b20b87ceaf797d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BehaviourName: Attack
-  Atk: 10

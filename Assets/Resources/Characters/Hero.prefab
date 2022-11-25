@@ -94,11 +94,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1236262991147765890, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
-      value: 0
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1514475577539608823, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2784873082225910610, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4577403215481695376, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+      propertyPath: _boundGraphSerialization
+      value: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":595.0,"y":356.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode"}],"connections":[],"canvasGroups":[],"localBlackboard":{"_variables":{}},"derivedData":{"repeat":true,"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4577403215481695376, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+      propertyPath: _boundGraphSource._version
+      value: 3.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4577403215481695376, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+      propertyPath: _boundGraphSource._comments
+      value: Hero do nothing
+      objectReference: {fileID: 0}
+    - target: {fileID: 4577403215481695376, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+      propertyPath: _lockBoundGraphPrefabOverrides
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5145191297064839804, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5661890569281737781, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
       propertyPath: Name
@@ -107,6 +131,10 @@ PrefabInstance:
     - target: {fileID: 5661890569281737781, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
       propertyPath: CharacterType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5943824946930573707, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6140105974655100050, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
       propertyPath: m_LocalScale.x
@@ -164,6 +192,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8416081440247500314, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
 --- !u!4 &2148605894072053724 stripped
@@ -190,18 +222,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxEnergy: 100
   Recovery: 10
---- !u!114 &8359964560292012244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2148605894072053727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed677cc7388e440fba1e1427f6ab31a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7945109672808708253 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2784873082225910610, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}

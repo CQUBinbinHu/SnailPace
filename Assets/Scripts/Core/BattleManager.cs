@@ -107,10 +107,6 @@ namespace Core
             _currentSocket = _loopSockets[0];
         }
 
-        private void Update()
-        {
-        }
-
         public void AddSkill(SkillComponent skill)
         {
             if (_currentSocket.Index == 3)
@@ -127,6 +123,7 @@ namespace Core
             skill.transform.SetParent(SkillTransform);
             skill.SetOwner(Hero);
             skill.SetFollow(_currentSocket);
+            _hero.BehaviourController.AddSkill(skill);
             RunGameEvent.Trigger(RunEventTypes.Continue);
         }
 
@@ -149,7 +146,6 @@ namespace Core
         public void SetEncounter(Character target)
         {
             _encounterEnemy = target;
-            Hero.BehaviourController.SetEncounter(target);
         }
 
         /// <summary>
@@ -216,7 +212,9 @@ namespace Core
 
         private void InitializeCharacterBattle()
         {
+            Hero.BehaviourController.SetTarget(EncounterEnemy);
             Hero.BehaviourController.Initialize();
+            _encounterEnemy.BehaviourController.SetTarget(Hero);
             _encounterEnemy.BehaviourController.Initialize();
         }
 

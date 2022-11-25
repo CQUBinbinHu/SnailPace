@@ -65,7 +65,6 @@ namespace DefaultNamespace
         public void SetOwner(Character owner)
         {
             Owner = owner;
-            owner.BehaviourController.AddSkill(this);
         }
 
         public void SetTarget(Character target)
@@ -193,6 +192,7 @@ namespace DefaultNamespace
 
         IEnumerator DelayDestroy(float delay)
         {
+            BattleManager.Instance.Hero.BehaviourController.RemoveSkill(this);
             yield return new WaitForSeconds(delay);
             LeanPool.Despawn(this);
         }

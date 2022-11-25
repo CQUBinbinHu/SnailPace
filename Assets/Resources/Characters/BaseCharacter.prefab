@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &972109167439652814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5145191297064839804}
+  m_Layer: 0
+  m_Name: SkillSocket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5145191297064839804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972109167439652814}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6140105975915262995}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2784873082225910610
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,6 +238,9 @@ GameObject:
   - component: {fileID: 5769397808533724343}
   - component: {fileID: 5661890569281737781}
   - component: {fileID: 2739630090002508196}
+  - component: {fileID: 2720234178860071767}
+  - component: {fileID: 4577403215481695376}
+  - component: {fileID: 6389246842221780052}
   m_Layer: 0
   m_Name: BaseCharacter
   m_TagString: Untagged
@@ -232,6 +266,7 @@ Transform:
   - {fileID: 8416081440247500314}
   - {fileID: 5943824946930573707}
   - {fileID: 1514475577539608823}
+  - {fileID: 5145191297064839804}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -268,6 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b881344e04a24eec842fa66e3d182aa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SkillSocket: {fileID: 5145191297064839804}
   ShowBuffSocket: {fileID: 5943824946930573707}
   BuffSocket: {fileID: 1514475577539608823}
   TipSocket: {fileID: 8416081440247500314}
@@ -287,6 +323,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHp: 100
   ShowHealthBar: 1
+--- !u!114 &2720234178860071767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140105975915262992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8184ff7a1aeb4abb9d943871c976469e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _behaviourTreeOwner: {fileID: 4577403215481695376}
+--- !u!114 &4577403215481695376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140105975915262992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad115aca74ce3c4891b3f6de0b4aae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _serializedExposedParameters: []
+  _boundGraphSerialization: 
+  _boundGraphObjectReferences: []
+  _boundGraphSource:
+    _version: 0
+    _category: 
+    _comments: 
+    _translation: {x: 0, y: 0}
+    _zoomFactor: 1
+  _firstActivation: 0
+  _enableAction: 0
+  _disableAction: 0
+  _lockBoundGraphPrefabOverrides: 1
+  _preInitializeSubGraphs: 0
+  _updateMode: 3
+  _graph: {fileID: 0}
+  _blackboard: {fileID: 6389246842221780052}
+--- !u!114 &6389246842221780052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6140105975915262992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b98a6db0b653f764eac834f85857a9dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _parentBlackboard: {fileID: 0}
+  _serializedBlackboard: '{"_variables":{}}'
+  _objectReferences: []
+  _serializedVariables: []
 --- !u!1 &6854465801742144495
 GameObject:
   m_ObjectHideFlags: 0
