@@ -7,8 +7,10 @@ namespace DefaultNamespace
     {
         [SerializeField] private float MaxEnergy = 100;
         [SerializeField] private float Recovery = 20;
+        public int MaxEnergyAmount => (int)MaxEnergy;
+        public int CurrentEnergyAmount => (int)_current;
 
-        private EnergyBar _energyBar;
+        // private EnergyBar _energyBar;
         private float _current;
         public float Current => _current;
 
@@ -16,7 +18,7 @@ namespace DefaultNamespace
 
         private void Awake()
         {
-            _energyBar = GetComponentInChildren<EnergyBar>();
+            // _energyBar = GetComponentInChildren<EnergyBar>();
         }
 
         private void Start()

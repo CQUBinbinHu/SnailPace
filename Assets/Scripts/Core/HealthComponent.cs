@@ -8,7 +8,7 @@ namespace Core
 {
     public class HealthComponent : MonoBehaviour
     {
-        [SerializeField] private int MaxHp;
+        [SerializeField] public int MaxHp;
         [SerializeField] private bool ShowHealthBar;
         private int _armor;
         private bool _isDead;

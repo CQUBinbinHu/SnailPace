@@ -2,6 +2,7 @@
 using System.Collections;
 using Core;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -14,6 +15,8 @@ namespace DefaultNamespace
         [SerializeField] private Image DamageBarImage;
         [SerializeField] private Image WhiteBarImage;
         [SerializeField] private SpriteRenderer ArmorIcon;
+        [SerializeField] private TextMeshProUGUI HealthAmount;
+        [SerializeField] private TextMeshProUGUI ArmorAmount;
         [Range(0, 1)] public float CurrentRatio;
 
         private const float Duration = 0.4f;
@@ -34,6 +37,11 @@ namespace DefaultNamespace
             CurrentRatio = _healthComponent.GetHpRatio();
             HealthBarImage.fillAmount = CurrentRatio;
             DamageBarImage.fillAmount = CurrentRatio;
+            HealthAmount.text = _healthComponent.CurrentHp
+                                + "/"
+                                + _healthComponent.MaxHp;
+            int armors = _healthComponent.Armors;
+            ArmorAmount.text = armors == 0 ? string.Empty : armors.ToString();
         }
 
         private void Update()
@@ -61,6 +69,12 @@ namespace DefaultNamespace
             ArmorIcon.DOFade(_healthComponent.IsWithArmor ? 1 : 0, 0.1f);
             HealthBarImage.fillAmount = CurrentRatio;
             WhiteBarImage.fillAmount = _healthComponent.GetArmorRatio();
+            HealthAmount.text = _healthComponent.CurrentHp
+                                + "/"
+                                + _healthComponent.MaxHp;
+            int armors = _healthComponent.Armors;
+            ArmorAmount.text = armors == 0 ? string.Empty : armors.ToString();
+
             StartCoroutine(UpdateDamageDelay_Cro(Delay));
         }
 
