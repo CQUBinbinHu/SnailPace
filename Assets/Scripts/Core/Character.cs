@@ -34,6 +34,7 @@ namespace Core
         public EnergyComponent Energy => _energyComponent;
         public BehaviourController BehaviourController => _behaviourController;
         public float CurrentEnergy => _energyComponent.Current;
+        public bool HasEnergy => _energyComponent;
 
         private void Awake()
         {

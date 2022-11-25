@@ -82,10 +82,18 @@ namespace DefaultNamespace
                 return false;
             }
 
-            if (!TryCostEnergy())
+            switch (Owner.CharacterType)
             {
-                ShowTips("lack mana");
-                return false;
+                case CharacterType.Hero:
+                    if (!TryCostEnergy())
+                    {
+                        ShowTips("lack mana");
+                        return false;
+                    }
+
+                    break;
+                case CharacterType.Enemy:
+                    return true;
             }
 
             return true;
@@ -105,7 +113,10 @@ namespace DefaultNamespace
                 return;
             }
 
-            CheckEnergy();
+            if (Owner.HasEnergy)
+            {
+                CheckEnergy();
+            }
         }
 
         public bool TryCostEnergy()

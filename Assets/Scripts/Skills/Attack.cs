@@ -1,7 +1,4 @@
-﻿using Core;
-using DefaultNamespace;
-using Lean.Pool;
-using UnityEngine;
+﻿using DefaultNamespace;
 
 namespace HeroPerform
 {

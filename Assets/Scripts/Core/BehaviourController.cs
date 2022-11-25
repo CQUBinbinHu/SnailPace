@@ -32,6 +32,7 @@ namespace Core
             _skills = new HashSet<SkillComponent>();
             foreach (var skill in _owner.SkillSocket.GetComponents<SkillComponent>())
             {
+                skill.SetOwner(_owner);
                 _skills.Add(skill);
             }
         }
