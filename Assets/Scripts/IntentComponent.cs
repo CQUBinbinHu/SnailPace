@@ -20,6 +20,7 @@ namespace DefaultNamespace
     {
         [SerializeField] private TextMeshProUGUI AttackText;
         [SerializeField] private TextMeshProUGUI CountDownText;
+        [SerializeField] private GameObject CountDown;
         [SerializeField] private Image CountDownImage;
         [SerializeField] private Image IntentAttack;
         [SerializeField] private Image IntentDefence;
@@ -41,12 +42,12 @@ namespace DefaultNamespace
             AttackText.text = String.Empty;
             foreach (var intentPair in _intents)
             {
-                intentPair.Value.fillAmount = 0;
+                intentPair.Value.enabled = false;
             }
 
             if (_intents.ContainsKey(intent))
             {
-                _intents[intent].DOFade(1, 0.1f);
+                _intents[intent].enabled = true;
             }
 
             switch (intent)
@@ -61,12 +62,13 @@ namespace DefaultNamespace
         {
             if (_behaviourController.IsOnCountDown)
             {
+                CountDown.SetActive(true);
                 CountDownImage.fillAmount = _behaviourController.CountDownRatio;
                 CountDownText.text = _behaviourController.CountDown.ToString();
             }
             else
             {
-                CountDownText.text = String.Empty;
+                CountDown.SetActive(false);
             }
         }
     }

@@ -17,6 +17,9 @@ namespace Core
         public int CurrentHp { get; private set; }
         public int Armors => _armor;
         public bool IsWithArmor => Armors != 0;
+        public float ArmorCountDown => _armorTimer / RemoveArmorAfter;
+        private float _armorTimer;
+        private const float RemoveArmorAfter = 3;
 
         private void Awake()
         {
@@ -29,10 +32,30 @@ namespace Core
             _isDead = false;
             ResetHp();
             _healthBar.gameObject.SetActive(ShowHealthBar);
-            if (ShowHealthBar)
+            _healthBar.Initialize();
+            ResetArmorTimer();
+        }
+
+        private void FixedUpdate()
+        {
+            if (_armorTimer > 0)
             {
-                _healthBar.Initialize();
+                _armorTimer -= Time.fixedDeltaTime;
             }
+            else
+            {
+                RemoveArmor(Int32.MaxValue);
+            }
+        }
+
+        private void Update()
+        {
+            _healthBar.UpdateArmorPresentation();
+        }
+
+        private void ResetArmorTimer()
+        {
+            _armorTimer = RemoveArmorAfter;
         }
 
         public float GetHpRatio()
@@ -68,7 +91,7 @@ namespace Core
         public void Cure(int cure)
         {
             ChangeHp(cure);
-            UpdatePresentation();
+            _healthBar.UpdateDamageBar();
         }
 
         public void TakeDamage(int damage)
@@ -84,7 +107,7 @@ namespace Core
             _armor = Mathf.Clamp(_armor, 0, Int32.MaxValue);
             damage = Mathf.Clamp(damage, Int32.MinValue, 0);
             ChangeHp(damage);
-            UpdatePresentation();
+            _healthBar.UpdateDamageBar();
         }
 
         private void ChangeHp(int hp)
@@ -118,14 +141,6 @@ namespace Core
             StartCoroutine(DelayDead_Cro(0.6f));
         }
 
-        private void UpdatePresentation()
-        {
-            if (ShowHealthBar)
-            {
-                _healthBar.UpdateDamageBar();
-            }
-        }
-
         IEnumerator DelayDead_Cro(float delay)
         {
             yield return new WaitForSeconds(delay);
@@ -136,14 +151,16 @@ namespace Core
         {
             _armor += armor;
             _armor = Mathf.Clamp(_armor, 0, Int32.MaxValue);
-            UpdatePresentation();
+            ResetArmorTimer();
+            _healthBar.UpdateDamageBar();
+            _healthBar.UpdateArmorPresentation();
         }
 
         public void RemoveArmor(int armor)
         {
             _armor -= armor;
             _armor = Mathf.Clamp(_armor, 0, Int32.MaxValue);
-            UpdatePresentation();
+            _healthBar.UpdateArmorPresentation();
         }
     }
 }

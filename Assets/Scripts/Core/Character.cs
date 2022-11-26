@@ -134,6 +134,11 @@ namespace Core
         public void OnSpawn()
         {
             _health.Initialize();
+            if (BehaviourController.Intent)
+            {
+                _behaviourController.Intent.SetIntent(Intent.None);
+                _behaviourController.IsOnCountDown = false;
+            }
         }
 
         public void OnDespawn()

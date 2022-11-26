@@ -14,7 +14,9 @@ namespace DefaultNamespace
         [SerializeField] private Image HealthBarImage;
         [SerializeField] private Image DamageBarImage;
         [SerializeField] private Image WhiteBarImage;
-        [SerializeField] private SpriteRenderer ArmorIcon;
+        [SerializeField] private Image ArmorImage;
+        [SerializeField] private Image ArmorBackGround;
+        [SerializeField] private Image ArmorCountDown;
         [SerializeField] private TextMeshProUGUI HealthAmount;
         [SerializeField] private TextMeshProUGUI ArmorAmount;
         [Range(0, 1)] public float CurrentRatio;
@@ -30,9 +32,7 @@ namespace DefaultNamespace
 
         public void Initialize()
         {
-            var color = Color.white;
-            color.a = 0;
-            ArmorIcon.color = color;
+            ArmorImage.enabled = false;
             WhiteBarImage.fillAmount = _healthComponent.GetArmorRatio();
             CurrentRatio = _healthComponent.GetHpRatio();
             HealthBarImage.fillAmount = CurrentRatio;
@@ -66,7 +66,6 @@ namespace DefaultNamespace
         public void UpdateDamageBar()
         {
             CurrentRatio = _healthComponent.GetHpRatio();
-            ArmorIcon.DOFade(_healthComponent.IsWithArmor ? 1 : 0, 0.1f);
             HealthBarImage.fillAmount = CurrentRatio;
             WhiteBarImage.fillAmount = _healthComponent.GetArmorRatio();
             HealthAmount.text = _healthComponent.CurrentHp
@@ -76,6 +75,14 @@ namespace DefaultNamespace
             ArmorAmount.text = armors == 0 ? string.Empty : armors.ToString();
 
             StartCoroutine(UpdateDamageDelay_Cro(Delay));
+        }
+
+        public void UpdateArmorPresentation()
+        {
+            ArmorImage.enabled = _healthComponent.IsWithArmor;
+            ArmorCountDown.enabled = _healthComponent.IsWithArmor;
+            ArmorBackGround.enabled = _healthComponent.IsWithArmor;
+            ArmorCountDown.fillAmount = _healthComponent.ArmorCountDown;
         }
 
         IEnumerator UpdateDamageDelay_Cro(float delay)

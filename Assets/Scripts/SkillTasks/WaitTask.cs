@@ -8,8 +8,8 @@ namespace DefaultNamespace.SkillTasks
     public class WaitTask : ActionTask
     {
         public Character Owner;
-        public BBParameter<float> waitTime = 1f;
         public Intent ShowIntent;
+        public BBParameter<float> waitTime = 1f;
         public BBParameter<int> IntentAttack;
         public CompactStatus finishStatus = CompactStatus.Success;
 
@@ -22,13 +22,14 @@ namespace DefaultNamespace.SkillTasks
         {
             if (elapsedTime >= waitTime.value)
             {
+                Owner.BehaviourController.IsOnCountDown = false;
                 EndAction(finishStatus == CompactStatus.Success ? true : false);
             }
             else
             {
                 Owner.BehaviourController.IsOnCountDown = true;
                 Owner.BehaviourController.CountDownRatio = 1 - elapsedTime / waitTime.value;
-                Owner.BehaviourController.CountDown = (int)(waitTime.value - elapsedTime);
+                Owner.BehaviourController.CountDown = 1 + (int)(waitTime.value - elapsedTime);
             }
         }
 
