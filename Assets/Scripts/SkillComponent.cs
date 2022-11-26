@@ -13,24 +13,23 @@ namespace DefaultNamespace
     public class LoopSocket
     {
         private InputConnector _inputConnector;
-        private readonly int _index;
         private readonly Transform _trans;
-        public int Index => _index;
         public Transform Trans => _trans;
 
-        public LoopSocket(int index, Transform transform)
+        public LoopSocket(Transform transform)
         {
-            _index = index;
             _trans = transform;
             _inputConnector = transform.GetComponent<InputConnector>();
         }
 
-        public LoopSocket Next;
-        public LoopSocket Prev;
-
         public void SetSkill(SkillComponent skill)
         {
             _inputConnector.SetSkill(skill);
+        }
+
+        public void RemoveSkill()
+        {
+            _inputConnector.SetInteractable(false);
         }
     }
 
@@ -157,43 +156,23 @@ namespace DefaultNamespace
         {
             _follow = follow;
             _follow.SetSkill(this);
-            transform.DOMove(follow.Trans.position, 0.5f);
+            var position = follow.Trans.position;
+            transform.position = position + Vector3.down;
+            transform.DOMove(position, 0.5f);
         }
 
-        // private void OnAddSkill()
-        // {
-        //     if (!BattleManager.Instance.IsFullSkill)
-        //     {
-        //         return;
-        //     }
-        //
-        //     if (_follow == null)
-        //     {
-        //         return;
-        //     }
-        //
-        //     _follow = _follow.Prev;
-        //     transform.DOMove(_follow.Trans.position, 0.5f);
-        //     if (_follow.Index == 0)
-        //     {
-        //         Kill();
-        //     }
-        //     else
-        //     {
-        //         _follow.SetSkill(this);
-        //     }
-        // }
-
-        private void Kill()
+        public void OnRefresh()
         {
-            StartCoroutine(DelayDestroy(0.6f));
+            var position = _follow.Trans.position + Vector3.down;
+            _follow.RemoveSkill();
+            transform.DOMove(position, 0.3f);
+            StartCoroutine(DelayDeActive(0.4f));
         }
 
-        IEnumerator DelayDestroy(float delay)
+        IEnumerator DelayDeActive(float delay)
         {
-            BattleManager.Instance.Hero.BehaviourController.RemoveSkill(this);
             yield return new WaitForSeconds(delay);
-            LeanPool.Despawn(this);
+            this.gameObject.SetActive(false);
         }
 
         public void OnSpawn()
@@ -202,6 +181,14 @@ namespace DefaultNamespace
         }
 
         public void OnDespawn()
+        {
+        }
+
+        private void OnEnable()
+        {
+        }
+
+        private void OnDisable()
         {
         }
     }

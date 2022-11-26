@@ -7,6 +7,7 @@ using DefaultNamespace;
 using DG.Tweening;
 using Lean.Pool;
 using MoreMountains.Tools;
+using ParadoxNotion;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -27,6 +28,8 @@ namespace Core
         [SerializeField] private Transform SkillViewSocket;
         [SerializeField] private Transform SkillView;
 
+        private List<LoopSocket> _loopSockets;
+        private List<SkillComponent> _currentSkills;
         private List<string> _skillNames;
         private Character _hero;
         private Character _encounterEnemy;
@@ -46,9 +49,11 @@ namespace Core
         protected override void Awake()
         {
             base.Awake();
+            _currentSkills = new List<SkillComponent>();
             _skillRewardDict = new Dictionary<string, SkillReward>();
             _skillDict = new Dictionary<string, SkillComponent>();
             _skillNames = new List<string>();
+            _loopSockets = new List<LoopSocket>();
         }
 
         private void Start()
@@ -61,6 +66,11 @@ namespace Core
             color.a = 0;
             ChoosePanel.color = color;
             //
+            foreach (var trans in SkillSockets)
+            {
+                _loopSockets.Add(new LoopSocket(trans));
+            }
+
             InitSkillData();
             ResetBattlePanel();
         }
@@ -102,10 +112,18 @@ namespace Core
 
         private void CopySkill(SkillComponent skillTarget)
         {
+            int index = _loopSockets.Count;
             var skill = Instantiate(skillTarget, SkillTransform);
+            skill.transform.position = 10 * Vector3.down;
             _hero.BehaviourController.AddSkill(skill);
             skill.SetOwner(Hero);
-            skill.gameObject.SetActive(false);
+            if (index == 2)
+            {
+                skill.gameObject.SetActive(false);
+                return;
+            }
+
+            skill.SetFollow(_loopSockets[index + 1]);
         }
 
         private void FixedUpdate()
@@ -241,6 +259,34 @@ namespace Core
             else
             {
                 GameEventManager.Instance.OnGamePause.Invoke();
+            }
+        }
+
+        public void OnRefreshSkills()
+        {
+            foreach (var skill in _currentSkills)
+            {
+                skill.OnRefresh();
+            }
+
+            StartCoroutine(RefreshRandomSkills(0.4f));
+        }
+
+        IEnumerator RefreshRandomSkills(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            List<SkillComponent> skills = new List<SkillComponent>();
+            foreach (var skill in _hero.BehaviourController.CurrentSkills)
+            {
+                skills.Add(skill);
+            }
+
+            skills.Shuffle();
+            int count = 0;
+            foreach (var skill in skills)
+            {
+                skill.gameObject.SetActive(true);
+                skill.SetFollow(_loopSockets[count]);
             }
         }
     }

@@ -11,7 +11,6 @@ namespace Core
     {
         [SerializeField] private BehaviourTreeOwner _behaviourTreeOwner;
         private Character _owner;
-        private Character _target;
         private EnergyComponent _energy;
         private HashSet<SkillComponent> _skills;
         private BehaviourTree _behaviourTree;
@@ -20,6 +19,7 @@ namespace Core
         public int CountDown { get; set; }
         public bool IsOnCountDown { get; set; }
         public float CountDownRatio { get; set; }
+        public HashSet<SkillComponent> CurrentSkills => _skills;
 
         private void Awake()
         {
@@ -50,7 +50,7 @@ namespace Core
 
         public void SetTarget(Character target)
         {
-            _target = target;
+            // _target = target;
             foreach (var skill in _skills)
             {
                 if (skill)
