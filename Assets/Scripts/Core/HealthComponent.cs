@@ -18,6 +18,8 @@ namespace Core
         public int Armors => _armor;
         public bool IsWithArmor => Armors != 0;
         public float ArmorCountDown => _armorTimer / RemoveArmorAfter;
+        public bool IsDead => _isDead;
+
         private float _armorTimer;
         private const float RemoveArmorAfter = 3;
 

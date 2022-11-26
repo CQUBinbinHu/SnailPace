@@ -230,10 +230,11 @@ namespace Core
             SetHero(hero.GetComponent<Character>());
         }
 
-        public void EnableSkillView(bool enable)
+        public void ChangeSkillView()
         {
-            SkillView.gameObject.SetActive(enable);
-            if (enable)
+            bool active = SkillView.gameObject.activeSelf;
+            SkillView.gameObject.SetActive(!active);
+            if (active)
             {
                 GameEventManager.Instance.OnGameContinue.Invoke();
             }

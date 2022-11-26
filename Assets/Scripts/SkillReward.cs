@@ -55,6 +55,7 @@ namespace DefaultNamespace
                 return;
             }
 
+            gameObject.SetActive(false);
             _isDestroyed = true;
             _button.interactable = false;
             StartCoroutine(DestroyDelay(0.3f));

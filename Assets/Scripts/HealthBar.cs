@@ -65,6 +65,11 @@ namespace DefaultNamespace
 
         public void UpdateDamageBar()
         {
+            if (_healthComponent.IsDead)
+            {
+                return;
+            }
+
             CurrentRatio = _healthComponent.GetHpRatio();
             HealthBarImage.fillAmount = CurrentRatio;
             WhiteBarImage.fillAmount = _healthComponent.GetArmorRatio();

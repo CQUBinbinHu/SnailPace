@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "OnViewSkills",
+                    "type": "Button",
+                    "id": "5c828ae7-a003-4372-8658-e6cda3f43496",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -84,6 +93,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "OnRefreshSkills",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "51909f7a-b184-4ff9-8570-dd16c54cc197",
+                    "path": "<Keyboard>/c",
+                    "interactions": "Press(pressPoint=1.401298E-45)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OnViewSkills",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

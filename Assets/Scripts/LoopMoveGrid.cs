@@ -56,21 +56,26 @@ public class LoopMoveGrid : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (BattleManager.Instance.Status != BattleManager.BattleStatus.Run)
+        switch (GameManager.Instance.CurrentRun)
         {
-            return;
+            case MoveStatus.Run:
+                Tick(Time.fixedDeltaTime);
+                break;
         }
+    }
 
-        bool doUpdate = false;
+    private void Tick(float deltaTime)
+    {
+        bool doUpdateLoop = false;
         MoveSocketStruct lastSocket = new MoveSocketStruct();
-        float distance = MoveSpeed * Time.fixedDeltaTime;
+        float distance = MoveSpeed * deltaTime;
         foreach (var socket in MoveSocketStructs)
         {
             var pos = socket.Block.transform.localPosition;
             pos.x -= distance;
             if (pos.x < _endPos)
             {
-                doUpdate = true;
+                doUpdateLoop = true;
                 lastSocket = socket;
             }
             else
@@ -79,7 +84,7 @@ public class LoopMoveGrid : MonoBehaviour
             }
         }
 
-        if (doUpdate)
+        if (doUpdateLoop)
         {
             var movePos = lastSocket.Next.Block.transform.localPosition;
             movePos.x += MoveWidth;
