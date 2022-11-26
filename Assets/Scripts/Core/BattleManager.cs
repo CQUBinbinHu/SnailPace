@@ -16,8 +16,9 @@ namespace Core
 {
     public class BattleManager : MMSingleton<BattleManager>
     {
+        [SerializeField] private SkillComponent[] InitSkills;
         [SerializeField] private GameObject HeroPrefab;
-        [SerializeField] public GameObject EncounterEnemyPrefab;
+        [SerializeField] private GameObject EncounterEnemyPrefab;
         [SerializeField] private SkillData SkillData;
         [SerializeField] private Transform SkillTransform;
         [SerializeField] private Transform[] SkillSockets;
@@ -28,6 +29,7 @@ namespace Core
         [SerializeField] private Transform SkillViewSocket;
         [SerializeField] private Transform SkillView;
 
+        public GameObject EncounterPrefab => EncounterEnemyPrefab;
         private List<LoopSocket> _loopSockets;
         private List<SkillComponent> _currentSkills;
         private List<string> _skillNames;
@@ -38,6 +40,7 @@ namespace Core
         private Dictionary<string, SkillComponent> _skillDict;
         public Character Hero => _hero;
         public Character EncounterEnemy => _encounterEnemy;
+        private bool _isRefreshOpen;
 
         public enum BattleStatus
         {
@@ -49,6 +52,7 @@ namespace Core
         protected override void Awake()
         {
             base.Awake();
+            _isRefreshOpen = true;
             _currentSkills = new List<SkillComponent>();
             _skillRewardDict = new Dictionary<string, SkillReward>();
             _skillDict = new Dictionary<string, SkillComponent>();
@@ -73,6 +77,10 @@ namespace Core
 
             InitSkillData();
             ResetBattlePanel();
+            foreach (var skill in InitSkills)
+            {
+                AddSkillTarget(skill);
+            }
         }
 
         private void InitSkillData()
@@ -105,25 +113,26 @@ namespace Core
         private void OnAddSkill(SkillReward skillReward)
         {
             skillReward.transform.SetParent(SkillViewSocket);
-            CopySkill(skillReward.SkillTarget);
+            AddSkillTarget(skillReward.SkillTarget);
             // TODO: Run Continue Delay
             GameEventManager.Instance.OnRunContinue.Invoke();
         }
 
-        private void CopySkill(SkillComponent skillTarget)
+        private void AddSkillTarget(SkillComponent skillTarget)
         {
-            int index = _loopSockets.Count;
-            var skill = Instantiate(skillTarget, SkillTransform);
+            int index = _currentSkills.Count;
+            var skill = LeanPool.Spawn(skillTarget, SkillTransform);
             skill.transform.position = 10 * Vector3.down;
             _hero.BehaviourController.AddSkill(skill);
             skill.SetOwner(Hero);
-            if (index == 2)
+            if (index == 3)
             {
                 skill.gameObject.SetActive(false);
                 return;
             }
 
-            skill.SetFollow(_loopSockets[index + 1]);
+            skill.SetFollow(_loopSockets[index]);
+            _currentSkills.Add(skill);
         }
 
         private void FixedUpdate()
@@ -264,12 +273,27 @@ namespace Core
 
         public void OnRefreshSkills()
         {
+            if (!_isRefreshOpen)
+            {
+                return;
+            }
+
+            OnRefreshUseEnergy();
+            _isRefreshOpen = false;
             foreach (var skill in _currentSkills)
             {
                 skill.OnRefresh();
             }
 
+            _currentSkills.Clear();
+
             StartCoroutine(RefreshRandomSkills(0.4f));
+        }
+
+        private void OnRefreshUseEnergy()
+        {
+            var cost = Mathf.FloorToInt(_hero.CurrentEnergy / 2);
+            _hero.Energy.CostEnemy(cost);
         }
 
         IEnumerator RefreshRandomSkills(float delay)
@@ -282,12 +306,16 @@ namespace Core
             }
 
             skills.Shuffle();
-            int count = 0;
-            foreach (var skill in skills)
+            int num = Mathf.Min(3, skills.Count);
+            for (int i = 0; i < num; i++)
             {
-                skill.gameObject.SetActive(true);
-                skill.SetFollow(_loopSockets[count]);
+                skills[i].gameObject.SetActive(true);
+                skills[i].SetFollow(_loopSockets[i]);
+                skills[i].ResetStatus();
+                _currentSkills.Add(skills[i]);
             }
+
+            _isRefreshOpen = true;
         }
     }
 }

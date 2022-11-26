@@ -49,7 +49,7 @@ public class LoopMoveGrid : MonoBehaviour
     {
         for (int i = 3; i < MoveSocketStructs.Count; i++)
         {
-            var encounter = LeanPool.Spawn(BattleManager.Instance.EncounterEnemyPrefab, MoveSocketStructs[i].Block.IncidentSocket);
+            var encounter = LeanPool.Spawn(BattleManager.Instance.EncounterPrefab, MoveSocketStructs[i].Block.IncidentSocket);
             encounter.transform.localPosition = Vector3.zero;
         }
     }
@@ -94,7 +94,7 @@ public class LoopMoveGrid : MonoBehaviour
             var movePos = lastSocket.Next.Block.transform.localPosition;
             movePos.x += MoveWidth;
             lastSocket.Block.transform.localPosition = movePos;
-            var encounter = LeanPool.Spawn(BattleManager.Instance.EncounterEnemyPrefab, lastSocket.Block.IncidentSocket);
+            var encounter = LeanPool.Spawn(BattleManager.Instance.EncounterPrefab, lastSocket.Block.IncidentSocket);
             encounter.transform.localPosition = Vector3.zero;
         }
     }

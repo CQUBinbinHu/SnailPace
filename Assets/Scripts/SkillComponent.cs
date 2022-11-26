@@ -51,6 +51,11 @@ namespace DefaultNamespace
         private void Initialize()
         {
             _follow = null;
+            ResetStatus();
+        }
+
+        public void ResetStatus()
+        {
             if (_skillShow)
             {
                 _skillShow.EnergyText.text = NeedEnergy.ToString();
