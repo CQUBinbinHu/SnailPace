@@ -13,7 +13,8 @@ namespace Core
         Pause,
         Continue,
         EnemyDead,
-        AddSkill
+        AddSkill,
+        OnRefreshSkill
     }
 
     public enum RunEventTypes

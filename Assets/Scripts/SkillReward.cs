@@ -24,6 +24,7 @@ namespace DefaultNamespace
         public string Introduction;
         private SkillComponent _skillObject;
         private SkillComponent _skillTarget;
+        public SkillComponent SkillTarget => _skillTarget;
         private bool _isAddSkill;
         private Button _button;
 
@@ -48,7 +49,7 @@ namespace DefaultNamespace
         public void OnAddSkill()
         {
             _isAddSkill = true;
-            BattleManager.Instance.AddSkill(_skillTarget);
+            BattleManager.Instance.AddSkill(this);
         }
 
         private void DestroySelf()

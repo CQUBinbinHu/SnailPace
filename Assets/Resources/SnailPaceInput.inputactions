@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "OnRefreshSkills",
+                    "type": "Button",
+                    "id": "5666f74b-ed0e-4965-9532-bbd30031e966",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -64,6 +73,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "OnUseSkill_3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d0398868-2259-45fa-b161-8562a753d3e6",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press(pressPoint=1.401298E-45)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OnRefreshSkills",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -75,7 +75,7 @@ namespace DefaultNamespace
         public abstract void OnUse();
         public abstract void OnCancel();
 
-        public bool TryGetPermission()
+        protected bool TryGetPermission()
         {
             if (!Target)
             {
@@ -164,37 +164,31 @@ namespace DefaultNamespace
 
         public void OnMMEvent(CoreGameEvent eventType)
         {
-            switch (eventType.EventType)
-            {
-                case CoreGameEventTypes.AddSkill:
-                    OnAddSkill();
-                    break;
-            }
         }
 
-        private void OnAddSkill()
-        {
-            if (!BattleManager.Instance.IsFullSkill)
-            {
-                return;
-            }
-
-            if (_follow == null)
-            {
-                return;
-            }
-
-            _follow = _follow.Prev;
-            transform.DOMove(_follow.Trans.position, 0.5f);
-            if (_follow.Index == 0)
-            {
-                Kill();
-            }
-            else
-            {
-                _follow.SetSkill(this);
-            }
-        }
+        // private void OnAddSkill()
+        // {
+        //     if (!BattleManager.Instance.IsFullSkill)
+        //     {
+        //         return;
+        //     }
+        //
+        //     if (_follow == null)
+        //     {
+        //         return;
+        //     }
+        //
+        //     _follow = _follow.Prev;
+        //     transform.DOMove(_follow.Trans.position, 0.5f);
+        //     if (_follow.Index == 0)
+        //     {
+        //         Kill();
+        //     }
+        //     else
+        //     {
+        //         _follow.SetSkill(this);
+        //     }
+        // }
 
         private void Kill()
         {

@@ -26,12 +26,11 @@ namespace Core
         [SerializeField] private Transform SpawnSocket;
         [SerializeField] private GameObject ContinueButton;
         [SerializeField] private Image ChoosePanel;
+        [SerializeField] private Transform ShowSkillSocket;
 
-        public bool IsFullSkill;
         private bool _enableTick;
         private List<string> _skillNames;
         private List<LoopSocket> _loopSockets;
-        private LoopSocket _currentSocket;
         private Character _hero;
         private Character _encounterEnemy;
         private Dictionary<string, SkillReward> _skillRewardDict;
@@ -54,7 +53,6 @@ namespace Core
             ContinueButton.SetActive(false);
             InitSkillData();
             ResetBattlePanel();
-            InitializeSkillSockets();
         }
 
         private void InitSkillData()
@@ -84,47 +82,19 @@ namespace Core
             }
         }
 
-        private void InitializeSkillSockets()
+        public void AddSkill(SkillReward skillReward)
         {
-            IsFullSkill = false;
-            int index = 0;
-            foreach (var trans in SkillSockets)
-            {
-                _loopSockets.Add(new LoopSocket(index, trans));
-                index++;
-            }
-
-            for (int i = 1; i < _loopSockets.Count; i++)
-            {
-                _loopSockets[i].Prev = _loopSockets[i - 1];
-            }
-
-            for (int i = 0; i < _loopSockets.Count - 1; i++)
-            {
-                _loopSockets[i].Next = _loopSockets[i + 1];
-            }
-
-            _currentSocket = _loopSockets[0];
+            skillReward.transform.SetParent(ShowSkillSocket);
+            CopySkill(skillReward.SkillTarget);
+            RunGameEvent.Trigger(RunEventTypes.Continue);
         }
 
-        public void AddSkill(SkillComponent skill)
+        private void CopySkill(SkillComponent skillTarget)
         {
-            if (_currentSocket.Index == 3)
-            {
-                IsFullSkill = true;
-            }
-            else
-            {
-                IsFullSkill = false;
-                _currentSocket = _currentSocket.Next;
-            }
-
-            CoreGameEvent.Trigger(CoreGameEventTypes.AddSkill);
-            skill.transform.SetParent(SkillTransform);
-            skill.SetOwner(Hero);
-            skill.SetFollow(_currentSocket);
+            var skill = Instantiate(skillTarget, SkillTransform);
             _hero.BehaviourController.AddSkill(skill);
-            RunGameEvent.Trigger(RunEventTypes.Continue);
+            skill.SetOwner(Hero);
+            skill.gameObject.SetActive(false);
         }
 
         private void FixedUpdate()
