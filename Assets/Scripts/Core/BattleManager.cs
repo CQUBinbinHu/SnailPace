@@ -13,9 +13,7 @@ using Random = UnityEngine.Random;
 
 namespace Core
 {
-    public class BattleManager : MMSingleton<BattleManager>,
-        MMEventListener<RunGameEvent>,
-        MMEventListener<CoreGameEvent>
+    public class BattleManager : MMSingleton<BattleManager>
     {
         [SerializeField] private GameObject HeroPrefab;
         [SerializeField] public GameObject EncounterEnemyPrefab;
@@ -26,31 +24,43 @@ namespace Core
         [SerializeField] private Transform SpawnSocket;
         [SerializeField] private GameObject ContinueButton;
         [SerializeField] private Image ChoosePanel;
-        [SerializeField] private Transform ShowSkillSocket;
+        [SerializeField] private Transform SkillViewSocket;
+        [SerializeField] private Transform SkillView;
 
-        private bool _enableTick;
         private List<string> _skillNames;
-        private List<LoopSocket> _loopSockets;
         private Character _hero;
         private Character _encounterEnemy;
+        public BattleStatus Status;
         private Dictionary<string, SkillReward> _skillRewardDict;
         private Dictionary<string, SkillComponent> _skillDict;
         public Character Hero => _hero;
         public Character EncounterEnemy => _encounterEnemy;
 
+        public enum BattleStatus
+        {
+            Run,
+            Encounter,
+            Reward
+        }
+
         protected override void Awake()
         {
             base.Awake();
-            _loopSockets = new List<LoopSocket>();
             _skillRewardDict = new Dictionary<string, SkillReward>();
             _skillDict = new Dictionary<string, SkillComponent>();
             _skillNames = new List<string>();
-            _enableTick = false;
         }
 
         private void Start()
         {
+            Status = BattleStatus.Run;
             ContinueButton.SetActive(false);
+            SkillView.gameObject.SetActive(false);
+            //
+            var color = ChoosePanel.color;
+            color.a = 0;
+            ChoosePanel.color = color;
+            //
             InitSkillData();
             ResetBattlePanel();
         }
@@ -82,11 +92,12 @@ namespace Core
             }
         }
 
-        public void AddSkill(SkillReward skillReward)
+        private void OnAddSkill(SkillReward skillReward)
         {
-            skillReward.transform.SetParent(ShowSkillSocket);
+            skillReward.transform.SetParent(SkillViewSocket);
             CopySkill(skillReward.SkillTarget);
-            RunGameEvent.Trigger(RunEventTypes.Continue);
+            // TODO: Run Continue Delay
+            GameEventManager.Instance.OnRunContinue.Invoke();
         }
 
         private void CopySkill(SkillComponent skillTarget)
@@ -99,7 +110,7 @@ namespace Core
 
         private void FixedUpdate()
         {
-            if (!_enableTick)
+            if (Status != BattleStatus.Encounter || GameManager.Instance.IsPaused)
             {
                 return;
             }
@@ -113,18 +124,21 @@ namespace Core
             _hero = character;
         }
 
-        public void SetEncounter(Character target)
-        {
-            _encounterEnemy = target;
-        }
-
         /// <summary>
         /// OnDisable, we start listening to events.
         /// </summary>
         protected virtual void OnEnable()
         {
-            this.MMEventStartListening<CoreGameEvent>();
-            this.MMEventStartListening<RunGameEvent>();
+            // GameEventManager.Instance.OnGameStart += OnGameStart;
+            // GameEventManager.Instance.OnGamePause += OnGamePause;
+            // GameEventManager.Instance.OnGameContinue += OnGameContinue;
+
+            GameEventManager.Instance.OnRunEncounter += OnRunEncounter;
+            GameEventManager.Instance.OnRunReward += OnRunReward;
+            GameEventManager.Instance.OnRunContinue += OnRunContinue;
+            GameEventManager.Instance.OnEnemyDead += OnBattleEnd;
+            GameEventManager.Instance.OnGameOver += OnGameOver;
+            GameEventManager.Instance.OnAddSkill += OnAddSkill;
         }
 
         /// <summary>
@@ -132,68 +146,45 @@ namespace Core
         /// </summary>
         protected virtual void OnDisable()
         {
-            this.MMEventStopListening<CoreGameEvent>();
-            this.MMEventStopListening<RunGameEvent>();
+            GameEventManager.Instance.OnRunEncounter -= OnRunEncounter;
+            GameEventManager.Instance.OnRunReward -= OnRunReward;
+            GameEventManager.Instance.OnRunContinue -= OnRunContinue;
+            GameEventManager.Instance.OnEnemyDead -= OnBattleEnd;
+            GameEventManager.Instance.OnGameOver -= OnGameOver;
+            GameEventManager.Instance.OnAddSkill -= OnAddSkill;
         }
 
-        public void OnMMEvent(RunGameEvent eventType)
+        private void OnRunEncounter(Character target)
         {
-            switch (eventType.EventType)
-            {
-                case RunEventTypes.Encounter:
-                    InitializeCharacterBattle();
-                    StartEncounter();
-                    break;
-                case RunEventTypes.Continue:
-                    ChoosePanel.DOFade(0, 0.3f);
-                    ResetBattlePanel();
-                    break;
-                case RunEventTypes.Reward:
-                    ChoosePanel.DOFade(0.5f, 0.3f);
-                    break;
-            }
-        }
-
-        private void StartEncounter()
-        {
-            _enableTick = true;
-        }
-
-        public void OnMMEvent(CoreGameEvent eventType)
-        {
-            switch (eventType.EventType)
-            {
-                case CoreGameEventTypes.Start:
-                    OnGameStart();
-                    break;
-                case CoreGameEventTypes.EnemyDead:
-                    OnBattleEnd();
-                    break;
-                case CoreGameEventTypes.GameOver:
-                    OnGameOver();
-                    break;
-            }
-        }
-
-        private void ResetBattlePanel()
-        {
-            // TODO: ResetBattlePanel
-        }
-
-        private void InitializeCharacterBattle()
-        {
+            _encounterEnemy = target;
+            Status = BattleStatus.Encounter;
             Hero.BehaviourController.SetTarget(EncounterEnemy);
             Hero.BehaviourController.Initialize();
             _encounterEnemy.BehaviourController.SetTarget(Hero);
             _encounterEnemy.BehaviourController.Initialize();
         }
 
+        private void OnRunContinue()
+        {
+            ResetBattlePanel();
+        }
+
+        private void OnRunReward()
+        {
+            ChoosePanel.DOFade(0.5f, 0.3f);
+        }
+
+        private void ResetBattlePanel()
+        {
+            // TODO: ResetBattlePanel
+            ChoosePanel.DOFade(0, 0.3f);
+        }
+
         private void OnBattleEnd()
         {
-            _enableTick = false;
-            RunGameEvent.Trigger(RunEventTypes.Reward);
+            Status = BattleStatus.Reward;
+            GameEventManager.Instance.OnRunReward.Invoke();
             AddRandomRewards();
-            ContinueButton.SetActive(true);
         }
 
         private void AddRandomRewards()
@@ -233,10 +224,23 @@ namespace Core
             // TODO: do GameOver
         }
 
-        private void OnGameStart()
+        public void OnGameStart()
         {
             var hero = LeanPool.Spawn(HeroPrefab, SpawnSocket.position, Quaternion.identity);
             SetHero(hero.GetComponent<Character>());
+        }
+
+        public void EnableSkillView(bool enable)
+        {
+            SkillView.gameObject.SetActive(enable);
+            if (enable)
+            {
+                GameEventManager.Instance.OnGameContinue.Invoke();
+            }
+            else
+            {
+                GameEventManager.Instance.OnGamePause.Invoke();
+            }
         }
     }
 }

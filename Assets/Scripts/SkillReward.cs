@@ -12,10 +12,7 @@ using IPoolable = Lean.Pool.IPoolable;
 
 namespace DefaultNamespace
 {
-    public class SkillReward : MonoBehaviour,
-        MMEventListener<CoreGameEvent>,
-        MMEventListener<RunGameEvent>,
-        IPoolable
+    public class SkillReward : MonoBehaviour, IPoolable
     {
         [SerializeField] private Transform SkillSocket;
         [SerializeField] private TextMeshProUGUI TextSkillName;
@@ -25,8 +22,8 @@ namespace DefaultNamespace
         private SkillComponent _skillObject;
         private SkillComponent _skillTarget;
         public SkillComponent SkillTarget => _skillTarget;
-        private bool _isAddSkill;
         private Button _button;
+        private bool _isDestroyed;
 
         private void Awake()
         {
@@ -35,7 +32,7 @@ namespace DefaultNamespace
 
         private void Initialize()
         {
-            _isAddSkill = false;
+            _isDestroyed = false;
             _button.interactable = true;
         }
 
@@ -48,44 +45,26 @@ namespace DefaultNamespace
 
         public void OnAddSkill()
         {
-            _isAddSkill = true;
-            BattleManager.Instance.AddSkill(this);
+            GameEventManager.Instance.OnAddSkill(this);
         }
 
         private void DestroySelf()
         {
+            if (_isDestroyed)
+            {
+                return;
+            }
+
+            _isDestroyed = true;
+            _button.interactable = false;
             StartCoroutine(DestroyDelay(0.3f));
         }
 
         IEnumerator DestroyDelay(float delay)
         {
             yield return new WaitForSeconds(delay);
-            if (!_isAddSkill)
-            {
-                LeanPool.Despawn(_skillTarget);
-            }
-
+            LeanPool.Despawn(_skillTarget);
             LeanPool.Despawn(this);
-        }
-
-        public void OnMMEvent(RunGameEvent eventType)
-        {
-            switch (eventType.EventType)
-            {
-                case RunEventTypes.Continue:
-                    DestroySelf();
-                    break;
-            }
-        }
-
-        public void OnMMEvent(CoreGameEvent eventType)
-        {
-            switch (eventType.EventType)
-            {
-                case CoreGameEventTypes.AddSkill:
-                    DestroySelf();
-                    break;
-            }
         }
 
         public void SetSkillObject(SkillComponent skill)
@@ -97,15 +76,37 @@ namespace DefaultNamespace
         public void OnSpawn()
         {
             Initialize();
-            this.MMEventStartListening<CoreGameEvent>();
-            this.MMEventStartListening<RunGameEvent>();
         }
 
         public void OnDespawn()
         {
-            _button.interactable = false;
-            this.MMEventStopListening<CoreGameEvent>();
-            this.MMEventStopListening<RunGameEvent>();
+        }
+
+        private void OnEnable()
+        {
+            GameEventManager.Instance.OnAddSkill += DoOnAddSkill;
+            GameEventManager.Instance.OnRunContinue += OnRunContinue;
+        }
+
+        private void OnDisable()
+        {
+            GameEventManager.Instance.OnAddSkill -= DoOnAddSkill;
+            GameEventManager.Instance.OnRunContinue -= OnRunContinue;
+        }
+
+        private void OnRunContinue()
+        {
+            DestroySelf();
+        }
+
+        private void DoOnAddSkill(SkillReward skillReward)
+        {
+            if (skillReward == this)
+            {
+                return;
+            }
+
+            DestroySelf();
         }
     }
 }

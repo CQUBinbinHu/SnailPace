@@ -8,7 +8,7 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 namespace DefaultNamespace
 {
-    public class CameraManager : MonoBehaviour, MMEventListener<RunGameEvent>
+    public class CameraManager : MonoBehaviour
     {
         [SerializeField] private int assetsPPU_Run = 120;
         [SerializeField] private int assetsPPU_Foc = 150;
@@ -30,35 +30,7 @@ namespace DefaultNamespace
             _pixel.assetsPPU = assetsPPU_Run;
         }
 
-        public void OnMMEvent(CoreGameEvent eventType)
-        {
-            switch (eventType.EventType)
-            {
-                case CoreGameEventTypes.Start:
-                    break;
-                case CoreGameEventTypes.GameOver:
-                    break;
-                case CoreGameEventTypes.Pause:
-                    break;
-            }
-        }
-
-        public void OnMMEvent(RunGameEvent eventType)
-        {
-            switch (eventType.EventType)
-            {
-                case RunEventTypes.RunStart:
-                    break;
-                case RunEventTypes.Encounter:
-                    DoEncounter();
-                    break;
-                case RunEventTypes.Continue:
-                    DoContinue();
-                    break;
-            }
-        }
-
-        private void DoContinue()
+        private void RunContinue()
         {
             DOTween.To(() => _pixel.assetsPPU,
                 (x) => _pixel.assetsPPU = x,
@@ -66,7 +38,7 @@ namespace DefaultNamespace
                 FocusDuration);
         }
 
-        private void DoEncounter()
+        private void RunEncounter(Character target)
         {
             DOTween.To(() => _pixel.assetsPPU,
                 (x) => _pixel.assetsPPU = x,
@@ -79,8 +51,8 @@ namespace DefaultNamespace
         /// </summary>
         protected virtual void OnEnable()
         {
-            // this.MMEventStartListening<CoreGameEvent>();
-            this.MMEventStartListening<RunGameEvent>();
+            GameEventManager.Instance.OnRunContinue += RunContinue;
+            GameEventManager.Instance.OnRunEncounter += RunEncounter;
         }
 
         /// <summary>
@@ -88,8 +60,8 @@ namespace DefaultNamespace
         /// </summary>
         protected virtual void OnDisable()
         {
-            // this.MMEventStopListening<CoreGameEvent>();
-            this.MMEventStopListening<RunGameEvent>();
+            GameEventManager.Instance.OnRunContinue -= RunContinue;
+            GameEventManager.Instance.OnRunEncounter -= RunEncounter;
         }
     }
 }

@@ -6,10 +6,9 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class RunPanel : MonoBehaviour, MMEventListener<RunGameEvent>
+    public class RunPanel : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI TextMeshPro;
-
         private int _count;
         private float _timer;
 
@@ -49,8 +48,6 @@ namespace DefaultNamespace
         /// </summary>
         protected virtual void OnEnable()
         {
-            // this.MMEventStartListening<CoreGameEvent>();
-            this.MMEventStartListening<RunGameEvent>();
         }
 
         /// <summary>
@@ -58,21 +55,6 @@ namespace DefaultNamespace
         /// </summary>
         protected virtual void OnDisable()
         {
-            // this.MMEventStopListening<CoreGameEvent>();
-            this.MMEventStopListening<RunGameEvent>();
-        }
-
-        public void OnMMEvent(RunGameEvent eventType)
-        {
-            switch (eventType.EventType)
-            {
-                case RunEventTypes.RunStart:
-                    break;
-                case RunEventTypes.Encounter:
-                    break;
-                case RunEventTypes.Continue:
-                    break;
-            }
         }
     }
 }

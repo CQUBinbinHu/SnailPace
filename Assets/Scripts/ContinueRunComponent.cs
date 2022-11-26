@@ -5,46 +5,42 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class ContinueRunComponent : MonoBehaviour,
-        MMEventListener<CoreGameEvent>,
-        MMEventListener<RunGameEvent>
+    public class ContinueRunComponent : MonoBehaviour
     {
         [SerializeField] private GameObject Target;
+
         public void OnContinue()
         {
-            RunGameEvent.Trigger(RunEventTypes.Continue);
-        }
-
-        public void OnMMEvent(CoreGameEvent eventType)
-        {
-            switch (eventType.EventType)
-            {
-                case CoreGameEventTypes.AddSkill:
-                    Target.SetActive(false);
-                    break;
-            }
+            GameEventManager.Instance.OnRunContinue.Invoke();
         }
 
         private void OnEnable()
         {
-            this.MMEventStartListening<CoreGameEvent>();
-            this.MMEventStartListening<RunGameEvent>();
+            GameEventManager.Instance.OnRunContinue += RunContinue;
+            GameEventManager.Instance.OnAddSkill += RunContinue;
+            GameEventManager.Instance.OnRunReward += OnReward;
         }
 
         private void OnDisable()
         {
-            this.MMEventStopListening<CoreGameEvent>();
-            this.MMEventStopListening<RunGameEvent>();
+            GameEventManager.Instance.OnRunContinue -= RunContinue;
+            GameEventManager.Instance.OnAddSkill -= RunContinue;
+            GameEventManager.Instance.OnRunReward -= OnReward;
         }
 
-        public void OnMMEvent(RunGameEvent eventType)
+        private void RunContinue(SkillReward skillReward)
         {
-            switch (eventType.EventType)
-            {
-                case RunEventTypes.Continue:
-                    Target.SetActive(false);
-                    break;
-            }
+            Target.SetActive(false);
+        }
+
+        private void RunContinue()
+        {
+            Target.SetActive(false);
+        }
+
+        private void OnReward()
+        {
+            Target.SetActive(true);
         }
     }
 }

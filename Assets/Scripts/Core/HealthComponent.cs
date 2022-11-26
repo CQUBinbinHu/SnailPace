@@ -131,10 +131,10 @@ namespace Core
             switch (_owner.CharacterType)
             {
                 case CharacterType.Hero:
-                    CoreGameEvent.Trigger(CoreGameEventTypes.GameOver);
+                    GameEventManager.Instance.OnGameOver.Invoke();
                     break;
                 case CharacterType.Enemy:
-                    CoreGameEvent.Trigger(CoreGameEventTypes.EnemyDead);
+                    GameEventManager.Instance.OnEnemyDead.Invoke();
                     break;
             }
 

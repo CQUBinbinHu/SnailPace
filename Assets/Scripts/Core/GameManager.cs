@@ -3,64 +3,10 @@ using DefaultNamespace;
 using MoreMountains.Tools;
 using Tools;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Core
 {
-    public enum CoreGameEventTypes
-    {
-        Start,
-        GameOver,
-        Pause,
-        Continue,
-        EnemyDead,
-        AddSkill,
-        OnRefreshSkill
-    }
-
-    public enum RunEventTypes
-    {
-        RunStart,
-        Encounter,
-        Reward,
-        Continue
-    }
-
-    public struct CoreGameEvent
-    {
-        public CoreGameEventTypes EventType;
-
-        public CoreGameEvent(CoreGameEventTypes eventType)
-        {
-            EventType = eventType;
-        }
-
-        static CoreGameEvent e;
-
-        public static void Trigger(CoreGameEventTypes eventType)
-        {
-            e.EventType = eventType;
-            MMEventManager.TriggerEvent(e);
-        }
-    }
-
-    public struct RunGameEvent
-    {
-        public RunEventTypes EventType;
-
-        public RunGameEvent(RunEventTypes eventType)
-        {
-            EventType = eventType;
-        }
-
-        static RunGameEvent e;
-
-        public static void Trigger(RunEventTypes eventType)
-        {
-            e.EventType = eventType;
-            MMEventManager.TriggerEvent(e);
-        }
-    }
-
     public enum MoveStatus
     {
         Idle,
@@ -77,17 +23,16 @@ namespace Core
         Reward
     }
 
-    public class GameManager :
-        MMPersistentSingleton<GameManager>,
-        MMEventListener<CoreGameEvent>,
-        MMEventListener<RunGameEvent>
+    public class GameManager : MMPersistentSingleton<GameManager>
     {
         [SerializeField] public BuffShowData BuffShowData;
         [SerializeField] public ShowTipComponent ShowTipComponent;
         private float _runClock;
         public MoveStatus CurrentRun;
         private StateMachine<GameManager, MoveStatus, MoveTransition> _stateMachine;
+        private bool _isPaused;
         public float RunClock => _runClock;
+        public bool IsPaused => _isPaused;
 
         protected override void Awake()
         {
@@ -138,8 +83,13 @@ namespace Core
         /// </summary>
         protected virtual void OnEnable()
         {
-            this.MMEventStartListening<CoreGameEvent>();
-            this.MMEventStartListening<RunGameEvent>();
+            GameEventManager.Instance.OnGameStart += OnGameStart;
+            GameEventManager.Instance.OnGamePause += OnGamePause;
+            GameEventManager.Instance.OnGameContinue += OnGameContinue;
+            GameEventManager.Instance.OnRunStart += OnRunStart;
+            GameEventManager.Instance.OnRunEncounter += OnRunEncounter;
+            GameEventManager.Instance.OnRunReward += OnRunReward;
+            GameEventManager.Instance.OnRunContinue += OnRunContinue;
         }
 
         /// <summary>
@@ -147,8 +97,46 @@ namespace Core
         /// </summary>
         protected virtual void OnDisable()
         {
-            this.MMEventStopListening<CoreGameEvent>();
-            this.MMEventStopListening<RunGameEvent>();
+            GameEventManager.Instance.OnGameStart -= OnGameStart;
+            GameEventManager.Instance.OnGamePause -= OnGamePause;
+            GameEventManager.Instance.OnGameContinue -= OnGameContinue;
+            GameEventManager.Instance.OnRunStart -= OnRunStart;
+            GameEventManager.Instance.OnRunEncounter -= OnRunEncounter;
+            GameEventManager.Instance.OnRunReward -= OnRunReward;
+            GameEventManager.Instance.OnRunContinue -= OnRunContinue;
+        }
+
+        private void OnRunContinue()
+        {
+            _stateMachine.PerformTransition(MoveTransition.ContinueRun);
+        }
+
+        private void OnRunReward()
+        {
+            _stateMachine.PerformTransition(MoveTransition.Reward);
+        }
+
+        private void OnRunEncounter(Character target)
+        {
+            _stateMachine.PerformTransition(MoveTransition.Encounter);
+        }
+
+        private void OnGameStart()
+        {
+        }
+
+        private void OnRunStart()
+        {
+        }
+
+        private void OnGamePause()
+        {
+            _isPaused = true;
+        }
+
+        private void OnGameContinue()
+        {
+            _isPaused = false;
         }
 
         private class Idle : FsmState<GameManager, MoveStatus, MoveTransition>
@@ -162,12 +150,13 @@ namespace Core
             public override void Enter()
             {
                 _timer = 0;
-                CoreGameEvent.Trigger(CoreGameEventTypes.Start);
+                BattleManager.Instance.OnGameStart();
+                GameEventManager.Instance.OnGameStart.Invoke();
             }
 
             public override void Exit()
             {
-                RunGameEvent.Trigger(RunEventTypes.RunStart);
+                GameEventManager.Instance.OnRunStart.Invoke();
             }
 
             public override void Reason(float deltaTime = 0)
@@ -250,37 +239,6 @@ namespace Core
 
             public override void Act(float deltaTime = 0)
             {
-            }
-        }
-
-        public void OnMMEvent(CoreGameEvent eventType)
-        {
-            switch (eventType.EventType)
-            {
-                case CoreGameEventTypes.Start:
-                    break;
-                case CoreGameEventTypes.GameOver:
-                    break;
-                case CoreGameEventTypes.Pause:
-                    break;
-            }
-        }
-
-        public void OnMMEvent(RunGameEvent eventType)
-        {
-            switch (eventType.EventType)
-            {
-                case RunEventTypes.RunStart:
-                    break;
-                case RunEventTypes.Encounter:
-                    _stateMachine.PerformTransition(MoveTransition.Encounter);
-                    break;
-                case RunEventTypes.Reward:
-                    _stateMachine.PerformTransition(MoveTransition.Reward);
-                    break;
-                case RunEventTypes.Continue:
-                    _stateMachine.PerformTransition(MoveTransition.ContinueRun);
-                    break;
             }
         }
     }

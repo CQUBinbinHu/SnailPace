@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 148554284}
   - component: {fileID: 148554283}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: SkillView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -663,6 +663,7 @@ GameObject:
   - component: {fileID: 184547712}
   - component: {fileID: 184547713}
   - component: {fileID: 184547714}
+  - component: {fileID: 184547715}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -713,6 +714,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29ce39a871c1419a92400b57ed2cd6d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &184547715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184547711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef8bbc2a5734f469c22bf6f7eaea86b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutomaticallyUnparentOnAwake: 1
 --- !u!1 &193816736
 GameObject:
   m_ObjectHideFlags: 0
@@ -6235,7 +6249,9 @@ MonoBehaviour:
   SpawnSocket: {fileID: 1437206275}
   ContinueButton: {fileID: 1731400896}
   ChoosePanel: {fileID: 1970194423}
-  ShowSkillSocket: {fileID: 0}
+  SkillViewSocket: {fileID: 19674817}
+  SkillView: {fileID: 148554282}
+  Status: 0
 --- !u!1001 &2060327633
 PrefabInstance:
   m_ObjectHideFlags: 0

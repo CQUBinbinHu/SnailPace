@@ -34,9 +34,7 @@ namespace DefaultNamespace
         }
     }
 
-    public abstract class SkillComponent : MonoBehaviour,
-        MMEventListener<CoreGameEvent>,
-        IPoolable
+    public abstract class SkillComponent : MonoBehaviour, IPoolable
     {
         [SerializeField] private int NeedEnergy = 10;
         private SkillShowComponent _skillShow;
@@ -51,7 +49,7 @@ namespace DefaultNamespace
             TryGetComponent(out _skillShow);
         }
 
-        public void Initialize()
+        private void Initialize()
         {
             _follow = null;
             if (_skillShow)
@@ -162,10 +160,6 @@ namespace DefaultNamespace
             transform.DOMove(follow.Trans.position, 0.5f);
         }
 
-        public void OnMMEvent(CoreGameEvent eventType)
-        {
-        }
-
         // private void OnAddSkill()
         // {
         //     if (!BattleManager.Instance.IsFullSkill)
@@ -205,12 +199,10 @@ namespace DefaultNamespace
         public void OnSpawn()
         {
             Initialize();
-            this.MMEventStartListening<CoreGameEvent>();
         }
 
         public void OnDespawn()
         {
-            this.MMEventStopListening<CoreGameEvent>();
         }
     }
 }
