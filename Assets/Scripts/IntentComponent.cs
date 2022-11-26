@@ -27,9 +27,11 @@ namespace DefaultNamespace
         [SerializeField] private Image IntentUnKnown;
         private BehaviourController _behaviourController;
         private Dictionary<Intent, Image> _intents;
+        private Intent _currentIntent;
 
         private void Awake()
         {
+            AttackText.text = String.Empty;
             _behaviourController = GetComponentInParent<BehaviourController>();
             _intents = new Dictionary<Intent, Image>();
             _intents.Add(Intent.Attack, IntentAttack);
@@ -37,9 +39,9 @@ namespace DefaultNamespace
             _intents.Add(Intent.UnKnown, IntentUnKnown);
         }
 
-        public void SetIntent(Intent intent, int attack = 0)
+        public void SetIntent(Intent intent)
         {
-            AttackText.text = String.Empty;
+            _currentIntent = intent;
             foreach (var intentPair in _intents)
             {
                 intentPair.Value.enabled = false;
@@ -48,13 +50,6 @@ namespace DefaultNamespace
             if (_intents.ContainsKey(intent))
             {
                 _intents[intent].enabled = true;
-            }
-
-            switch (intent)
-            {
-                case Intent.Attack:
-                    AttackText.text = attack.ToString();
-                    break;
             }
         }
 
@@ -65,6 +60,14 @@ namespace DefaultNamespace
                 CountDown.SetActive(true);
                 CountDownImage.fillAmount = _behaviourController.CountDownRatio;
                 CountDownText.text = _behaviourController.CountDown.ToString();
+                if (_currentIntent == Intent.Attack)
+                {
+                    AttackText.text = _behaviourController.CurrentSkill.GetDamage().ToString();
+                }
+                else
+                {
+                    AttackText.text = string.Empty;
+                }
             }
             else
             {

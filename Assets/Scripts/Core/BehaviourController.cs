@@ -20,6 +20,8 @@ namespace Core
         public bool IsOnCountDown { get; set; }
         public float CountDownRatio { get; set; }
         public HashSet<SkillComponent> CurrentSkills => _skills;
+        public SkillComponent _currentSkill;
+        public SkillComponent CurrentSkill => _currentSkill;
 
         private void Awake()
         {
@@ -86,6 +88,11 @@ namespace Core
             {
                 _behaviourTreeOwner.UpdateBehaviour();
             }
+        }
+
+        public void SetCurrent(SkillComponent current)
+        {
+            _currentSkill = current;
         }
     }
 }

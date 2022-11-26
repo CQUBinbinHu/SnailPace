@@ -43,6 +43,11 @@ namespace DefaultNamespace
         private LoopSocket _follow;
         private bool IsEnergySatisfied;
 
+        public virtual int GetDamage()
+        {
+            return 0;
+        }
+
         private void Awake()
         {
             TryGetComponent(out _skillShow);

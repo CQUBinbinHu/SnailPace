@@ -4601,9 +4601,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitSkills:
-  - {fileID: 5077710967888288674, guid: cf642cf6c3221f546805058be7333266, type: 3}
-  - {fileID: 6679782468370329752, guid: e59beb3c41ffb4d44a1a57f8dd55e138, type: 3}
-  - {fileID: 8085249866130858429, guid: 4374a7c93c722ad448e92f7b242c8e06, type: 3}
+  - {fileID: 8990630055513422554, guid: c05318ebc61325848b10b4db175a8f08, type: 3}
+  - {fileID: 703394028094795167, guid: 26f5a41319cca2a4a8bf4d4ee7401cb3, type: 3}
+  - {fileID: 1544370297740894269, guid: 5499daa2d0279184fb6acca911a6e37e, type: 3}
   HeroPrefab: {fileID: 2148605894072053727, guid: 846ae99cf784c1c4bb9adbdb171d92f2, type: 3}
   EncounterEnemyPrefab: {fileID: 6601545136371749258, guid: 1d031ad694a0a004980cc0f349673907, type: 3}
   SkillData: {fileID: 11400000, guid: 7c1967b12f30cc049b769f8a83c990cd, type: 2}

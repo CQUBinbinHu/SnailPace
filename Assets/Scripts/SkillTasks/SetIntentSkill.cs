@@ -6,30 +6,24 @@ using UnityEngine;
 
 namespace DefaultNamespace.SkillTasks
 {
-    [Category("Custom")]
-    public class AttackTask : ActionTask
+    [Category("Snail")]
+    public class SetIntentSkill : ActionTask
     {
-        public Attack Attack;
-        public BBParameter<int> Atk = 0;
+        private Character Owner;
+        public SkillComponent Current;
 
         protected override string OnInit()
         {
-            Attack.SetTarget(BattleManager.Instance.Hero);
+            Owner = this.agent.gameObject.GetComponent<Character>();
+            Current.SetTarget(BattleManager.Instance.Hero);
             return base.OnInit();
         }
 
         protected override void OnExecute()
         {
             base.OnExecute();
-            Attack.Atk = Atk.value;
-            Attack.OnUse();
+            Owner.BehaviourController.SetCurrent(Current);
             EndAction(true);
-        }
-
-        protected override void OnStop()
-        {
-            base.OnStop();
-            Attack.OnCancel();
         }
     }
 }

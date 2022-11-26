@@ -16,7 +16,7 @@ namespace Core
 {
     public class BattleManager : MMSingleton<BattleManager>
     {
-        [SerializeField] private SkillComponent[] InitSkills;
+        [SerializeField] private SkillReward[] InitSkills;
         [SerializeField] private GameObject HeroPrefab;
         [SerializeField] private GameObject EncounterEnemyPrefab;
         [SerializeField] private SkillData SkillData;
@@ -79,7 +79,9 @@ namespace Core
             ResetBattlePanel();
             foreach (var skill in InitSkills)
             {
-                AddSkillTarget(skill);
+                var skillReward = LeanPool.Spawn(skill);
+                skillReward.SetSkillObject(_skillDict[skillReward.SkillName]);
+                skillReward.OnAddSkill();
             }
         }
 

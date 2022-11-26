@@ -51,7 +51,7 @@ namespace DefaultNamespace
         {
             _button.interactable = false;
             _isAdded = true;
-            GameEventManager.Instance.OnAddSkill(this);
+            GameEventManager.Instance.OnAddSkill?.Invoke(this);
         }
 
         private void DestroySelf()

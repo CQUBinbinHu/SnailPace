@@ -1,16 +1,16 @@
 ﻿using Core;
 using NodeCanvas.Framework;
 using ParadoxNotion;
-using UnityEngine;
+using ParadoxNotion.Design;
 
 namespace DefaultNamespace.SkillTasks
 {
+    [Category("Snail")]
     public class WaitTask : ActionTask
     {
-        public Character Owner;
+        private Character Owner;
         public Intent ShowIntent;
         public BBParameter<float> waitTime = 1f;
-        public BBParameter<int> IntentAttack;
         public CompactStatus finishStatus = CompactStatus.Success;
 
         protected override string info
@@ -42,7 +42,7 @@ namespace DefaultNamespace.SkillTasks
         protected override void OnExecute()
         {
             base.OnExecute();
-            Owner.BehaviourController.Intent.SetIntent(ShowIntent, IntentAttack.value);
+            Owner.BehaviourController.Intent.SetIntent(ShowIntent);
         }
     }
 }

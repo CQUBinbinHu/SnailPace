@@ -5,7 +5,11 @@ namespace HeroPerform
     public class Attack : SkillComponent
     {
         public int Atk;
-        private int Damage => (int)(Owner.GetBuffAtkMultiplier() * Atk);
+
+        public override int GetDamage()
+        {
+            return (int)(Owner.GetBuffAtkMultiplier() * Atk);
+        }
 
         public override void OnUse()
         {
@@ -14,7 +18,7 @@ namespace HeroPerform
                 return;
             }
 
-            Target.Health.TakeDamage(Damage);
+            Target.Health.TakeDamage(GetDamage());
         }
 
         public override void OnCancel()
