@@ -56,6 +56,11 @@ public class LoopMoveGrid : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (GameManager.Instance.IsPaused)
+        {
+            return;
+        }
+
         switch (GameManager.Instance.CurrentRun)
         {
             case MoveStatus.Run:

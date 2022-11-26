@@ -42,9 +42,9 @@ namespace Core
 
         public virtual void Initialize()
         {
-            if (_behaviourTree)
+            if (_behaviourTreeOwner)
             {
-                _behaviourTree.StartGraph(_behaviourTreeOwner, _behaviourTreeOwner.blackboard, Graph.UpdateMode.Manual);
+                _behaviourTreeOwner.StartBehaviour();
             }
         }
 

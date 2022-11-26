@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SkillData
   m_EditorClassIdentifier: 
   SkillRewards:
-  - {fileID: 8541219093094604818, guid: 93eaabc1a08733645858ead4d1c78da0, type: 3}
-  - {fileID: 7627184474911897095, guid: 30212d7653fe42f478b9267339c0a561, type: 3}
-  - {fileID: 7627184474911897095, guid: 38e77f802775fa542ab00c0ba5a147ee, type: 3}
+  - {fileID: 703394028094795167, guid: 26f5a41319cca2a4a8bf4d4ee7401cb3, type: 3}
+  - {fileID: 8990630055513422554, guid: c05318ebc61325848b10b4db175a8f08, type: 3}
+  - {fileID: 1544370297740894269, guid: 5499daa2d0279184fb6acca911a6e37e, type: 3}

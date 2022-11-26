@@ -17,6 +17,7 @@ namespace DefaultNamespace
         [SerializeField] private Transform SkillSocket;
         [SerializeField] private TextMeshProUGUI TextSkillName;
         [SerializeField] private TextMeshProUGUI TextIntroduction;
+        [SerializeField] private GameObject Model;
         public string SkillName;
         public string Introduction;
         private SkillComponent _skillObject;
@@ -24,14 +25,17 @@ namespace DefaultNamespace
         public SkillComponent SkillTarget => _skillTarget;
         private Button _button;
         private bool _isDestroyed;
+        private bool _isAdded;
 
         private void Awake()
         {
-            _button = GetComponent<Button>();
+            _button = GetComponentInChildren<Button>();
         }
 
         private void Initialize()
         {
+            Model.SetActive(true);
+            _isAdded = false;
             _isDestroyed = false;
             _button.interactable = true;
         }
@@ -45,6 +49,8 @@ namespace DefaultNamespace
 
         public void OnAddSkill()
         {
+            _button.interactable = false;
+            _isAdded = true;
             GameEventManager.Instance.OnAddSkill(this);
         }
 
@@ -55,9 +61,9 @@ namespace DefaultNamespace
                 return;
             }
 
-            gameObject.SetActive(false);
-            _isDestroyed = true;
             _button.interactable = false;
+            _isDestroyed = true;
+            Model.SetActive(false);
             StartCoroutine(DestroyDelay(0.3f));
         }
 
@@ -102,7 +108,7 @@ namespace DefaultNamespace
 
         private void DoOnAddSkill(SkillReward skillReward)
         {
-            if (skillReward == this)
+            if (_isAdded)
             {
                 return;
             }

@@ -33,6 +33,7 @@ namespace Core
         private bool _isPaused;
         public float RunClock => _runClock;
         public bool IsPaused => _isPaused;
+        public int CountDown;
 
         protected override void Awake()
         {
@@ -56,19 +57,29 @@ namespace Core
 
         private void Start()
         {
-            _runClock = 0;
             BuffShowData.Initialize();
+            _runClock = 0;
             _stateMachine.SetCurrent(MoveStatus.Idle);
         }
 
         private void Update()
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             _stateMachine.Tick(Time.deltaTime);
             CurrentRun = _stateMachine.CurrentStateID;
         }
 
         private void FixedUpdate()
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             switch (CurrentRun)
             {
                 case MoveStatus.Run:
@@ -142,6 +153,7 @@ namespace Core
         private class Idle : FsmState<GameManager, MoveStatus, MoveTransition>
         {
             private float _timer = 0;
+            private const int Duration = 3;
 
             public Idle(MoveStatus stateId) : base(stateId)
             {
@@ -149,7 +161,8 @@ namespace Core
 
             public override void Enter()
             {
-                _timer = 0;
+                _timer = Duration;
+                Context.CountDown = Duration;
                 BattleManager.Instance.OnGameStart();
                 GameEventManager.Instance.OnGameStart.Invoke();
             }
@@ -161,7 +174,7 @@ namespace Core
 
             public override void Reason(float deltaTime = 0)
             {
-                if (_timer > 3)
+                if (_timer < 0)
                 {
                     Context._stateMachine.PerformTransition(MoveTransition.StartRun);
                 }
@@ -169,7 +182,8 @@ namespace Core
 
             public override void Act(float deltaTime = 0)
             {
-                _timer += deltaTime;
+                _timer -= deltaTime;
+                Context.CountDown = 1 + (int)_timer;
             }
         }
 
