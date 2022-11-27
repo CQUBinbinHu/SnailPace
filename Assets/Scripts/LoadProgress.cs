@@ -7,16 +7,18 @@ namespace DefaultNamespace
 {
     public class LoadProgress : MonoBehaviour
     {
-        private GameObject MoveTarget;
-        private Image FillImage;
-        private Animator _animator;
+        [SerializeField] private GameObject MoveTarget;
+        [SerializeField] private Image FillImage;
         private static readonly int Walk = Animator.StringToHash("Walk");
+        private Animator _animator;
+        private StartGameUI _startGameUI;
 
         private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
+            _startGameUI = GetComponentInParent<StartGameUI>();
         }
-        
+
         public void SetWalk()
         {
             _animator.SetTrigger(Walk);
@@ -24,7 +26,7 @@ namespace DefaultNamespace
 
         private void Update()
         {
-            FillImage.fillAmount = GameManager.Instance.Progress;
+            FillImage.fillAmount = _startGameUI.ProgressValue;
         }
     }
 }

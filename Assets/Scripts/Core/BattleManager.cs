@@ -60,7 +60,7 @@ namespace Core
             _loopSockets = new List<LoopSocket>();
         }
 
-        private void Start()
+        public void InitBattle()
         {
             Status = BattleStatus.Run;
             ContinueButton.SetActive(false);
