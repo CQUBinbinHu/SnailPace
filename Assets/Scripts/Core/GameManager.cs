@@ -7,20 +7,22 @@ using UnityEngine.Events;
 
 namespace Core
 {
-    public enum MoveStatus
+    public enum GameStatus
     {
         Idle,
         Run,
         Encounter,
-        Reward
+        Reward,
+        Splash
     }
 
-    public enum MoveTransition
+    public enum GameTransition
     {
         StartRun,
         Encounter,
         ContinueRun,
-        Reward
+        Reward,
+        StartGame
     }
 
     public class GameManager : MMPersistentSingleton<GameManager>
@@ -28,27 +30,32 @@ namespace Core
         [SerializeField] public BuffShowData BuffShowData;
         [SerializeField] public ShowTipComponent ShowTipComponent;
         private float _runClock;
-        public MoveStatus CurrentRun;
-        private StateMachine<GameManager, MoveStatus, MoveTransition> _stateMachine;
+        public GameStatus CurrentState;
+        private StateMachine<GameManager, GameStatus, GameTransition> _stateMachine;
         private bool _isPaused;
         public float RunClock => _runClock;
         public bool IsPaused => _isPaused;
+        public float Progress { get; set; }
+
         public int CountDown;
 
         protected override void Awake()
         {
             base.Awake();
-            _stateMachine = new StateMachine<GameManager, MoveStatus, MoveTransition>(this);
-            var idleState = new Idle(MoveStatus.Idle);
-            var runState = new Run(MoveStatus.Run);
-            var encounter = new Encounter(MoveStatus.Encounter);
-            var reward = new Reward(MoveStatus.Reward);
-            idleState.AddTransition(MoveTransition.StartRun, MoveStatus.Run);
-            runState.AddTransition(MoveTransition.Encounter, MoveStatus.Encounter);
-            runState.AddTransition(MoveTransition.Reward, MoveStatus.Reward);
-            encounter.AddTransition(MoveTransition.ContinueRun, MoveStatus.Run);
-            encounter.AddTransition(MoveTransition.Reward, MoveStatus.Reward);
-            reward.AddTransition(MoveTransition.ContinueRun, MoveStatus.Run);
+            _stateMachine = new StateMachine<GameManager, GameStatus, GameTransition>(this);
+            var splashState = new Splash(GameStatus.Splash);
+            var idleState = new Idle(GameStatus.Idle);
+            var runState = new Run(GameStatus.Run);
+            var encounter = new Encounter(GameStatus.Encounter);
+            var reward = new Reward(GameStatus.Reward);
+            splashState.AddTransition(GameTransition.StartGame, GameStatus.Idle);
+            idleState.AddTransition(GameTransition.StartRun, GameStatus.Run);
+            runState.AddTransition(GameTransition.Encounter, GameStatus.Encounter);
+            runState.AddTransition(GameTransition.Reward, GameStatus.Reward);
+            encounter.AddTransition(GameTransition.ContinueRun, GameStatus.Run);
+            encounter.AddTransition(GameTransition.Reward, GameStatus.Reward);
+            reward.AddTransition(GameTransition.ContinueRun, GameStatus.Run);
+            _stateMachine.AddState(splashState);
             _stateMachine.AddState(idleState);
             _stateMachine.AddState(runState);
             _stateMachine.AddState(encounter);
@@ -59,7 +66,7 @@ namespace Core
         {
             BuffShowData.Initialize();
             _runClock = 0;
-            _stateMachine.SetCurrent(MoveStatus.Idle);
+            _stateMachine.SetCurrent(GameStatus.Splash);
         }
 
         private void Update()
@@ -70,7 +77,7 @@ namespace Core
             }
 
             _stateMachine.Tick(Time.deltaTime);
-            CurrentRun = _stateMachine.CurrentStateID;
+            CurrentState = _stateMachine.CurrentStateID;
         }
 
         private void FixedUpdate()
@@ -80,10 +87,10 @@ namespace Core
                 return;
             }
 
-            switch (CurrentRun)
+            switch (CurrentState)
             {
-                case MoveStatus.Run:
-                case MoveStatus.Encounter:
+                case GameStatus.Run:
+                case GameStatus.Encounter:
                     _runClock += Time.fixedDeltaTime;
                     break;
             }
@@ -119,17 +126,17 @@ namespace Core
 
         private void OnRunContinue()
         {
-            _stateMachine.PerformTransition(MoveTransition.ContinueRun);
+            _stateMachine.PerformTransition(GameTransition.ContinueRun);
         }
 
         private void OnRunReward()
         {
-            _stateMachine.PerformTransition(MoveTransition.Reward);
+            _stateMachine.PerformTransition(GameTransition.Reward);
         }
 
         private void OnRunEncounter(Character target)
         {
-            _stateMachine.PerformTransition(MoveTransition.Encounter);
+            _stateMachine.PerformTransition(GameTransition.Encounter);
         }
 
         private void OnGameStart()
@@ -150,12 +157,35 @@ namespace Core
             _isPaused = false;
         }
 
-        private class Idle : FsmState<GameManager, MoveStatus, MoveTransition>
+        private class Splash : FsmState<GameManager, GameStatus, GameTransition>
+        {
+            public Splash(GameStatus stateId) : base(stateId)
+            {
+            }
+
+            public override void Enter()
+            {
+            }
+
+            public override void Exit()
+            {
+            }
+
+            public override void Reason(float deltaTime = 0)
+            {
+            }
+
+            public override void Act(float deltaTime = 0)
+            {
+            }
+        }
+
+        private class Idle : FsmState<GameManager, GameStatus, GameTransition>
         {
             private float _timer = 0;
             private const int Duration = 3;
 
-            public Idle(MoveStatus stateId) : base(stateId)
+            public Idle(GameStatus stateId) : base(stateId)
             {
             }
 
@@ -176,7 +206,7 @@ namespace Core
             {
                 if (_timer < 0)
                 {
-                    Context._stateMachine.PerformTransition(MoveTransition.StartRun);
+                    Context._stateMachine.PerformTransition(GameTransition.StartRun);
                 }
             }
 
@@ -187,9 +217,9 @@ namespace Core
             }
         }
 
-        private class Run : FsmState<GameManager, MoveStatus, MoveTransition>
+        private class Run : FsmState<GameManager, GameStatus, GameTransition>
         {
-            public Run(MoveStatus stateId) : base(stateId)
+            public Run(GameStatus stateId) : base(stateId)
             {
             }
 
@@ -210,9 +240,9 @@ namespace Core
             }
         }
 
-        private class Encounter : FsmState<GameManager, MoveStatus, MoveTransition>
+        private class Encounter : FsmState<GameManager, GameStatus, GameTransition>
         {
-            public Encounter(MoveStatus stateId) : base(stateId)
+            public Encounter(GameStatus stateId) : base(stateId)
             {
             }
 
@@ -233,9 +263,9 @@ namespace Core
             }
         }
 
-        private class Reward : FsmState<GameManager, MoveStatus, MoveTransition>
+        private class Reward : FsmState<GameManager, GameStatus, GameTransition>
         {
-            public Reward(MoveStatus stateId) : base(stateId)
+            public Reward(GameStatus stateId) : base(stateId)
             {
             }
 
@@ -254,6 +284,10 @@ namespace Core
             public override void Act(float deltaTime = 0)
             {
             }
+        }
+
+        public void StartGame()
+        {
         }
     }
 }

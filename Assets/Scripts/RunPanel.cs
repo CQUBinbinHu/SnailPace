@@ -12,13 +12,13 @@ namespace DefaultNamespace
 
         private void Update()
         {
-            switch (GameManager.Instance.CurrentRun)
+            switch (GameManager.Instance.CurrentState)
             {
-                case MoveStatus.Idle:
+                case GameStatus.Idle:
                     TextMeshPro.text = GameManager.Instance.CountDown.ToString();
                     break;
-                case MoveStatus.Run:
-                case MoveStatus.Encounter:
+                case GameStatus.Run:
+                case GameStatus.Encounter:
                     TextMeshPro.text = GameManager.Instance.RunClock.ToString("0.00");
                     break;
             }

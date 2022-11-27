@@ -61,9 +61,9 @@ public class LoopMoveGrid : MonoBehaviour
             return;
         }
 
-        switch (GameManager.Instance.CurrentRun)
+        switch (GameManager.Instance.CurrentState)
         {
-            case MoveStatus.Run:
+            case GameStatus.Run:
                 Tick(Time.fixedDeltaTime);
                 break;
         }
