@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using DefaultNamespace;
 using MoreMountains.Tools;
 using Tools;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace Core
 {
@@ -29,15 +31,17 @@ namespace Core
     {
         [SerializeField] public BuffShowData BuffShowData;
         [SerializeField] public ShowTipComponent ShowTipComponent;
+        [SerializeField] private float MinLoadDuration;
         private float _runClock;
         public GameStatus CurrentState;
         private StateMachine<GameManager, GameStatus, GameTransition> _stateMachine;
         private bool _isPaused;
         public float RunClock => _runClock;
         public bool IsPaused => _isPaused;
-        public float Progress { get; set; }
+        public float ProgressValue { get; set; }
 
         public int CountDown;
+        private float _loadTimer;
 
         protected override void Awake()
         {
@@ -288,6 +292,33 @@ namespace Core
 
         public void StartGame()
         {
+            StartCoroutine(LoadLeaver());
+        }
+
+        IEnumerator LoadLeaver()
+        {
+            AsyncOperation operation = SceneManager.LoadSceneAsync("Scenes/Main");
+            operation.allowSceneActivation = false;
+            while (!operation.isDone) //当场景没有加载完毕
+            {
+                _loadTimer += Time.fixedDeltaTime;
+                if (_loadTimer > MinLoadDuration
+                    && Mathf.Approximately(operation.progress, 0.9f))
+                {
+                    operation.allowSceneActivation = true;
+                }
+
+                ProgressValue = Mathf.Min(operation.progress, _loadTimer / MinLoadDuration);
+                yield return new WaitForFixedUpdate();
+            }
+
+            yield return StartCoroutine(OnSceneLoaded());
+        }
+
+        IEnumerator OnSceneLoaded()
+        {
+            yield return new WaitForSeconds(0.2f);
+            _stateMachine.PerformTransition(GameTransition.StartGame);
         }
     }
 }

@@ -11,12 +11,12 @@ namespace DefaultNamespace
         [SerializeField] private Image FillImage;
         private static readonly int Walk = Animator.StringToHash("Walk");
         private Animator _animator;
-        private StartGameUI _startGameUI;
+        private Vector3 _initPosition;
 
         private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
-            _startGameUI = GetComponentInParent<StartGameUI>();
+            _initPosition = MoveTarget.transform.localPosition;
         }
 
         public void SetWalk()
@@ -26,7 +26,8 @@ namespace DefaultNamespace
 
         private void Update()
         {
-            FillImage.fillAmount = _startGameUI.ProgressValue;
+            FillImage.fillAmount = GameManager.Instance.ProgressValue;
+            MoveTarget.transform.localPosition = _initPosition + GameManager.Instance.ProgressValue * 5.0f * Vector3.right;
         }
     }
 }

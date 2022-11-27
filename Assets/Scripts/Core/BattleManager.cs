@@ -58,11 +58,13 @@ namespace Core
             _skillDict = new Dictionary<string, SkillComponent>();
             _skillNames = new List<string>();
             _loopSockets = new List<LoopSocket>();
+            Status = BattleStatus.Run;
         }
 
-        public void InitBattle()
+        public void OnGameStart()
         {
-            Status = BattleStatus.Run;
+            var hero = LeanPool.Spawn(HeroPrefab, SpawnSocket.position, Quaternion.identity);
+            SetHero(hero.GetComponent<Character>());
             ContinueButton.SetActive(false);
             SkillView.gameObject.SetActive(false);
             //
@@ -251,12 +253,6 @@ namespace Core
         private void OnGameOver()
         {
             // TODO: do GameOver
-        }
-
-        public void OnGameStart()
-        {
-            var hero = LeanPool.Spawn(HeroPrefab, SpawnSocket.position, Quaternion.identity);
-            SetHero(hero.GetComponent<Character>());
         }
 
         public void ChangeSkillView()

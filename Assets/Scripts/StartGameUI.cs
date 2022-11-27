@@ -17,11 +17,11 @@ namespace DefaultNamespace
         [SerializeField] private float JumpForce;
         [SerializeField] private float JumpDuration;
         [SerializeField] private float FadeDuration;
+        [SerializeField] public float MinLoadDuration = 1f;
         private Color _fadeColor;
         private Vector3 _startPos;
         private Vector3 EndPos => _startPos + JumpForce * Vector3.right;
         private bool _isOnSplash;
-        public float ProgressValue;
 
         private void Start()
         {
@@ -63,20 +63,6 @@ namespace DefaultNamespace
             _isOnSplash = false;
             LoadProgress.gameObject.SetActive(true);
             LoadProgress.SetWalk();
-            StartCoroutine(LoadLeaver());
-            // GameManager.Instance.StartGame();
-        }
-
-        IEnumerator LoadLeaver()
-        {
-            AsyncOperation operation = SceneManager.LoadSceneAsync("Scenes/Main");
-            //operation.allowSceneActivation = false;
-            while (!operation.isDone) //当场景没有加载完毕
-            {
-                ProgressValue = operation.progress;
-                yield return null;
-            }
-
             GameManager.Instance.StartGame();
         }
     }
