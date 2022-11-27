@@ -22,23 +22,24 @@ namespace MoreMountains.Tools
 		/// Singleton design pattern
 		/// </summary>
 		/// <value>The instance.</value>
-		public static T Instance
-		{
-			get
-			{
-				if (_instance == null)
-				{
-					_instance = FindObjectOfType<T> ();
-					if (_instance == null)
-					{
-						GameObject obj = new GameObject ();
-						obj.name = typeof(T).Name + "_AutoCreated";
-						_instance = obj.AddComponent<T> ();
-					}
-				}
-				return _instance;
-			}
-		}
+		public static T Instance => _instance;
+		// 不要 创建新的物体，会导致在销毁物体时创建新物体
+		// {
+		// 	get
+		// 	{
+		// 		// if (_instance == null)
+		// 		// {
+		// 		// 	_instance = FindObjectOfType<T> ();
+		// 		// 	if (_instance == null)
+		// 		// 	{
+		// 		// 		GameObject obj = new GameObject ();
+		// 		// 		obj.name = typeof(T).Name + "_AutoCreated";
+		// 		// 		_instance = obj.AddComponent<T> ();
+		// 		// 	}
+		// 		// }
+		// 		return _instance;
+		// 	}
+		// }
 
 	    /// <summary>
 	    /// On awake, we check if there's already a copy of the object in the scene. If there's one, we destroy it.
@@ -59,7 +60,7 @@ namespace MoreMountains.Tools
 			{
 				//If I am the first instance, make me the Singleton
 				_instance = this as T;
-				DontDestroyOnLoad (transform.gameObject);
+				DontDestroyOnLoad (this.gameObject);
 				_enabled = true;
 			}
 			else
