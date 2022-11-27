@@ -24,7 +24,8 @@ namespace Core
         Encounter,
         ContinueRun,
         Reward,
-        StartGame
+        StartGame,
+        OnGameOver
     }
 
     public class GameManager : MMPersistentSingleton<GameManager>
@@ -112,6 +113,7 @@ namespace Core
             GameEventManager.Instance.OnRunEncounter += OnRunEncounter;
             GameEventManager.Instance.OnRunReward += OnRunReward;
             GameEventManager.Instance.OnRunContinue += OnRunContinue;
+            GameEventManager.Instance.OnGameOver += OnGameOver;
         }
 
         /// <summary>
@@ -126,6 +128,12 @@ namespace Core
             GameEventManager.Instance.OnRunEncounter -= OnRunEncounter;
             GameEventManager.Instance.OnRunReward -= OnRunReward;
             GameEventManager.Instance.OnRunContinue -= OnRunContinue;
+            GameEventManager.Instance.OnGameOver += OnGameOver;
+        }
+
+        private void OnGameOver()
+        {
+            _stateMachine.PerformTransition(GameTransition.OnGameOver);
         }
 
         private void OnRunContinue()
@@ -279,6 +287,31 @@ namespace Core
 
             public override void Exit()
             {
+            }
+
+            public override void Reason(float deltaTime = 0)
+            {
+            }
+
+            public override void Act(float deltaTime = 0)
+            {
+            }
+        }
+
+        private class GameOverState : FsmState<GameManager, GameStatus, GameTransition>
+        {
+            public GameOverState(GameStatus stateId) : base(stateId)
+            {
+            }
+
+            public override void Enter()
+            {
+                Context._isPaused = true;
+            }
+
+            public override void Exit()
+            {
+                Context._isPaused = false;
             }
 
             public override void Reason(float deltaTime = 0)

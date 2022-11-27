@@ -45,6 +45,12 @@ public class LoopMoveGrid : MonoBehaviour
         InitStartEncounters();
     }
 
+    public void ResetGame()
+    {
+        // TODO: Reset objects positions 
+        InitStartEncounters();
+    }
+
     private void InitStartEncounters()
     {
         for (int i = 3; i < MoveSocketStructs.Count; i++)
@@ -54,23 +60,13 @@ public class LoopMoveGrid : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    public void Tick(float deltaTime)
     {
-        if (GameManager.Instance.IsPaused)
+        if (GameManager.Instance.CurrentState != GameStatus.Run)
         {
             return;
         }
 
-        switch (GameManager.Instance.CurrentState)
-        {
-            case GameStatus.Run:
-                Tick(Time.fixedDeltaTime);
-                break;
-        }
-    }
-
-    private void Tick(float deltaTime)
-    {
         bool doUpdateLoop = false;
         MoveSocketStruct lastSocket = new MoveSocketStruct();
         float distance = MoveSpeed * deltaTime;

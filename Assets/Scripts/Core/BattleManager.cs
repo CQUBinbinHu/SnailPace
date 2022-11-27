@@ -28,6 +28,7 @@ namespace Core
         [SerializeField] private Image ChoosePanel;
         [SerializeField] private Transform SkillViewSocket;
         [SerializeField] private Transform SkillView;
+        private LoopMoveGrid _loopMoveGrid;
 
         public GameObject EncounterPrefab => EncounterEnemyPrefab;
         private List<LoopSocket> _loopSockets;
@@ -58,6 +59,7 @@ namespace Core
             _skillDict = new Dictionary<string, SkillComponent>();
             _skillNames = new List<string>();
             _loopSockets = new List<LoopSocket>();
+            _loopMoveGrid = GetComponentInChildren<LoopMoveGrid>();
             Status = BattleStatus.Run;
         }
 
@@ -72,6 +74,7 @@ namespace Core
             color.a = 0;
             ChoosePanel.color = color;
             //
+            _loopSockets.Clear();
             foreach (var trans in SkillSockets)
             {
                 _loopSockets.Add(new LoopSocket(trans));
@@ -89,6 +92,7 @@ namespace Core
 
         private void InitSkillData()
         {
+            _skillRewardDict.Clear();
             foreach (var skillReward in SkillData.SkillRewards)
             {
                 if (_skillRewardDict.ContainsKey(skillReward.SkillName))
@@ -103,7 +107,7 @@ namespace Core
 
             _skillNames.Clear();
             _skillNames = _skillRewardDict.Keys.ToList();
-
+            _skillDict.Clear();
             var skills = Resources.LoadAll<SkillComponent>("Skills");
             foreach (var skill in skills)
             {
@@ -141,13 +145,20 @@ namespace Core
 
         private void FixedUpdate()
         {
-            if (Status != BattleStatus.Encounter || GameManager.Instance.IsPaused)
+            if (GameManager.Instance.IsPaused)
             {
                 return;
             }
 
-            Hero.BehaviourController.FixedTick(Time.deltaTime);
-            _encounterEnemy.BehaviourController.FixedTick(Time.deltaTime);
+            _loopMoveGrid.Tick(Time.fixedDeltaTime);
+
+            if (Status != BattleStatus.Encounter)
+            {
+                return;
+            }
+
+            Hero.BehaviourController.FixedTick(Time.fixedDeltaTime);
+            _encounterEnemy.BehaviourController.FixedTick(Time.fixedDeltaTime);
         }
 
         private void SetHero(Character character)
@@ -160,15 +171,11 @@ namespace Core
         /// </summary>
         protected virtual void OnEnable()
         {
-            // GameEventManager.Instance.OnGameStart += OnGameStart;
-            // GameEventManager.Instance.OnGamePause += OnGamePause;
-            // GameEventManager.Instance.OnGameContinue += OnGameContinue;
-
             GameEventManager.Instance.OnRunEncounter += OnRunEncounter;
             GameEventManager.Instance.OnRunReward += OnRunReward;
             GameEventManager.Instance.OnRunContinue += OnRunContinue;
             GameEventManager.Instance.OnEnemyDead += OnBattleEnd;
-            GameEventManager.Instance.OnGameOver += OnGameOver;
+            // GameEventManager.Instance.OnGameOver += OnGameOver;
             GameEventManager.Instance.OnAddSkill += OnAddSkill;
         }
 
@@ -181,7 +188,7 @@ namespace Core
             GameEventManager.Instance.OnRunReward -= OnRunReward;
             GameEventManager.Instance.OnRunContinue -= OnRunContinue;
             GameEventManager.Instance.OnEnemyDead -= OnBattleEnd;
-            GameEventManager.Instance.OnGameOver -= OnGameOver;
+            // GameEventManager.Instance.OnGameOver -= OnGameOver;
             GameEventManager.Instance.OnAddSkill -= OnAddSkill;
         }
 
@@ -248,11 +255,6 @@ namespace Core
                 var skillReward = LeanPool.Spawn(_skillRewardDict[skillName], RewardSkillSocket);
                 skillReward.SetSkillObject(_skillDict[skillName]);
             }
-        }
-
-        private void OnGameOver()
-        {
-            // TODO: do GameOver
         }
 
         public void ChangeSkillView()
