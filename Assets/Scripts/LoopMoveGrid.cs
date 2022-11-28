@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Core;
@@ -20,14 +21,21 @@ public class LoopMoveGrid : MonoBehaviour
     public float MoveWidth = 6;
     public float MoveSpeed = 0;
     public List<LoopBlock> MoveSockets;
+    private List<Vector3> _initPositions;
     private List<MoveSocketStruct> MoveSocketStructs;
     private float _endPos;
+
+    private void Awake()
+    {
+        _initPositions = new List<Vector3>();
+    }
 
     void Start()
     {
         MoveSocketStructs = new List<MoveSocketStruct>();
         foreach (var socket in MoveSockets)
         {
+            _initPositions.Add(socket.transform.position);
             MoveSocketStructs.Add(new MoveSocketStruct()
             {
                 Block = socket
@@ -41,13 +49,16 @@ public class LoopMoveGrid : MonoBehaviour
         }
 
         _endPos = MoveSockets[0].transform.localPosition.x;
-
-        InitStartEncounters();
     }
 
-    public void ResetGame()
+    public void OnReset()
     {
-        // TODO: Reset objects positions 
+        // TODO: Reset objects positions
+        for (int i = 0; i < MoveSockets.Count; i++)
+        {
+            MoveSockets[i].transform.position = _initPositions[i];
+        }
+
         InitStartEncounters();
     }
 

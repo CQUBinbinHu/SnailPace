@@ -15,7 +15,8 @@ namespace Core
         Run,
         Encounter,
         Reward,
-        Splash
+        Splash,
+        GameOver
     }
 
     public enum GameTransition
@@ -25,7 +26,8 @@ namespace Core
         ContinueRun,
         Reward,
         StartGame,
-        OnGameOver
+        OnGameOver,
+        Restart
     }
 
     public class GameManager : MMPersistentSingleton<GameManager>
@@ -53,6 +55,7 @@ namespace Core
             var runState = new Run(GameStatus.Run);
             var encounter = new Encounter(GameStatus.Encounter);
             var reward = new Reward(GameStatus.Reward);
+            var gameover = new GameOverState(GameStatus.GameOver);
             splashState.AddTransition(GameTransition.StartGame, GameStatus.Idle);
             idleState.AddTransition(GameTransition.StartRun, GameStatus.Run);
             runState.AddTransition(GameTransition.Encounter, GameStatus.Encounter);
@@ -60,11 +63,15 @@ namespace Core
             encounter.AddTransition(GameTransition.ContinueRun, GameStatus.Run);
             encounter.AddTransition(GameTransition.Reward, GameStatus.Reward);
             reward.AddTransition(GameTransition.ContinueRun, GameStatus.Run);
+            runState.AddTransition(GameTransition.OnGameOver, GameStatus.GameOver);
+            encounter.AddTransition(GameTransition.OnGameOver, GameStatus.GameOver);
+            gameover.AddTransition(GameTransition.Restart, GameStatus.Idle);
             _stateMachine.AddState(splashState);
             _stateMachine.AddState(idleState);
             _stateMachine.AddState(runState);
             _stateMachine.AddState(encounter);
             _stateMachine.AddState(reward);
+            _stateMachine.AddState(gameover);
         }
 
         private void Start()
@@ -352,6 +359,11 @@ namespace Core
         {
             yield return new WaitForSeconds(0.2f);
             _stateMachine.PerformTransition(GameTransition.StartGame);
+        }
+
+        public void Restart()
+        {
+            _stateMachine.PerformTransition(GameTransition.Restart);
         }
     }
 }

@@ -88,6 +88,8 @@ namespace Core
                 skillReward.SetSkillObject(_skillDict[skillReward.SkillName]);
                 skillReward.OnAddSkill();
             }
+
+            _loopMoveGrid.OnReset();
         }
 
         private void InitSkillData()
