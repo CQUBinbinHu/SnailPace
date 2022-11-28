@@ -46,7 +46,7 @@ namespace DefaultNamespace
                     {
                         case GameStatus.Encounter:
                         case GameStatus.Run:
-                            Debug.Log(context.action.name + " " + "Started");
+                            // Debug.Log(context.action.name + " " + "Started");
                             KeyUp.gameObject.SetActive(false);
                             keyDown.gameObject.SetActive(true);
                             if (!_interactable)
@@ -60,10 +60,10 @@ namespace DefaultNamespace
 
                     break;
                 case InputActionPhase.Performed:
-                    Debug.Log(context.action.name + " " + "Performed");
+                    // Debug.Log(context.action.name + " " + "Performed");
                     break;
                 case InputActionPhase.Canceled:
-                    Debug.Log(context.action.name + " " + "Canceled");
+                    // Debug.Log(context.action.name + " " + "Canceled");
                     KeyUp.gameObject.SetActive(true);
                     keyDown.gameObject.SetActive(false);
                     if (!_interactable)
@@ -74,10 +74,10 @@ namespace DefaultNamespace
                     _current.OnCancel();
                     break;
                 case InputActionPhase.Waiting:
-                    Debug.Log(context.action.name + " " + "Waiting");
+                    // Debug.Log(context.action.name + " " + "Waiting");
                     break;
                 case InputActionPhase.Disabled:
-                    Debug.Log(context.action.name + " " + "Disabled");
+                    // Debug.Log(context.action.name + " " + "Disabled");
                     break;
             }
         }

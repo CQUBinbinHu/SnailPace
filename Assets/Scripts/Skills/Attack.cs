@@ -13,7 +13,7 @@ namespace HeroPerform
 
         public override void OnUse()
         {
-            if (!Target)
+            if (!Target || Target.IsDead)
             {
                 return;
             }

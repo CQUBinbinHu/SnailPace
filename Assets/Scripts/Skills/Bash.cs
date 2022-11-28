@@ -11,6 +11,16 @@ namespace HeroPerform
 
         public override void OnUse()
         {
+            if (!Target || Target.IsDead)
+            {
+                return;
+            }
+
+            if (!TryGetPermission())
+            {
+                return;
+            }
+
             Target.Health.TakeDamage(Damage);
             Target.AddBuff(BuffType.Vulnerable);
         }

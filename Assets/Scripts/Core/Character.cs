@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DefaultNamespace;
 using Lean.Pool;
+using ParadoxNotion;
 using UnityEngine;
 
 namespace Core
@@ -36,6 +37,7 @@ namespace Core
         public BehaviourController BehaviourController => _behaviourController;
         public float CurrentEnergy => _energyComponent.Current;
         public bool HasEnergy => _energyComponent;
+        public bool IsDead => _health.IsDead;
 
         private void Awake()
         {

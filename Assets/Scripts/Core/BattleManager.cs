@@ -227,6 +227,7 @@ namespace Core
 
         private void OnReward()
         {
+            _encounterEnemy = null;
             GameEventManager.Instance.OnRunReward.Invoke();
             AddRandomRewards();
         }
