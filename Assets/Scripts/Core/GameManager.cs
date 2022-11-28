@@ -1,15 +1,26 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using DefaultNamespace;
 using DefaultNamespace.Tools.IncrementScoreCharacters;
 using LootLocker;
 using LootLocker.Requests;
 using MoreMountains.Tools;
+using TMPro;
 using Tools;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Core
 {
+    public class PlayerScoreData
+    {
+        public int Score;
+        public int Rank;
+        public string PlayerName;
+        public string PlayerFakeID;
+        public string PlayerID;
+    }
+
     public enum GameStatus
     {
         Idle,
@@ -39,7 +50,7 @@ namespace Core
         [SerializeField] public BuffShowData BuffShowData;
         [SerializeField] public ShowTipComponent ShowTipComponent;
         [SerializeField] private float MinLoadDuration;
-        public string LeaderBoardKey;
+        public int LeaderBoardKey;
         private float _runClock;
         public GameStatus CurrentState;
         private StateMachine<GameManager, GameStatus, GameTransition> _stateMachine;
@@ -52,12 +63,14 @@ namespace Core
         public bool LoggedIn;
         private int PlayerScore { get; set; }
         public bool IsSuccessRegistered { get; set; }
+        public List<PlayerScoreData> PlayerScores;
 
         protected override void Awake()
         {
             base.Awake();
             LoggedIn = false;
             IsSuccessRegistered = false;
+            PlayerScores = new List<PlayerScoreData>();
             _stateMachine = new StateMachine<GameManager, GameStatus, GameTransition>(this);
             var splashState = new Splash(GameStatus.Splash);
             var idleState = new Idle(GameStatus.Idle);
@@ -478,7 +491,7 @@ namespace Core
             }
 
             SubmitScore();
-            yield return null;
+            yield return FetchTopLeaderboardScores();
         }
 
         private void SubmitScore()
@@ -500,6 +513,60 @@ namespace Core
                     Debug.Log("failed: " + response.Error);
                 }
             });
+        }
+
+        public IEnumerator FetchTopLeaderboardScores()
+        {
+            PlayerScores.Clear();
+            // Let the player know that the scores are loading
+            string playerNames = "Loading...";
+            string playerScores = "";
+            // How many scores?
+            int count = 10;
+            int after = 0;
+
+            bool done = false;
+            LootLockerSDKManager.GetScoreListMain(LeaderBoardKey, count, after, (response) =>
+            {
+                if (response.statusCode == 200)
+                {
+                    Debug.Log("Successful");
+
+                    // Set the title of the names tab
+                    playerNames = "Names\n";
+                    // Set the title of the scores tab
+                    playerScores = "Score\n";
+
+                    LootLockerLeaderboardMember[] members = response.items;
+                    for (int i = 0; i < members.Length; i++)
+                    {
+                        PlayerScores.Add(new PlayerScoreData()
+                        {
+                            Score = members[i].score,
+                            Rank = members[i].rank,
+                            PlayerName = members[i].metadata,
+                            PlayerFakeID = members[i].member_id,
+                            PlayerID = members[i].member_id.Split('_')[0]
+                        });
+                        // Show the ranking, players name and score, and create a new line for the next entry
+                        playerNames += members[i].rank + ". " + members[i].metadata + "\n";
+                        playerScores += members[i].score + "\n";
+                    }
+
+                    done = true;
+                }
+                else
+                {
+                    Debug.Log("failed: " + response.Error);
+                    // Give the user information that the leaderboard couldn't be retrieved
+                    playerNames = "Error, could not retrieve leaderboard";
+                    done = true;
+                }
+            });
+            // Wait until the process has finished
+            yield return new WaitWhile(() => done == false);
+            // Update the TextMeshPro components
+            GameEventManager.Instance.OnFetchScores?.Invoke();
         }
     }
 }

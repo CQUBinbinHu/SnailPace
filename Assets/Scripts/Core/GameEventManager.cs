@@ -17,5 +17,6 @@ namespace Core
         public UnityAction OnGameRestart;
         public UnityAction<SkillReward> OnAddSkill;
         public UnityAction OnGameWinning;
+        public UnityAction OnFetchScores;
     }
 }
