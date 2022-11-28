@@ -1,4 +1,5 @@
 ﻿using System;
+using Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -36,6 +37,11 @@ namespace DefaultNamespace
             switch (context.phase)
             {
                 case InputActionPhase.Started:
+                    if (GameManager.Instance.IsPaused)
+                    {
+                        return;
+                    }
+
                     Debug.Log(context.action.name + " " + "Started");
                     KeyUp.gameObject.SetActive(false);
                     keyDown.gameObject.SetActive(true);

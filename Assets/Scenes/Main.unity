@@ -2137,6 +2137,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 8a52df67-3223-4cb1-84c7-42facd657af4
     m_ActionName: MainKeyboard/Help[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d12e9cee-123d-4f40-919e-b018d92c5e8b
+    m_ActionName: MainKeyboard/StartGame[/Keyboard/anyKey]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: MainKeyboard
@@ -4610,7 +4614,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 1147085155
-  m_SortingOrder: 10
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!1 &1237368091
 GameObject:
@@ -4765,7 +4769,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 1147085155
-  m_SortingOrder: 10
+  m_SortingOrder: 20
   m_TargetDisplay: 0
 --- !u!1 &1259729306
 GameObject:

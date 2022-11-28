@@ -275,7 +275,7 @@ namespace Core
 
         public void OnRefreshSkills()
         {
-            if (!_isRefreshOpen)
+            if (!_isRefreshOpen || GameManager.Instance.IsPaused)
             {
                 return;
             }
