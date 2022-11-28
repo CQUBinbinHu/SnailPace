@@ -18,11 +18,6 @@ namespace DefaultNamespace
             GameEventManager.Instance.OnGameOver += OnGameOver;
         }
 
-        private void OnGameOver()
-        {
-            GameOverPanel.SetActive(true);
-        }
-
         private void OnDisable()
         {
             GameEventManager.Instance.OnGameOver -= OnGameOver;
@@ -32,6 +27,11 @@ namespace DefaultNamespace
         {
             GameManager.Instance.Restart();
             GameOverPanel.SetActive(false);
+        }
+
+        private void OnGameOver()
+        {
+            GameOverPanel.SetActive(true);
         }
     }
 }

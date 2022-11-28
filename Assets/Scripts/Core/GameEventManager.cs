@@ -15,6 +15,7 @@ namespace Core
         public UnityAction OnRunContinue;
         public UnityAction OnEnemyDead;
         public UnityAction OnGameOver;
+        public UnityAction OnGameRestart;
         public UnityAction<SkillReward> OnAddSkill;
     }
 }

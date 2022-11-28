@@ -314,6 +314,7 @@ namespace Core
             public override void Enter()
             {
                 Context._isPaused = true;
+                Context._runClock = 0;
             }
 
             public override void Exit()

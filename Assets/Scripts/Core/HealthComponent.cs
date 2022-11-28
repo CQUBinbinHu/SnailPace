@@ -140,14 +140,15 @@ namespace Core
                     break;
             }
 
-            StartCoroutine(DelayDead_Cro(0.6f));
+            LeanPool.Despawn(this);
+            // StartCoroutine(DelayDead_Cro(0.6f));
         }
 
-        IEnumerator DelayDead_Cro(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            LeanPool.Despawn(_owner.gameObject);
-        }
+        // IEnumerator DelayDead_Cro(float delay)
+        // {
+        //     yield return new WaitForSeconds(delay);
+        //     LeanPool.Despawn(_owner.gameObject);
+        // }
 
         public void AddArmor(int armor)
         {

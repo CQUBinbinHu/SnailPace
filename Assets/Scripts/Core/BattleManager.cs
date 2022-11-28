@@ -177,7 +177,7 @@ namespace Core
             GameEventManager.Instance.OnRunReward += OnRunReward;
             GameEventManager.Instance.OnRunContinue += OnRunContinue;
             GameEventManager.Instance.OnEnemyDead += OnBattleEnd;
-            // GameEventManager.Instance.OnGameOver += OnGameOver;
+            GameEventManager.Instance.OnGameOver += OnGameOver;
             GameEventManager.Instance.OnAddSkill += OnAddSkill;
         }
 
@@ -190,8 +190,15 @@ namespace Core
             GameEventManager.Instance.OnRunReward -= OnRunReward;
             GameEventManager.Instance.OnRunContinue -= OnRunContinue;
             GameEventManager.Instance.OnEnemyDead -= OnBattleEnd;
-            // GameEventManager.Instance.OnGameOver -= OnGameOver;
+            GameEventManager.Instance.OnGameOver -= OnGameOver;
             GameEventManager.Instance.OnAddSkill -= OnAddSkill;
+        }
+
+        private void OnGameOver()
+        {
+            Status = BattleStatus.Run;
+            _hero = null;
+            _encounterEnemy = null;
         }
 
         private void OnRunEncounter(Character target)
