@@ -314,12 +314,12 @@ namespace Core
             public override void Enter()
             {
                 Context._isPaused = true;
-                Context._runClock = 0;
             }
 
             public override void Exit()
             {
                 Context._isPaused = false;
+                Context._runClock = 0;
             }
 
             public override void Reason(float deltaTime = 0)
@@ -364,6 +364,7 @@ namespace Core
 
         public void Restart()
         {
+            GameEventManager.Instance.OnGameRestart.Invoke();
             _stateMachine.PerformTransition(GameTransition.Restart);
         }
     }
