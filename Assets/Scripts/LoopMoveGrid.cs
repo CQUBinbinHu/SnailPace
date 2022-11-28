@@ -67,7 +67,7 @@ public class LoopMoveGrid : MonoBehaviour
         }
     }
 
-    public void Tick(float deltaTime)
+    public void FixedTick(float deltaTime)
     {
         if (GameManager.Instance.CurrentState != GameStatus.Run)
         {

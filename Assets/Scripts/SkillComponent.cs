@@ -84,11 +84,6 @@ namespace DefaultNamespace
 
         protected bool TryGetPermission()
         {
-            if (!Target)
-            {
-                return false;
-            }
-
             switch (Owner.CharacterType)
             {
                 case CharacterType.Hero:

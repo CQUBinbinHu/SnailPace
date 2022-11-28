@@ -298,10 +298,12 @@ namespace Core
 
             public override void Enter()
             {
+                Context._isPaused = true;
             }
 
             public override void Exit()
             {
+                Context._isPaused = false;
             }
 
             public override void Reason(float deltaTime = 0)

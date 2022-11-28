@@ -47,12 +47,19 @@ namespace Core
 
         private void FixedUpdate()
         {
+            TickUpdateArmor(Time.fixedDeltaTime);
+        }
+
+        private void TickUpdateArmor(float fixedDeltaTime)
+        {
+            if (_armor == 0) return;
             if (_armorTimer > 0)
             {
-                _armorTimer -= Time.fixedDeltaTime;
+                _armorTimer -= fixedDeltaTime;
             }
             else
             {
+                Debug.Log("debug RemoveArmor");
                 RemoveArmor(Int32.MaxValue);
             }
         }
@@ -178,6 +185,7 @@ namespace Core
             _armor = Mathf.Clamp(_armor, 0, Int32.MaxValue);
             if (ShowHealthBar)
             {
+                _healthBar.UpdateDamageBar();
                 _healthBar.UpdateArmorPresentation();
             }
         }

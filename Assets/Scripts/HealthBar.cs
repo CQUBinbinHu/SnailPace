@@ -44,25 +44,6 @@ namespace DefaultNamespace
             ArmorAmount.text = armors == 0 ? string.Empty : armors.ToString();
         }
 
-        private void Update()
-        {
-// debug
-#if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                CurrentRatio -= Random.Range(0.2f, 0.8f);
-                CurrentRatio = Mathf.Clamp01(CurrentRatio);
-                UpdateDamageBar();
-            }
-
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                CurrentRatio = 1;
-                UpdateDamageBar();
-            }
-#endif
-        }
-
         public void UpdateDamageBar()
         {
             if (_healthComponent.IsDead)

@@ -10,6 +10,11 @@ namespace HeroPerform
 
         public override void OnUse()
         {
+            if (!Target)
+            {
+                return;
+            }
+
             if (!TryGetPermission())
             {
                 return;

@@ -38,19 +38,11 @@ namespace Core
         private List<string> _skillNames;
         private Character _hero;
         private Character _encounterEnemy;
-        public BattleStatus Status;
         private Dictionary<string, SkillReward> _skillRewardDict;
         private Dictionary<string, SkillComponent> _skillDict;
         public Character Hero => _hero;
         public Character EncounterEnemy => _encounterEnemy;
         private bool _isRefreshOpen;
-
-        public enum BattleStatus
-        {
-            Run,
-            Encounter,
-            Reward
-        }
 
         protected override void Awake()
         {
@@ -62,7 +54,6 @@ namespace Core
             _skillNames = new List<string>();
             _loopSockets = new List<LoopSocket>();
             _loopMoveGrid = GetComponentInChildren<LoopMoveGrid>();
-            Status = BattleStatus.Run;
         }
 
         public void OnGameStart()
@@ -155,15 +146,17 @@ namespace Core
                 return;
             }
 
-            _loopMoveGrid.Tick(Time.fixedDeltaTime);
-
-            if (Status != BattleStatus.Encounter)
+            switch (GameManager.Instance.CurrentState)
             {
-                return;
+                case GameStatus.Encounter:
+                    Hero.BehaviourController.FixedTick(Time.fixedDeltaTime);
+                    _encounterEnemy.BehaviourController.FixedTick(Time.fixedDeltaTime);
+                    break;
+                case GameStatus.Run:
+                    _loopMoveGrid.FixedTick(Time.fixedDeltaTime);
+                    Hero.BehaviourController.FixedTick(Time.fixedDeltaTime);
+                    break;
             }
-
-            Hero.BehaviourController.FixedTick(Time.fixedDeltaTime);
-            _encounterEnemy.BehaviourController.FixedTick(Time.fixedDeltaTime);
         }
 
         private void SetHero(Character character)
@@ -179,7 +172,7 @@ namespace Core
             GameEventManager.Instance.OnRunEncounter += OnRunEncounter;
             GameEventManager.Instance.OnRunReward += OnRunReward;
             GameEventManager.Instance.OnRunContinue += OnRunContinue;
-            GameEventManager.Instance.OnEnemyDead += OnBattleEnd;
+            GameEventManager.Instance.OnEnemyDead += OnReward;
             GameEventManager.Instance.OnGameOver += OnGameOver;
             GameEventManager.Instance.OnAddSkill += OnAddSkill;
         }
@@ -192,14 +185,13 @@ namespace Core
             GameEventManager.Instance.OnRunEncounter -= OnRunEncounter;
             GameEventManager.Instance.OnRunReward -= OnRunReward;
             GameEventManager.Instance.OnRunContinue -= OnRunContinue;
-            GameEventManager.Instance.OnEnemyDead -= OnBattleEnd;
+            GameEventManager.Instance.OnEnemyDead -= OnReward;
             GameEventManager.Instance.OnGameOver -= OnGameOver;
             GameEventManager.Instance.OnAddSkill -= OnAddSkill;
         }
 
         private void OnGameOver()
         {
-            Status = BattleStatus.Run;
             _hero = null;
             _encounterEnemy = null;
         }
@@ -212,7 +204,6 @@ namespace Core
         private void OnRunEncounter(Character target)
         {
             _encounterEnemy = target;
-            Status = BattleStatus.Encounter;
             Hero.BehaviourController.SetTarget(EncounterEnemy);
             Hero.BehaviourController.Initialize();
             _encounterEnemy.BehaviourController.SetTarget(Hero);
@@ -231,13 +222,11 @@ namespace Core
 
         private void ResetBattlePanel()
         {
-            // TODO: ResetBattlePanel
             ChoosePanel.DOFade(0, 0.3f);
         }
 
-        private void OnBattleEnd()
+        private void OnReward()
         {
-            Status = BattleStatus.Reward;
             GameEventManager.Instance.OnRunReward.Invoke();
             AddRandomRewards();
         }
@@ -295,16 +284,22 @@ namespace Core
                 return;
             }
 
-            OnRefreshUseEnergy();
-            _isRefreshOpen = false;
-            foreach (var skill in _currentSkills)
+            switch (GameManager.Instance.CurrentState)
             {
-                skill.OnRefresh();
+                case GameStatus.Encounter:
+                case GameStatus.Run:
+                    OnRefreshUseEnergy();
+                    _isRefreshOpen = false;
+                    foreach (var skill in _currentSkills)
+                    {
+                        skill.OnRefresh();
+                    }
+
+                    _currentSkills.Clear();
+
+                    StartCoroutine(RefreshRandomSkills(0.4f));
+                    break;
             }
-
-            _currentSkills.Clear();
-
-            StartCoroutine(RefreshRandomSkills(0.4f));
         }
 
         private void OnRefreshUseEnergy()

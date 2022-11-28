@@ -42,23 +42,25 @@ namespace DefaultNamespace
                         return;
                     }
 
-                    Debug.Log(context.action.name + " " + "Started");
-                    KeyUp.gameObject.SetActive(false);
-                    keyDown.gameObject.SetActive(true);
-                    if (!_interactable)
+                    switch (GameManager.Instance.CurrentState)
                     {
-                        return;
+                        case GameStatus.Encounter:
+                        case GameStatus.Run:
+                            Debug.Log(context.action.name + " " + "Started");
+                            KeyUp.gameObject.SetActive(false);
+                            keyDown.gameObject.SetActive(true);
+                            if (!_interactable)
+                            {
+                                return;
+                            }
+
+                            _current.OnUse();
+                            break;
                     }
 
-                    _current.OnUse();
                     break;
                 case InputActionPhase.Performed:
                     Debug.Log(context.action.name + " " + "Performed");
-                    if (!_interactable)
-                    {
-                        return;
-                    }
-
                     break;
                 case InputActionPhase.Canceled:
                     Debug.Log(context.action.name + " " + "Canceled");
