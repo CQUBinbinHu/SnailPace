@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using DefaultNamespace;
 using MoreMountains.Tools;
 using Tools;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace Core
@@ -16,7 +14,8 @@ namespace Core
         Encounter,
         Reward,
         Splash,
-        GameOver
+        GameOver,
+        GameWining
     }
 
     public enum GameTransition
@@ -27,11 +26,13 @@ namespace Core
         Reward,
         StartGame,
         OnGameOver,
-        Restart
+        Restart,
+        WinGame
     }
 
     public class GameManager : MMPersistentSingleton<GameManager>
     {
+        [SerializeField] public int MaxEncounters;
         [SerializeField] public BuffShowData BuffShowData;
         [SerializeField] public ShowTipComponent ShowTipComponent;
         [SerializeField] private float MinLoadDuration;
@@ -55,23 +56,28 @@ namespace Core
             var runState = new Run(GameStatus.Run);
             var encounter = new Encounter(GameStatus.Encounter);
             var reward = new Reward(GameStatus.Reward);
-            var gameover = new GameOverState(GameStatus.GameOver);
+            var gameOverState = new GameOverState(GameStatus.GameOver);
+            var gameWining = new GameWiningState(GameStatus.GameWining);
+
+            gameWining.AddTransition(GameTransition.Restart, GameStatus.Idle);
             splashState.AddTransition(GameTransition.StartGame, GameStatus.Idle);
             idleState.AddTransition(GameTransition.StartRun, GameStatus.Run);
             runState.AddTransition(GameTransition.Encounter, GameStatus.Encounter);
             runState.AddTransition(GameTransition.Reward, GameStatus.Reward);
+            runState.AddTransition(GameTransition.WinGame, GameStatus.GameWining);
             encounter.AddTransition(GameTransition.ContinueRun, GameStatus.Run);
             encounter.AddTransition(GameTransition.Reward, GameStatus.Reward);
             reward.AddTransition(GameTransition.ContinueRun, GameStatus.Run);
             runState.AddTransition(GameTransition.OnGameOver, GameStatus.GameOver);
             encounter.AddTransition(GameTransition.OnGameOver, GameStatus.GameOver);
-            gameover.AddTransition(GameTransition.Restart, GameStatus.Idle);
+            gameOverState.AddTransition(GameTransition.Restart, GameStatus.Idle);
             _stateMachine.AddState(splashState);
             _stateMachine.AddState(idleState);
             _stateMachine.AddState(runState);
             _stateMachine.AddState(encounter);
             _stateMachine.AddState(reward);
-            _stateMachine.AddState(gameover);
+            _stateMachine.AddState(gameOverState);
+            _stateMachine.AddState(gameWining);
         }
 
         private void Start()
@@ -113,14 +119,15 @@ namespace Core
         /// </summary>
         protected virtual void OnEnable()
         {
-            GameEventManager.Instance.OnGameStart += OnGameStart;
+            // GameEventManager.Instance.OnGameStart += OnGameStart;
             GameEventManager.Instance.OnGamePause += OnGamePause;
             GameEventManager.Instance.OnGameContinue += OnGameContinue;
-            GameEventManager.Instance.OnRunStart += OnRunStart;
+            // GameEventManager.Instance.OnRunStart += OnRunStart;
             GameEventManager.Instance.OnRunEncounter += OnRunEncounter;
             GameEventManager.Instance.OnRunReward += OnRunReward;
             GameEventManager.Instance.OnRunContinue += OnRunContinue;
             GameEventManager.Instance.OnGameOver += OnGameOver;
+            GameEventManager.Instance.OnGameWinning += OnGameWinning;
         }
 
         /// <summary>
@@ -128,14 +135,20 @@ namespace Core
         /// </summary>
         protected virtual void OnDisable()
         {
-            GameEventManager.Instance.OnGameStart -= OnGameStart;
+            // GameEventManager.Instance.OnGameStart -= OnGameStart;
             GameEventManager.Instance.OnGamePause -= OnGamePause;
             GameEventManager.Instance.OnGameContinue -= OnGameContinue;
-            GameEventManager.Instance.OnRunStart -= OnRunStart;
+            // GameEventManager.Instance.OnRunStart -= OnRunStart;
             GameEventManager.Instance.OnRunEncounter -= OnRunEncounter;
             GameEventManager.Instance.OnRunReward -= OnRunReward;
             GameEventManager.Instance.OnRunContinue -= OnRunContinue;
-            GameEventManager.Instance.OnGameOver += OnGameOver;
+            GameEventManager.Instance.OnGameOver -= OnGameOver;
+            GameEventManager.Instance.OnGameWinning -= OnGameWinning;
+        }
+
+        private void OnGameWinning()
+        {
+            _stateMachine.PerformTransition(GameTransition.WinGame);
         }
 
         private void OnGameOver()
@@ -158,13 +171,9 @@ namespace Core
             _stateMachine.PerformTransition(GameTransition.Encounter);
         }
 
-        private void OnGameStart()
-        {
-        }
-
-        private void OnRunStart()
-        {
-        }
+        // private void OnGameStart()
+        // {
+        // }
 
         private void OnGamePause()
         {
@@ -213,12 +222,11 @@ namespace Core
                 _timer = Duration;
                 Context.CountDown = Duration;
                 BattleManager.Instance.OnGameStart();
-                GameEventManager.Instance.OnGameStart.Invoke();
+                // GameEventManager.Instance.OnGameStart.Invoke();
             }
 
             public override void Exit()
             {
-                GameEventManager.Instance.OnRunStart.Invoke();
             }
 
             public override void Reason(float deltaTime = 0)
@@ -308,6 +316,32 @@ namespace Core
         private class GameOverState : FsmState<GameManager, GameStatus, GameTransition>
         {
             public GameOverState(GameStatus stateId) : base(stateId)
+            {
+            }
+
+            public override void Enter()
+            {
+                Context._isPaused = true;
+            }
+
+            public override void Exit()
+            {
+                Context._isPaused = false;
+                Context._runClock = 0;
+            }
+
+            public override void Reason(float deltaTime = 0)
+            {
+            }
+
+            public override void Act(float deltaTime = 0)
+            {
+            }
+        }
+
+        private class GameWiningState : FsmState<GameManager, GameStatus, GameTransition>
+        {
+            public GameWiningState(GameStatus stateId) : base(stateId)
             {
             }
 

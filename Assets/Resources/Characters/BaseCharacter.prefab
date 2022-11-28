@@ -87,7 +87,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 3}
   m_EdgeRadius: 0
 --- !u!1 &6140105974655100051
 GameObject:
@@ -336,6 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _behaviourTreeOwner: {fileID: 4577403215481695376}
+  _currentSkill: {fileID: 0}
 --- !u!114 &4577403215481695376
 MonoBehaviour:
   m_ObjectHideFlags: 0

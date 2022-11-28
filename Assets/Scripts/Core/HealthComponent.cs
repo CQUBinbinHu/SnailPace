@@ -32,10 +32,17 @@ namespace Core
         public void Initialize()
         {
             _isDead = false;
-            ResetHp();
-            _healthBar.gameObject.SetActive(ShowHealthBar);
-            _healthBar.Initialize();
             ResetArmorTimer();
+            ResetHp();
+            if (_healthBar)
+            {
+                _healthBar.gameObject.SetActive(ShowHealthBar);
+                _healthBar.Initialize();
+            }
+            else
+            {
+                ShowHealthBar = false;
+            }
         }
 
         private void FixedUpdate()
@@ -52,7 +59,10 @@ namespace Core
 
         private void Update()
         {
-            _healthBar.UpdateArmorPresentation();
+            if (ShowHealthBar)
+            {
+                _healthBar.UpdateArmorPresentation();
+            }
         }
 
         private void ResetArmorTimer()
@@ -155,15 +165,21 @@ namespace Core
             _armor += armor;
             _armor = Mathf.Clamp(_armor, 0, Int32.MaxValue);
             ResetArmorTimer();
-            _healthBar.UpdateDamageBar();
-            _healthBar.UpdateArmorPresentation();
+            if (ShowHealthBar)
+            {
+                _healthBar.UpdateDamageBar();
+                _healthBar.UpdateArmorPresentation();
+            }
         }
 
-        public void RemoveArmor(int armor)
+        private void RemoveArmor(int armor)
         {
             _armor -= armor;
             _armor = Mathf.Clamp(_armor, 0, Int32.MaxValue);
-            _healthBar.UpdateArmorPresentation();
+            if (ShowHealthBar)
+            {
+                _healthBar.UpdateArmorPresentation();
+            }
         }
     }
 }

@@ -136,4 +136,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NeedEnergy: 10
   SkillName: Knife
-  Atk: 30
+  Atk: 100

@@ -1,29 +1,24 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Core;
 using DefaultNamespace;
 using Lean.Pool;
-using MoreMountains.Tools;
-using Unity.Mathematics;
 using UnityEngine;
 
 class MoveSocketStruct
 {
     public LoopBlock Block;
-
     public MoveSocketStruct Next;
-    // public MoveSocketStruct Prev;
 }
 
 public class LoopMoveGrid : MonoBehaviour
 {
     public float MoveWidth = 6;
-    public float MoveSpeed = 0;
     public List<LoopBlock> MoveSockets;
     private List<Vector3> _initPositions;
     private List<MoveSocketStruct> MoveSocketStructs;
     private float _endPos;
+    private float _passedBlocks;
+    private bool _isCompleteGame;
 
     private void Awake()
     {
@@ -48,12 +43,13 @@ public class LoopMoveGrid : MonoBehaviour
             MoveSocketStructs[i].Next = MoveSocketStructs[(i + num - 1) % num];
         }
 
-        _endPos = MoveSockets[0].transform.localPosition.x;
+        _endPos = MoveSockets[0].transform.localPosition.x - 0.5f * MoveWidth;
     }
 
     public void OnReset()
     {
-        // TODO: Reset objects positions
+        _isCompleteGame = false;
+        _passedBlocks = 0;
         for (int i = 0; i < MoveSockets.Count; i++)
         {
             MoveSockets[i].transform.position = _initPositions[i];
@@ -80,15 +76,16 @@ public class LoopMoveGrid : MonoBehaviour
 
         bool doUpdateLoop = false;
         MoveSocketStruct lastSocket = new MoveSocketStruct();
-        float distance = MoveSpeed * deltaTime;
+        float deltaDistance = BattleManager.Instance.MoveSpeed * deltaTime;
         foreach (var socket in MoveSocketStructs)
         {
             var pos = socket.Block.transform.localPosition;
-            pos.x -= distance;
+            pos.x -= deltaDistance;
             if (pos.x < _endPos)
             {
                 doUpdateLoop = true;
                 lastSocket = socket;
+                _passedBlocks += 1;
             }
             else
             {
@@ -101,22 +98,20 @@ public class LoopMoveGrid : MonoBehaviour
             var movePos = lastSocket.Next.Block.transform.localPosition;
             movePos.x += MoveWidth;
             lastSocket.Block.transform.localPosition = movePos;
-            var encounter = LeanPool.Spawn(BattleManager.Instance.EncounterPrefab, lastSocket.Block.IncidentSocket);
-            encounter.transform.localPosition = Vector3.zero;
+            if (_passedBlocks + 3 < GameManager.Instance.MaxEncounters)
+            {
+                if (!_isCompleteGame)
+                {
+                    _isCompleteGame = true;
+                    var winning = LeanPool.Spawn(BattleManager.Instance.WinningPrefab, lastSocket.Block.IncidentSocket);
+                    winning.transform.localPosition = Vector3.zero;
+                }
+            }
+            else
+            {
+                var encounter = LeanPool.Spawn(BattleManager.Instance.EncounterPrefab, lastSocket.Block.IncidentSocket);
+                encounter.transform.localPosition = Vector3.zero;
+            }
         }
-    }
-
-    /// <summary>
-    /// OnDisable, we start listening to events.
-    /// </summary>
-    protected virtual void OnEnable()
-    {
-    }
-
-    /// <summary>
-    /// OnDisable, we stop listening to events.
-    /// </summary>
-    protected virtual void OnDisable()
-    {
     }
 }

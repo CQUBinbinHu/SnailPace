@@ -159,7 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NeedEnergy: 10
   SkillName: Knife
-  Atk: 100
+  Atk: 10
 --- !u!114 &4627585990656520623 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5661890569281737781, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}

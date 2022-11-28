@@ -9,7 +9,8 @@ namespace Core
     public enum CharacterType
     {
         Hero,
-        Enemy
+        Enemy,
+        Winning
     }
 
     public class Character : MonoBehaviour, IPoolable
@@ -133,7 +134,11 @@ namespace Core
 
         public void OnSpawn()
         {
-            _health.Initialize();
+            if (_health)
+            {
+                _health.Initialize();
+            }
+
             if (BehaviourController.Intent)
             {
                 _behaviourController.Intent.SetIntent(Intent.None);
@@ -157,7 +162,7 @@ namespace Core
 
         private void OnRestart()
         {
-            LeanPool.Despawn(this);
+            LeanPool.Despawn(this.gameObject);
         }
     }
 }

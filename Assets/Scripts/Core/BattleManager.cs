@@ -16,6 +16,7 @@ namespace Core
 {
     public class BattleManager : MMSingleton<BattleManager>
     {
+        [SerializeField] private int InitSpeed;
         [SerializeField] private SkillReward[] InitSkills;
         [SerializeField] private GameObject HeroPrefab;
         [SerializeField] private GameObject EncounterEnemyPrefab;
@@ -28,8 +29,9 @@ namespace Core
         [SerializeField] private Image ChoosePanel;
         [SerializeField] private Transform SkillViewSocket;
         [SerializeField] private Transform SkillView;
+        public GameObject WinningPrefab;
         private LoopMoveGrid _loopMoveGrid;
-
+        public int MoveSpeed;
         public GameObject EncounterPrefab => EncounterEnemyPrefab;
         private List<LoopSocket> _loopSockets;
         private List<SkillComponent> _currentSkills;
@@ -67,6 +69,7 @@ namespace Core
         {
             var hero = LeanPool.Spawn(HeroPrefab, SpawnSocket.position, Quaternion.identity);
             SetHero(hero.GetComponent<Character>());
+            MoveSpeed = InitSpeed;
             ContinueButton.SetActive(false);
             SkillView.gameObject.SetActive(false);
             //
@@ -198,6 +201,11 @@ namespace Core
         {
             Status = BattleStatus.Run;
             _hero = null;
+            _encounterEnemy = null;
+        }
+
+        private void OnGameWinning()
+        {
             _encounterEnemy = null;
         }
 
