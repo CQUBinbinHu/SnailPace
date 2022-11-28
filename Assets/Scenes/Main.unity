@@ -8443,7 +8443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89be9d2f447c49239d5d035f79dc1716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitSpeed: 1
+  InitSpeed: 10
   InitSkills:
   - {fileID: 8990630055513422554, guid: c05318ebc61325848b10b4db175a8f08, type: 3}
   - {fileID: 703394028094795167, guid: 26f5a41319cca2a4a8bf4d4ee7401cb3, type: 3}

@@ -9,9 +9,16 @@ namespace DefaultNamespace.DebugMenu
         [MenuItem("GameDebug/StartGame %&R", false, 1)]
         public static void StartGame()
         {
-            Debug.Log("start Game");
+            Debug.Log("Start Game");
             EditorSceneManager.OpenScene("Assets/Scenes/Splash.unity");
             EditorApplication.EnterPlaymode();
+        }
+
+        [MenuItem("GameDebug/ClearPlayerPrefs", false, 2)]
+        public static void ClearPlayerPrefs()
+        {
+            Debug.Log("PlayerPrefs Clear");
+            PlayerPrefs.DeleteAll();
         }
     }
 }

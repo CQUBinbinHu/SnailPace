@@ -19,7 +19,7 @@ namespace DefaultNamespace
                     break;
                 case GameStatus.Run:
                 case GameStatus.Encounter:
-                    TextMeshPro.text = GameManager.Instance.RunClock.ToString("0.00");
+                    TextMeshPro.text = GameManager.Instance.RunClock;
                     break;
             }
         }

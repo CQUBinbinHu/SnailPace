@@ -1,5 +1,8 @@
 ﻿using System.Collections;
 using DefaultNamespace;
+using DefaultNamespace.Tools.IncrementScoreCharacters;
+using LootLocker;
+using LootLocker.Requests;
 using MoreMountains.Tools;
 using Tools;
 using UnityEngine;
@@ -36,20 +39,25 @@ namespace Core
         [SerializeField] public BuffShowData BuffShowData;
         [SerializeField] public ShowTipComponent ShowTipComponent;
         [SerializeField] private float MinLoadDuration;
+        public string LeaderBoardKey;
         private float _runClock;
         public GameStatus CurrentState;
         private StateMachine<GameManager, GameStatus, GameTransition> _stateMachine;
         private bool _isPaused;
-        public float RunClock => _runClock;
+        public string RunClock => (0.01f * GetScore()).ToString("0.00");
         public bool IsPaused => _isPaused;
         public float ProgressValue { get; set; }
-
         public int CountDown;
         private float _loadTimer;
+        public bool LoggedIn;
+        private int PlayerScore { get; set; }
+        public bool IsSuccessRegistered { get; set; }
 
         protected override void Awake()
         {
             base.Awake();
+            LoggedIn = false;
+            IsSuccessRegistered = false;
             _stateMachine = new StateMachine<GameManager, GameStatus, GameTransition>(this);
             var splashState = new Splash(GameStatus.Splash);
             var idleState = new Idle(GameStatus.Idle);
@@ -82,9 +90,36 @@ namespace Core
 
         private void Start()
         {
-            BuffShowData.Initialize();
             _runClock = 0;
             _stateMachine.SetCurrent(GameStatus.Splash);
+        }
+
+        private int GetScore()
+        {
+            return (int)(_runClock * 100);
+        }
+
+        public IEnumerator LoginRoutine()
+        {
+            bool done = false;
+            LootLockerSDKManager.StartGuestSession((response) =>
+            {
+                if (response.success)
+                {
+                    Debug.Log("Successfully started LootLocker session");
+                    LoggedIn = true;
+                    done = true;
+                    // Save the player ID for use in the leaderboard
+                    PlayerPrefs.SetString("PlayerID", response.player_id.ToString());
+                    Debug.Log("UserLoggedIn:" + PlayerPrefs.GetString("PlayerID"));
+                }
+                else
+                {
+                    Debug.Log("Error starting LootLocker session");
+                    done = true;
+                }
+            });
+            yield return new WaitWhile(() => done == false);
         }
 
         private void Update()
@@ -221,6 +256,7 @@ namespace Core
             {
                 _timer = Duration;
                 Context.CountDown = Duration;
+                Context.BuffShowData.Initialize();
                 BattleManager.Instance.OnGameStart();
                 // GameEventManager.Instance.OnGameStart.Invoke();
             }
@@ -350,6 +386,9 @@ namespace Core
             public override void Enter()
             {
                 Context._isPaused = true;
+                Context.LoggedIn = false;
+                Context.PlayerScore = Context.GetScore();
+                Context.OnSubmitScore();
             }
 
             public override void Exit()
@@ -402,6 +441,65 @@ namespace Core
         {
             GameEventManager.Instance.OnGameRestart.Invoke();
             _stateMachine.PerformTransition(GameTransition.Restart);
+        }
+
+        private void OnSubmitScore()
+        {
+            StartCoroutine(SetupRoutine());
+        }
+
+        IEnumerator SetupRoutine()
+        {
+            // Set the info text to loading
+            // InfoText.text = "Logging in...";
+            // Wait while the login is happening
+            yield return LoginRoutine();
+            // If the player couldn't log in, let them know, and then retry
+            if (!LoggedIn)
+            {
+                float loginCountdown = 4;
+                float timer = loginCountdown;
+                while (timer >= -1f)
+                {
+                    timer -= Time.deltaTime;
+                    // Update the text when we get to a new number
+                    if (Mathf.CeilToInt(timer) != Mathf.CeilToInt(loginCountdown))
+                    {
+                        var info = "Failed to login retrying in " + Mathf.CeilToInt(timer).ToString();
+                        Debug.Log(info);
+                        loginCountdown -= 1f;
+                    }
+
+                    yield return null;
+                }
+
+                StartCoroutine(SetupRoutine());
+                yield break;
+            }
+
+            SubmitScore();
+            yield return null;
+        }
+
+        private void SubmitScore()
+        {
+            // Get the players saved ID, and add the incremental characters
+            string playerID = PlayerPrefs.GetString("PlayerID") + "_" + IncrementCharacters.GetStr();
+            string metadata = PlayerPrefs.GetString("PlayerName");
+
+            Debug.Log("PlayerID " + playerID);
+            LootLockerSDKManager.SubmitScore(playerID, PlayerScore, LeaderBoardKey, metadata, (response) =>
+            {
+                if (response.statusCode == 200)
+                {
+                    Debug.Log("Successful Submit Score " + PlayerScore);
+                    // Only let the player upload score once until we reset it
+                }
+                else
+                {
+                    Debug.Log("failed: " + response.Error);
+                }
+            });
         }
     }
 }

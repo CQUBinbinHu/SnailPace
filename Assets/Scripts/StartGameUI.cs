@@ -29,6 +29,14 @@ namespace DefaultNamespace
             _fadeColor = StartGameText.color;
             _startPos = StartGameText.transform.localPosition;
             LoadProgress.gameObject.SetActive(false);
+            StartGameText.gameObject.SetActive(false);
+            StartGameTextSubTitle.gameObject.SetActive(false);
+        }
+
+        public void InitSplash()
+        {
+            StartGameText.gameObject.SetActive(true);
+            StartGameTextSubTitle.gameObject.SetActive(true);
             StartCoroutine(ShowText_Cro());
         }
 
@@ -50,6 +58,11 @@ namespace DefaultNamespace
 
         public void OnStartGame(InputAction.CallbackContext context)
         {
+            if (!GameManager.Instance.IsSuccessRegistered)
+            {
+                return;
+            }
+
             switch (context.phase)
             {
                 case InputActionPhase.Performed:
