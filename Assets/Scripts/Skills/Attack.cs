@@ -23,7 +23,8 @@ namespace HeroPerform
                 return;
             }
 
-            Target.Health.TakeDamage(GetDamage());
+            Owner.TriggerAttack();
+            DoCallbackDelay(() => { Target.Health.TakeDamage(GetDamage()); }, 0.1f);
         }
 
         public override void OnCancel()

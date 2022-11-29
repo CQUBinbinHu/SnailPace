@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
+using DG.Tweening;
 using Lean.Pool;
 using ParadoxNotion;
 using UnityEngine;
@@ -22,7 +24,12 @@ namespace Core
         [SerializeField] public Transform TipSocket;
         [SerializeField] public CharacterType CharacterType;
         [SerializeField] private string Name;
-
+        [SerializeField] private SpriteRenderer Portrait;
+        private static readonly int Idle = Animator.StringToHash("Idle");
+        private static readonly int Walk = Animator.StringToHash("Walk");
+        private static readonly int Attack = Animator.StringToHash("Attack");
+        private static readonly int Opacity = Shader.PropertyToID("_Opacity");
+        private Animator _animator;
         private HealthComponent _health;
         private EnergyComponent _energyComponent;
         private BehaviourController _behaviourController;
@@ -43,6 +50,7 @@ namespace Core
         {
             TryGetComponent(out _energyComponent);
             TryGetComponent(out _health);
+            _animator = GetComponentInChildren<Animator>();
             _buffAddCurrent = new List<Buff>();
             _buffRemoveCurrent = new List<Buff>();
             _buffs = new Dictionary<BuffType, Buff>();
@@ -50,6 +58,38 @@ namespace Core
             _behaviourController = GetComponent<BehaviourController>();
             _buffAtkMultiplier = new Dictionary<BuffType, float>();
             _buffDamageMultiplier = new Dictionary<BuffType, float>();
+        }
+
+        public void TriggerAttack()
+        {
+            _animator.SetTrigger(Attack);
+        }
+
+        public void TriggerIdle()
+        {
+            _animator.SetTrigger(Idle);
+        }
+
+        public void TriggerWalk()
+        {
+            Debug.Log("Trigger Walk");
+            _animator.SetTrigger(Walk);
+        }
+
+        public void TriggerHurt()
+        {
+            StartCoroutine(HurtPresentation_Cro());
+        }
+
+        IEnumerator HurtPresentation_Cro()
+        {
+            DOTween.To(() => Portrait.material.GetFloat(Opacity),
+                (x) => Portrait.material.SetFloat(Opacity, x),
+                1, 0.15f);
+            yield return new WaitForSeconds(0.2f);
+            DOTween.To(() => Portrait.material.GetFloat(Opacity),
+                (x) => Portrait.material.SetFloat(Opacity, x),
+                0, 0.15f);
         }
 
         public void AddBuff(Buff buff)

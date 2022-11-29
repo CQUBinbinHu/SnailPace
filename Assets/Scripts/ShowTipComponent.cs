@@ -13,7 +13,6 @@ namespace DefaultNamespace
         [SerializeField] private float JumpPower;
         [SerializeField] private TextMeshProUGUI TipsText;
         [SerializeField] private GameObject HandleChild;
-        [SerializeField] private Color InitColor;
         private float _duration;
         private const float FixedDelay = 1f;
 
@@ -23,7 +22,7 @@ namespace DefaultNamespace
             TipsText.color = color;
             _duration = duration;
             HandleChild.transform.DOLocalJump(JumpVec, JumpPower, 1, _duration);
-            StartCoroutine(FadeDelay(0.5f * _duration));
+            StartCoroutine(FadeDelay(0.6f * _duration));
             StartCoroutine(DespawnDelay(_duration + FixedDelay));
         }
 

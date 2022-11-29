@@ -55,12 +55,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2784873082225910610}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6140105974655100050}
+  m_Father: {fileID: 6186424825793187805}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1290437055998836744
@@ -87,8 +87,41 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 3}
+  m_Size: {x: 1, y: 10}
   m_EdgeRadius: 0
+--- !u!1 &5124453533018849940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6186424825793187805}
+  m_Layer: 0
+  m_Name: Model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6186424825793187805
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5124453533018849940}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8660164246061362119}
+  - {fileID: 6140105974655100050}
+  m_Father: {fileID: 6140105975915262995}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6140105974655100051
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +136,7 @@ GameObject:
   - component: {fileID: 6140105974655100052}
   - component: {fileID: 6140105974655100054}
   m_Layer: 0
-  m_Name: Model
+  m_Name: Portrait
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,13 +150,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6140105974655100051}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.625, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8660164246061362119}
-  m_Father: {fileID: 6140105975915262995}
-  m_RootOrder: 0
+  m_Children: []
+  m_Father: {fileID: 6186424825793187805}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6140105974655100055
 SpriteRenderer:
@@ -145,7 +177,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 27fbb04ecce5024449bbb72956aec6c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -260,7 +292,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6140105974655100050}
+  - {fileID: 6186424825793187805}
   - {fileID: 3383873552802468848}
   - {fileID: 724373944527103007}
   - {fileID: 8416081440247500314}
@@ -309,6 +341,7 @@ MonoBehaviour:
   TipSocket: {fileID: 8416081440247500314}
   CharacterType: 1
   Name: Slime
+  Portrait: {fileID: 6140105974655100055}
 --- !u!114 &2739630090002508196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,6 +356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHp: 100
   ShowHealthBar: 1
+  TipsColor: {r: 1, g: 0.63177544, b: 0.61, a: 1}
 --- !u!114 &2720234178860071767
 MonoBehaviour:
   m_ObjectHideFlags: 0

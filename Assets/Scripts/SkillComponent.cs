@@ -43,6 +43,8 @@ namespace DefaultNamespace
         private LoopSocket _follow;
         private bool IsEnergySatisfied;
 
+        public delegate void CallBack();
+
         public virtual int GetDamage()
         {
             return 0;
@@ -187,6 +189,17 @@ namespace DefaultNamespace
 
         public void OnDespawn()
         {
+        }
+
+        protected void DoCallbackDelay(CallBack callBack, float delay)
+        {
+            StartCoroutine(DoCallbackDelay_Cro(callBack, delay));
+        }
+
+        IEnumerator DoCallbackDelay_Cro(CallBack callBack, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            callBack.Invoke();
         }
     }
 }

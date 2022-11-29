@@ -310,10 +310,12 @@ namespace Core
 
             public override void Enter()
             {
+                BattleManager.Instance.Hero.TriggerWalk();
             }
 
             public override void Exit()
             {
+                BattleManager.Instance.Hero.TriggerIdle();
             }
 
             public override void Reason(float deltaTime = 0)

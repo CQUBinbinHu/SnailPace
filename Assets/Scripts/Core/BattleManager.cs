@@ -64,6 +64,7 @@ namespace Core
         {
             var hero = LeanPool.Spawn(HeroPrefab, SpawnSocket.position, Quaternion.identity);
             SetHero(hero.GetComponent<Character>());
+            Hero.TriggerIdle();
             MoveSpeed = InitSpeed;
             ContinueButton.SetActive(false);
             SkillView.gameObject.SetActive(false);
