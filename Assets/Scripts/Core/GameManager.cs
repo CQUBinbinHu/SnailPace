@@ -50,6 +50,7 @@ namespace Core
         [SerializeField] public BuffShowData BuffShowData;
         [SerializeField] public ShowTipComponent ShowTipComponent;
         [SerializeField] private float MinLoadDuration;
+        public int MaxNameLength = 16;
         public int LeaderBoardKey;
         private float _runClock;
         public GameStatus CurrentState;
@@ -63,6 +64,7 @@ namespace Core
         public bool LoggedIn;
         private int PlayerScore { get; set; }
         public bool IsSuccessRegistered { get; set; }
+
         public List<PlayerScoreData> PlayerScores;
         public PlayerScoreData CurrentScore;
 

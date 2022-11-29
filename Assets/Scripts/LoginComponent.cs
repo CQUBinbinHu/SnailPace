@@ -14,11 +14,13 @@ namespace DefaultNamespace
         [SerializeField] private TMP_InputField InputField;
         [SerializeField] private TextMeshProUGUI InfoText;
         [SerializeField] private StartGameUI StartGameUI;
+        private string _playerName;
 
         private void Awake()
         {
             LoginPanel.SetActive(true);
             InfoText.text = string.Empty;
+            _playerName = string.Empty;
         }
 
         private void Start()
@@ -33,6 +35,19 @@ namespace DefaultNamespace
 
         public void OnConfirmLogin()
         {
+            _playerName = InputField.text;
+            if (string.IsNullOrEmpty(_playerName))
+            {
+                InfoText.text = "Name can NOT be empty.";
+                return;
+            }
+
+            if (_playerName.Length > GameManager.Instance.MaxNameLength)
+            {
+                InfoText.text = "Name length should less than 16 characters.";
+                return;
+            }
+
             StartCoroutine(SetupRoutine());
         }
 
@@ -71,7 +86,7 @@ namespace DefaultNamespace
         private void SuccessRegister()
         {
             LoginPanel.SetActive(false);
-            PlayerPrefs.SetString("PlayerName", InputField.text);
+            PlayerPrefs.SetString("PlayerName", _playerName);
             GameManager.Instance.IsSuccessRegistered = true;
             StartGameUI.InitSplash();
         }
