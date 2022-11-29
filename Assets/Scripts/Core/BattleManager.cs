@@ -232,6 +232,7 @@ namespace Core
         private void OnReward()
         {
             _encounterEnemy = null;
+            Hero.BehaviourController.SetTarget(EncounterEnemy);
             GameEventManager.Instance.OnRunReward.Invoke();
             AddRandomRewards();
         }

@@ -153,6 +153,7 @@ namespace Core
                     GameEventManager.Instance.OnGameOver.Invoke();
                     break;
                 case CharacterType.Enemy:
+                    Debug.Log("OnEnemyDead");
                     GameEventManager.Instance.OnEnemyDead.Invoke();
                     break;
             }
