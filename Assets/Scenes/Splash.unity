@@ -913,6 +913,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d12e9cee-123d-4f40-919e-b018d92c5e8b
     m_ActionName: MainKeyboard/StartGame[/Keyboard/anyKey]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c4a82dc7-9d1f-41b2-92c9-eb93458fcd06
+    m_ActionName: MainKeyboard/ChooseReward1[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9b5c50bd-c3db-47c6-a8ad-c9f6c2956d22
+    m_ActionName: MainKeyboard/ChooseReward2[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ebc12d72-13a7-4d66-a774-8b7f1d384dd3
+    m_ActionName: MainKeyboard/ChooseReward3[/Keyboard/3]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4f8f64a2-6843-475b-9123-632ab860e7eb
+    m_ActionName: MainKeyboard/SkipSkill[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: MainKeyboard
@@ -2409,8 +2425,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1614459334}
   - component: {fileID: 1614459333}
-  - component: {fileID: 1614459332}
   - component: {fileID: 1614459335}
+  - component: {fileID: 1614459336}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2418,14 +2434,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1614459332
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1614459331}
-  m_Enabled: 1
 --- !u!20 &1614459333
 Camera:
   m_ObjectHideFlags: 0
@@ -2517,6 +2525,19 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &1614459336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614459331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!1 &1661209991
 GameObject:
   m_ObjectHideFlags: 0
