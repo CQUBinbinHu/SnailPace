@@ -9,7 +9,6 @@ namespace HeroPerform
     public class Defense : SkillComponent
     {
         [SerializeField] public int Armor = 6;
-
         public override void OnUse()
         {
             if (!TryGetPermission())

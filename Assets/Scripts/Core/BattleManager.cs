@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using DefaultNamespace;
 using DG.Tweening;
 using Lean.Pool;
@@ -18,10 +16,10 @@ namespace Core
     public class BattleManager : MMSingleton<BattleManager>
     {
         [SerializeField] private int InitSpeed;
-        [SerializeField] private SkillReward[] InitSkills;
+        [SerializeField] private string[] InitSkills;
+        [SerializeField] private SkillReward SkillRewardPref;
         [SerializeField] private GameObject HeroPrefab;
         [SerializeField] private GameObject EncounterEnemyPrefab;
-        [SerializeField] private SkillData SkillData;
         [SerializeField] private Transform SkillTransform;
         [SerializeField] private Transform[] SkillSockets;
         [SerializeField] private Transform RewardSkillSocket;
@@ -41,7 +39,6 @@ namespace Core
         private List<string> _skillNames;
         private Character _hero;
         private Character _encounterEnemy;
-        private Dictionary<string, SkillReward> _skillRewardDict;
         private Dictionary<string, SkillComponent> _skillDict;
         public Character Hero => _hero;
         public Character EncounterEnemy => _encounterEnemy;
@@ -53,7 +50,6 @@ namespace Core
             _isRefreshOpen = true;
             _currentRewards = new List<SkillReward>();
             _currentSkills = new List<SkillComponent>();
-            _skillRewardDict = new Dictionary<string, SkillReward>();
             _skillDict = new Dictionary<string, SkillComponent>();
             _skillNames = new List<string>();
             _loopSockets = new List<LoopSocket>();
@@ -61,6 +57,12 @@ namespace Core
         }
 
         public void OnGameStart()
+        {
+            // TODO:检查是否完成了初始化任务再出发
+            StartCoroutine(GameStart_Cro());
+        }
+
+        IEnumerator GameStart_Cro()
         {
             var hero = LeanPool.Spawn(HeroPrefab, SpawnSocket.position, Quaternion.identity);
             SetHero(hero.GetComponent<Character>());
@@ -81,33 +83,18 @@ namespace Core
 
             InitSkillData();
             ResetBattlePanel();
-            foreach (var skill in InitSkills)
+            foreach (var skillName in InitSkills)
             {
-                var skillReward = LeanPool.Spawn(skill);
-                skillReward.SetSkillObject(_skillDict[skillReward.SkillName]);
+                var skillReward = SpawnReward(skillName);
                 skillReward.OnAddSkill();
             }
 
             _loopMoveGrid.OnReset();
+            yield break;
         }
 
         private void InitSkillData()
         {
-            _skillRewardDict.Clear();
-            foreach (var skillReward in SkillData.SkillRewards)
-            {
-                if (_skillRewardDict.ContainsKey(skillReward.SkillName))
-                {
-                    Debug.LogWarning("the skill with this name already exists: " + skillReward.name, gameObject);
-                }
-                else
-                {
-                    _skillRewardDict.Add(skillReward.SkillName, skillReward);
-                }
-            }
-
-            _skillNames.Clear();
-            _skillNames = _skillRewardDict.Keys.ToList();
             _skillDict.Clear();
             var skills = Resources.LoadAll<SkillComponent>("Skills");
             foreach (var skill in skills)
@@ -117,6 +104,8 @@ namespace Core
                     _skillDict.Add(skill.SkillName, skill);
                 }
             }
+
+            _skillNames = new List<string>(_skillDict.Keys);
         }
 
         private void OnAddSkill(SkillReward skillReward)
@@ -201,11 +190,6 @@ namespace Core
             _encounterEnemy = null;
         }
 
-        private void OnGameWinning()
-        {
-            _encounterEnemy = null;
-        }
-
         private void OnRunEncounter(Character target)
         {
             _encounterEnemy = target;
@@ -266,10 +250,23 @@ namespace Core
             foreach (var index in record)
             {
                 var skillName = _skillNames[index];
-                var skillReward = LeanPool.Spawn(_skillRewardDict[skillName], RewardSkillSocket);
-                skillReward.SetSkillObject(_skillDict[skillName]);
+                var skillReward = SpawnReward(skillName, RewardSkillSocket);
                 _currentRewards.Add(skillReward);
             }
+        }
+
+        private SkillReward SpawnReward(string skillName)
+        {
+            var reward = LeanPool.Spawn(SkillRewardPref);
+            reward.SetSkillObject(_skillDict[skillName]);
+            return reward;
+        }
+
+        private SkillReward SpawnReward(string skillName, Transform parent)
+        {
+            var reward = LeanPool.Spawn(SkillRewardPref, parent);
+            reward.SetSkillObject(_skillDict[skillName]);
+            return reward;
         }
 
         public void ChooseRewardInput_1(InputAction.CallbackContext context)

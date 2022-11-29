@@ -78,6 +78,11 @@ namespace Core
 
         public void TriggerHurt()
         {
+            if (IsDead)
+            {
+                return;
+            }
+
             StartCoroutine(HurtPresentation_Cro());
         }
 

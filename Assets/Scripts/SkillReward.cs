@@ -18,8 +18,6 @@ namespace DefaultNamespace
         [SerializeField] private TextMeshProUGUI TextSkillName;
         [SerializeField] private TextMeshProUGUI TextIntroduction;
         [SerializeField] private GameObject Model;
-        public string SkillName;
-        public string Introduction;
         private SkillComponent _skillObject;
         private SkillComponent _skillTarget;
         public SkillComponent SkillTarget => _skillTarget;
@@ -38,13 +36,6 @@ namespace DefaultNamespace
             _isAdded = false;
             _isDestroyed = false;
             _button.interactable = true;
-        }
-
-        private void InitializeSkillObject()
-        {
-            _skillTarget = LeanPool.Spawn(_skillObject, SkillSocket);
-            TextSkillName.text = SkillName;
-            TextIntroduction.text = Introduction;
         }
 
         public void OnAddSkill()
@@ -77,7 +68,9 @@ namespace DefaultNamespace
         public void SetSkillObject(SkillComponent skill)
         {
             _skillObject = skill;
-            InitializeSkillObject();
+            _skillTarget = LeanPool.Spawn(_skillObject, SkillSocket);
+            TextSkillName.text = _skillTarget.SkillName;
+            TextIntroduction.text = _skillTarget.Introduction;
         }
 
         public void OnSpawn()

@@ -9849,12 +9849,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitSpeed: 1
   InitSkills:
-  - {fileID: 8990630055513422554, guid: c05318ebc61325848b10b4db175a8f08, type: 3}
-  - {fileID: 703394028094795167, guid: 26f5a41319cca2a4a8bf4d4ee7401cb3, type: 3}
-  - {fileID: 1544370297740894269, guid: 5499daa2d0279184fb6acca911a6e37e, type: 3}
+  - Knife
+  - Shield
+  - Rope
+  SkillRewardPref: {fileID: 4952286686185422733, guid: f4f0860675b641140990ce5105005201, type: 3}
   HeroPrefab: {fileID: 2148605894072053727, guid: 846ae99cf784c1c4bb9adbdb171d92f2, type: 3}
   EncounterEnemyPrefab: {fileID: 6601545136371749258, guid: 1d031ad694a0a004980cc0f349673907, type: 3}
-  SkillData: {fileID: 11400000, guid: 7c1967b12f30cc049b769f8a83c990cd, type: 2}
   SkillTransform: {fileID: 462484139}
   SkillSockets:
   - {fileID: 1581112656}

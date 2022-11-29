@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 2171458901412901204}
   - component: {fileID: 183709126871077895}
   m_Layer: 0
-  m_Name: BaseBuffStatus
+  m_Name: _BaseBuffStatus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

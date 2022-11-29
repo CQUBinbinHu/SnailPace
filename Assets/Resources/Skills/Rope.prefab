@@ -10,10 +10,14 @@ PrefabInstance:
     - target: {fileID: 437899297624758777, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 781366615, guid: dee7369aae3cf2a4fbd9834b5437e638, type: 3}
+      objectReference: {fileID: -791664040, guid: 09e3bb9b596a12e44ac92f09a379c050, type: 3}
+    - target: {fileID: 437899297624758777, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2473258263193706704, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_Name
-      value: Defence
+      value: Rope
       objectReference: {fileID: 0}
     - target: {fileID: 2473258263193706705, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_Pivot.x
@@ -99,51 +103,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2473258263193706706, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2473258263193706706, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2473258263193706706, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2473258263193706706, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: HeroPerform.Attack, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 2473258263193706709, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: SkillName
-      value: Defence
+      value: Weekness
       objectReference: {fileID: 0}
     - target: {fileID: 7751173232433198232, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.67
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 7751173232433198232, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.67
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 7751173232433198232, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.67
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 7751173232433198232, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2473258263193706709, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
 --- !u!1 &9039763278551457044 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2473258263193706704, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
   m_PrefabInstance: {fileID: 6854891532908756420}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5077710967888288674
+--- !u!114 &8085249866130858429
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -152,10 +139,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9039763278551457044}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0413d77a709943d69b0009f18a6164fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 3dd1e36c95e9442cbd310e7911bfd24e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NeedEnergy: 10
-  SkillName: Armor
-  Duration: 2
-  Armor: 6
+  SkillName: Rope
+  Introduction: 
+  NeedEnergy: 30
+  Duration: 5

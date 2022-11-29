@@ -45,7 +45,6 @@ namespace DefaultNamespace
                     switch (GameManager.Instance.CurrentState)
                     {
                         case GameStatus.Encounter:
-                        case GameStatus.Run:
                             // Debug.Log(context.action.name + " " + "Started");
                             KeyUp.gameObject.SetActive(false);
                             keyDown.gameObject.SetActive(true);

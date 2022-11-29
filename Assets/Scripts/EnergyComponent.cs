@@ -6,7 +6,7 @@ namespace DefaultNamespace
     public class EnergyComponent : MonoBehaviour
     {
         [SerializeField] private float MaxEnergy = 100;
-        [SerializeField] private float Recovery = 20;
+        [SerializeField] private float Recovery = 10;
         public int MaxEnergyAmount => (int)MaxEnergy;
         public int CurrentEnergyAmount => (int)_current;
 
