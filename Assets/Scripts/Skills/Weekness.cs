@@ -21,10 +21,12 @@ namespace HeroPerform
             }
 
             Target.AddBuff(BuffType.Week, Duration);
+            base.OnUse();
         }
 
         public override void OnCancel()
         {
+            base.OnCancel();
         }
     }
 }

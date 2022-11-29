@@ -9,10 +9,12 @@ namespace HeroPerform
         public override void OnUse()
         {
             Owner.AddBuff(BuffType.Enhancement);
+            base.OnUse();
         }
 
         public override void OnCancel()
         {
+            base.OnCancel();
         }
     }
 }

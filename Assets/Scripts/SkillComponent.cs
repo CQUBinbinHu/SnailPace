@@ -43,6 +43,8 @@ namespace DefaultNamespace
         protected Character Target;
         private LoopSocket _follow;
         private bool IsEnergySatisfied;
+        public bool IsActive;
+        protected bool RefreshOnCancel = false;
 
         public delegate void CallBack();
 
@@ -59,6 +61,7 @@ namespace DefaultNamespace
         private void Initialize()
         {
             _follow = null;
+            IsActive = true;
             ResetStatus();
         }
 
@@ -82,8 +85,21 @@ namespace DefaultNamespace
             Target = target;
         }
 
-        public abstract void OnUse();
-        public abstract void OnCancel();
+        public virtual void OnUse()
+        {
+            if (!RefreshOnCancel)
+            {
+                OnRefresh();
+            }
+        }
+
+        public virtual void OnCancel()
+        {
+            if (RefreshOnCancel)
+            {
+                OnRefresh();
+            }
+        }
 
         protected bool TryGetPermission()
         {
@@ -171,8 +187,15 @@ namespace DefaultNamespace
 
         public void OnRefresh()
         {
+            if (_follow == null)
+            {
+                return;
+            }
+
             var position = _follow.Trans.position + Vector3.down;
             _follow.RemoveSkill();
+            _follow = null;
+            IsActive = false;
             transform.DOMove(position, 0.3f);
             StartCoroutine(DelayDeActive(0.4f));
         }

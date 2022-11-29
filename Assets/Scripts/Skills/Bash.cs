@@ -23,10 +23,12 @@ namespace HeroPerform
 
             Target.Health.TakeDamage(Damage);
             Target.AddBuff(BuffType.Vulnerable);
+            base.OnUse();
         }
 
         public override void OnCancel()
         {
+            base.OnCancel();
         }
     }
 }

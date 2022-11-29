@@ -389,7 +389,10 @@ namespace Core
                             _isRefreshOpen = false;
                             foreach (var skill in _currentSkills)
                             {
-                                skill.OnRefresh();
+                                if (skill.IsActive)
+                                {
+                                    skill.OnRefresh();
+                                }
                             }
 
                             _currentSkills.Clear();
