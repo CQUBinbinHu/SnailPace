@@ -29,10 +29,11 @@ namespace Core
         [SerializeField] private Transform SkillViewSocket;
         [SerializeField] private Transform SkillView;
 
+        public int MoveSpeed;
+        private bool _isRefreshOpen;
         private List<SkillReward> _currentRewards;
         public GameObject WinningPrefab;
         private LoopMoveGrid _loopMoveGrid;
-        public int MoveSpeed;
         public GameObject EncounterPrefab => EncounterEnemyPrefab;
         private List<LoopSocket> _loopSockets;
         private List<SkillComponent> _currentSkills;
@@ -42,12 +43,14 @@ namespace Core
         private Dictionary<string, SkillComponent> _skillDict;
         public Character Hero => _hero;
         public Character EncounterEnemy => _encounterEnemy;
-        private bool _isRefreshOpen;
+        public int CurrentRewardNum => SkillViewSocket.childCount;
+        private List<SkillReward> _allRewards;
 
         protected override void Awake()
         {
             base.Awake();
             _isRefreshOpen = true;
+            _allRewards = new List<SkillReward>();
             _currentRewards = new List<SkillReward>();
             _currentSkills = new List<SkillComponent>();
             _skillDict = new Dictionary<string, SkillComponent>();
@@ -64,6 +67,26 @@ namespace Core
 
         IEnumerator GameStart_Cro()
         {
+            foreach (var _reward in _allRewards)
+            {
+                if (_reward)
+                {
+                    LeanPool.Despawn(_reward);
+                }
+            }
+
+            _allRewards.Clear();
+
+            foreach (var skill in _currentSkills)
+            {
+                if (skill)
+                {
+                    LeanPool.Despawn(skill);
+                }
+            }
+
+            _currentSkills.Clear();
+
             var hero = LeanPool.Spawn(HeroPrefab, SpawnSocket.position, Quaternion.identity);
             SetHero(hero.GetComponent<Character>());
             Hero.TriggerIdle();
@@ -111,6 +134,7 @@ namespace Core
         private void OnAddSkill(SkillReward skillReward)
         {
             skillReward.transform.SetParent(SkillViewSocket);
+            _allRewards.Add(skillReward);
             AddSkillTarget(skillReward.SkillTarget);
             // TODO: Run Continue Delay
             GameEventManager.Instance.OnRunContinue.Invoke();
@@ -194,9 +218,9 @@ namespace Core
         {
             _encounterEnemy = target;
             Hero.BehaviourController.SetTarget(EncounterEnemy);
-            Hero.BehaviourController.Initialize();
+            Hero.BehaviourController.InitializeOnCombat();
             _encounterEnemy.BehaviourController.SetTarget(Hero);
-            _encounterEnemy.BehaviourController.Initialize();
+            _encounterEnemy.BehaviourController.InitializeOnCombat();
         }
 
         private void OnRunContinue()

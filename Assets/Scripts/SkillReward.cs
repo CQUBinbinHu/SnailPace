@@ -61,7 +61,6 @@ namespace DefaultNamespace
         IEnumerator DestroyDelay(float delay)
         {
             yield return new WaitForSeconds(delay);
-            LeanPool.Despawn(_skillTarget);
             LeanPool.Despawn(this);
         }
 
@@ -80,21 +79,29 @@ namespace DefaultNamespace
 
         public void OnDespawn()
         {
+            LeanPool.Despawn(_skillTarget);
         }
 
         private void OnEnable()
         {
             GameEventManager.Instance.OnAddSkill += DoOnAddSkill;
             GameEventManager.Instance.OnRunContinue += OnRunContinue;
+            GameEventManager.Instance.OnGameRestart += OnRestart;
         }
 
         private void OnDisable()
         {
             GameEventManager.Instance.OnAddSkill -= DoOnAddSkill;
             GameEventManager.Instance.OnRunContinue -= OnRunContinue;
+            GameEventManager.Instance.OnGameRestart -= OnRestart;
         }
 
         private void OnRunContinue()
+        {
+            DestroySelf();
+        }
+
+        private void OnRestart()
         {
             DestroySelf();
         }

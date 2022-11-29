@@ -35,6 +35,11 @@ namespace Core
             }
 
             _skills = new HashSet<SkillComponent>();
+        }
+
+        public void Init()
+        {
+            _skills.Clear();
             foreach (var skill in _owner.SkillSocket.GetComponents<SkillComponent>())
             {
                 skill.SetOwner(_owner);
@@ -42,7 +47,7 @@ namespace Core
             }
         }
 
-        public virtual void Initialize()
+        public virtual void InitializeOnCombat()
         {
             if (_behaviourTreeOwner)
             {

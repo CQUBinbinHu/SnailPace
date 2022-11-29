@@ -196,6 +196,8 @@ namespace Core
                 _behaviourController.Intent.SetIntent(Intent.None);
                 _behaviourController.IsOnCountDown = false;
             }
+
+            _behaviourController.Init();
         }
 
         public void OnDespawn()
