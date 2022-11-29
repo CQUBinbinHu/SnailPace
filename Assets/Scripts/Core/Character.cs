@@ -159,10 +159,17 @@ namespace Core
 
         private void OnEnable()
         {
+            GameEventManager.Instance.OnGameRestart += OnRestart;
+        }
+
+        private void OnRestart()
+        {
+            LeanPool.Despawn(this.gameObject);
         }
 
         private void OnDisable()
         {
+            GameEventManager.Instance.OnGameRestart -= OnRestart;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace DefaultNamespace
             _current = Mathf.Clamp(_current, 0, MaxEnergy);
         }
 
-        public void CostEnemy(float value)
+        public void CostEnergy(float value)
         {
             _current -= value;
             _current = Mathf.Clamp(_current, 0, MaxEnergy);

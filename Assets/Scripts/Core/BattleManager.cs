@@ -62,11 +62,6 @@ namespace Core
 
         public void OnGameStart()
         {
-            if (_hero)
-            {
-                LeanPool.Despawn(_hero.gameObject);
-            }
-
             var hero = LeanPool.Spawn(HeroPrefab, SpawnSocket.position, Quaternion.identity);
             SetHero(hero.GetComponent<Character>());
             MoveSpeed = InitSpeed;
@@ -387,7 +382,7 @@ namespace Core
         private void OnRefreshUseEnergy()
         {
             var cost = Mathf.FloorToInt(_hero.CurrentEnergy / 2);
-            _hero.Energy.CostEnemy(cost);
+            _hero.Energy.CostEnergy(cost);
         }
 
         IEnumerator RefreshRandomSkills(float delay)

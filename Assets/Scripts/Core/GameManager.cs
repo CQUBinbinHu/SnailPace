@@ -499,18 +499,19 @@ namespace Core
                 yield break;
             }
 
-            SubmitScore();
+            yield return new WaitWhile(() => !LoggedIn);
+            yield return SubmitScore();
             yield return FetchTopLeaderboardScores();
-            yield return FetchHighscoresCentered();
+            yield return FetchHighScoresCentered();
         }
 
-        private void SubmitScore()
+        IEnumerator SubmitScore()
         {
             // Get the players saved ID, and add the incremental characters
             string playerID = PlayerPrefs.GetString("PlayerID") + "_" + IncrementCharacters.GetStr();
             string metadata = PlayerPrefs.GetString("PlayerName");
 
-            Debug.Log("PlayerID " + playerID);
+            Debug.Log("Submit Score: PlayerID " + playerID);
             LootLockerSDKManager.SubmitScore(playerID, PlayerScore, LeaderBoardKey, metadata, (response) =>
             {
                 if (response.statusCode == 200)
@@ -524,17 +525,16 @@ namespace Core
                 }
                 else
                 {
-                    Debug.Log("failed: " + response.Error);
+                    Debug.Log("Failed Submit Score: " + response.Error);
                 }
             });
+            yield break;
         }
 
         public IEnumerator FetchTopLeaderboardScores()
         {
             PlayerScores.Clear();
             // Let the player know that the scores are loading
-            string playerNames = "Loading...";
-            string playerScores = "";
             // How many scores?
             int count = 10;
             int after = 0;
@@ -544,13 +544,7 @@ namespace Core
             {
                 if (response.statusCode == 200)
                 {
-                    Debug.Log("Successful");
-
-                    // Set the title of the names tab
-                    playerNames = "Names\n";
-                    // Set the title of the scores tab
-                    playerScores = "Score\n";
-
+                    Debug.Log("Fetch Successful");
                     LootLockerLeaderboardMember[] members = response.items;
                     for (int i = 0; i < members.Length; i++)
                     {
@@ -563,8 +557,6 @@ namespace Core
                             PlayerID = members[i].member_id.Split('_')[0]
                         });
                         // Show the ranking, players name and score, and create a new line for the next entry
-                        playerNames += members[i].rank + ". " + members[i].metadata + "\n";
-                        playerScores += members[i].score + "\n";
                     }
 
                     done = true;
@@ -573,28 +565,20 @@ namespace Core
                 {
                     Debug.Log("failed: " + response.Error);
                     // Give the user information that the leaderboard couldn't be retrieved
-                    playerNames = "Error, could not retrieve leaderboard";
                     done = true;
                 }
             });
             // Wait until the process has finished
-            yield return new WaitWhile(() => done == false);
+            yield return new WaitWhile(() => !done);
             // Update the TextMeshPro components
         }
 
-        IEnumerator FetchHighscoresCentered()
+        IEnumerator FetchHighScoresCentered()
         {
             bool done = false;
-            // Let the player know that the scores are loading
-            string playerNames = "Loading...";
-            string playerScores = "";
-
-            // playerScoresText.text = playerScores;
-            // playerNamesText.text = playerNames;
-
             // Get the player ID from Player prefs with the incremental score string attached
             string latestPlayerID = CurrentScore.PlayerIDSubmit;
-            string[] memberIDs = new string[1] { latestPlayerID };
+            string[] memberIDs = new string[] { latestPlayerID };
 
             // Get the score that matches this ID
             LootLockerSDKManager.GetByListOfMembers(memberIDs, LeaderBoardKey, (response) =>
@@ -614,7 +598,7 @@ namespace Core
             });
 
             // Wait until request is done
-            yield return new WaitWhile(() => done == false);
+            yield return new WaitWhile(() => !done);
             // Update the TextMeshPro components
             GameEventManager.Instance.OnFetchScores?.Invoke();
         }

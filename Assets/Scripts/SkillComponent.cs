@@ -126,7 +126,7 @@ namespace DefaultNamespace
             bool ok = CheckEnergy();
             if (ok)
             {
-                Owner.Energy.CostEnemy(NeedEnergy);
+                Owner.Energy.CostEnergy(NeedEnergy);
             }
 
             return ok;
@@ -186,14 +186,6 @@ namespace DefaultNamespace
         }
 
         public void OnDespawn()
-        {
-        }
-
-        private void OnEnable()
-        {
-        }
-
-        private void OnDisable()
         {
         }
     }
