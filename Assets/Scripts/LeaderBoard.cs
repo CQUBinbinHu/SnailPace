@@ -1,6 +1,4 @@
-﻿using System;
-using Core;
-using TMPro;
+﻿using Core;
 using UnityEngine;
 
 namespace DefaultNamespace
@@ -9,6 +7,12 @@ namespace DefaultNamespace
     {
         [SerializeField] private PlayerScoreComponent[] PlayerInfo;
         [SerializeField] private Animator LeaderBoardAnimator;
+        private static readonly int IsShow = Animator.StringToHash("IsShow");
+
+        private void Awake()
+        {
+            LeaderBoardAnimator.SetBool(IsShow, false);
+        }
 
         private void OnEnable()
         {
@@ -16,7 +20,6 @@ namespace DefaultNamespace
             GameEventManager.Instance.OnFetchScores += OnFetchScores;
             GameEventManager.Instance.OnGameRestart += Restart;
         }
-
 
         private void OnDisable()
         {
@@ -27,26 +30,33 @@ namespace DefaultNamespace
 
         private void Restart()
         {
-            LeaderBoardAnimator.SetTrigger("");
+            LeaderBoardAnimator.SetBool(IsShow, false);
         }
 
         private void ShowLeaderBoard()
         {
-            LeaderBoardAnimator.SetTrigger("");
+            LeaderBoardAnimator.SetBool(IsShow, true);
             for (int i = 0; i < PlayerInfo.Length; i++)
             {
-                PlayerInfo[i].Rank = i;
+                PlayerInfo[i].Rank = i + 1;
                 PlayerInfo[i].SetLoading();
             }
+
+            PlayerInfo[10].SetEmpty();
+            PlayerInfo[11].SetEmpty();
         }
 
         private void OnFetchScores()
         {
-            // TODO: 更新排行榜
-            for (int i = 0; i < PlayerInfo.Length; i++)
+            foreach (var playerScore in GameManager.Instance.PlayerScores)
             {
-                // PlayerInfo[i].SetScore(GameManager.Instance.PlayerScores[i].);
+                PlayerInfo[playerScore.Rank - 1].SetScore(playerScore.PlayerName, playerScore.Score);
             }
+
+            var score = GameManager.Instance.CurrentScore;
+            int index = score.Rank <= 10 ? score.Rank - 1 : 11;
+            PlayerInfo[index].SetCurrent(score.Rank);
+            PlayerInfo[index].SetScore(score.PlayerName, score.Score);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Core
         public int Score;
         public int Rank;
         public string PlayerName;
-        public string PlayerFakeID;
+        public string PlayerIDSubmit;
         public string PlayerID;
     }
 
@@ -55,7 +55,7 @@ namespace Core
         public GameStatus CurrentState;
         private StateMachine<GameManager, GameStatus, GameTransition> _stateMachine;
         private bool _isPaused;
-        public string RunClock => (0.01f * GetScore()).ToString("0.00");
+        public string RunClock => GetStringScore(GetScore());
         public bool IsPaused => _isPaused;
         public float ProgressValue { get; set; }
         public int CountDown;
@@ -64,12 +64,14 @@ namespace Core
         private int PlayerScore { get; set; }
         public bool IsSuccessRegistered { get; set; }
         public List<PlayerScoreData> PlayerScores;
+        public PlayerScoreData CurrentScore;
 
         protected override void Awake()
         {
             base.Awake();
             LoggedIn = false;
             IsSuccessRegistered = false;
+            CurrentScore = new PlayerScoreData();
             PlayerScores = new List<PlayerScoreData>();
             _stateMachine = new StateMachine<GameManager, GameStatus, GameTransition>(this);
             var splashState = new Splash(GameStatus.Splash);
@@ -110,6 +112,11 @@ namespace Core
         private int GetScore()
         {
             return (int)(_runClock * 100);
+        }
+
+        public string GetStringScore(int score)
+        {
+            return (score / 100).ToString() + '.' + (score % 100).ToString("00");
         }
 
         public IEnumerator LoginRoutine()
@@ -492,6 +499,7 @@ namespace Core
 
             SubmitScore();
             yield return FetchTopLeaderboardScores();
+            yield return FetchHighscoresCentered();
         }
 
         private void SubmitScore()
@@ -507,6 +515,10 @@ namespace Core
                 {
                     Debug.Log("Successful Submit Score " + PlayerScore);
                     // Only let the player upload score once until we reset it
+                    CurrentScore.Score = PlayerScore;
+                    CurrentScore.PlayerIDSubmit = playerID;
+                    CurrentScore.PlayerName = metadata;
+                    CurrentScore.PlayerID = playerID.Split('_')[0];
                 }
                 else
                 {
@@ -545,7 +557,7 @@ namespace Core
                             Score = members[i].score,
                             Rank = members[i].rank,
                             PlayerName = members[i].metadata,
-                            PlayerFakeID = members[i].member_id,
+                            PlayerIDSubmit = members[i].member_id,
                             PlayerID = members[i].member_id.Split('_')[0]
                         });
                         // Show the ranking, players name and score, and create a new line for the next entry
@@ -564,6 +576,42 @@ namespace Core
                 }
             });
             // Wait until the process has finished
+            yield return new WaitWhile(() => done == false);
+            // Update the TextMeshPro components
+        }
+
+        IEnumerator FetchHighscoresCentered()
+        {
+            bool done = false;
+            // Let the player know that the scores are loading
+            string playerNames = "Loading...";
+            string playerScores = "";
+
+            // playerScoresText.text = playerScores;
+            // playerNamesText.text = playerNames;
+
+            // Get the player ID from Player prefs with the incremental score string attached
+            string latestPlayerID = CurrentScore.PlayerIDSubmit;
+            string[] memberIDs = new string[1] { latestPlayerID };
+
+            // Get the score that matches this ID
+            LootLockerSDKManager.GetByListOfMembers(memberIDs, LeaderBoardKey, (response) =>
+            {
+                if (response.statusCode == 200)
+                {
+                    Debug.Log("Get Member Score Successful");
+                    // We're only asking for one player, so we just need to check the first entry
+                    CurrentScore.Rank = response.members[0].rank;
+                    done = true;
+                }
+                else
+                {
+                    Debug.Log("failed: " + response.Error);
+                    done = true;
+                }
+            });
+
+            // Wait until request is done
             yield return new WaitWhile(() => done == false);
             // Update the TextMeshPro components
             GameEventManager.Instance.OnFetchScores?.Invoke();
