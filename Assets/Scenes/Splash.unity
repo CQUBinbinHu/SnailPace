@@ -720,7 +720,6 @@ MonoBehaviour:
   MinLoadDuration: 1
   MaxNameLength: 16
   LeaderBoardKey: 9196
-  CurrentState: 0
   CountDown: 0
   LoggedIn: 0
 --- !u!4 &403481383

@@ -23,5 +23,20 @@ namespace DefaultNamespace
                     break;
             }
         }
+
+        private void OnEnable()
+        {
+            GameEventManager.Instance.OnGameWinning += OnWinning;
+        }
+
+        private void OnWinning()
+        {
+            TextMeshPro.text = GameManager.Instance.RunClock;
+        }
+
+        private void OnDisable()
+        {
+            GameEventManager.Instance.OnGameWinning -= OnWinning;
+        }
     }
 }

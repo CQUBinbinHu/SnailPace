@@ -2926,7 +2926,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 462484139}
-  - component: {fileID: 462484140}
   - component: {fileID: 462484142}
   m_Layer: 5
   m_Name: SkillSockets
@@ -2960,124 +2959,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -0.37}
   m_SizeDelta: {x: 6.63, y: 6.6}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &462484140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 462484138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 284d432272dc9144a95ba052250355d2, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1581112657}
-        m_TargetAssemblyTypeName: DefaultNamespace.InputConnector, Assembly-CSharp
-        m_MethodName: InputCallBack
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 3fb55a62-2116-46d8-aa50-8b30388b19c5
-    m_ActionName: MainKeyboard/OnUseSkill_1[/Keyboard/a]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1496717310}
-        m_TargetAssemblyTypeName: DefaultNamespace.InputConnector, Assembly-CSharp
-        m_MethodName: InputCallBack
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: edec807b-b590-4064-897c-103eb280f7cb
-    m_ActionName: MainKeyboard/OnUseSkill_2[/Keyboard/w]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1531625045}
-        m_TargetAssemblyTypeName: DefaultNamespace.InputConnector, Assembly-CSharp
-        m_MethodName: InputCallBack
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 151b4632-5f93-4e70-ba91-1335abef61a2
-    m_ActionName: MainKeyboard/OnUseSkill_3[/Keyboard/e]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1625332025}
-        m_TargetAssemblyTypeName: DefaultNamespace.InputConnector, Assembly-CSharp
-        m_MethodName: InputCallBack
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2009902816}
-        m_TargetAssemblyTypeName: Core.BattleManager, Assembly-CSharp
-        m_MethodName: OnRefreshSkills
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 5666f74b-ed0e-4965-9532-bbd30031e966
-    m_ActionName: MainKeyboard/OnRefreshSkills[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 5c828ae7-a003-4372-8658-e6cda3f43496
-    m_ActionName: MainKeyboard/OnViewSkills[/Keyboard/c]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 8a52df67-3223-4cb1-84c7-42facd657af4
-    m_ActionName: MainKeyboard/Help[/Keyboard/escape]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: d12e9cee-123d-4f40-919e-b018d92c5e8b
-    m_ActionName: MainKeyboard/StartGame[/Keyboard/anyKey]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: MainKeyboard
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &462484142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7866,6 +7747,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: d12e9cee-123d-4f40-919e-b018d92c5e8b
     m_ActionName: MainKeyboard/StartGame[/Keyboard/anyKey]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c4a82dc7-9d1f-41b2-92c9-eb93458fcd06
+    m_ActionName: MainKeyboard/ChooseReward1[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9b5c50bd-c3db-47c6-a8ad-c9f6c2956d22
+    m_ActionName: MainKeyboard/ChooseReward2[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ebc12d72-13a7-4d66-a774-8b7f1d384dd3
+    m_ActionName: MainKeyboard/ChooseReward3[/Keyboard/3]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4f8f64a2-6843-475b-9123-632ab860e7eb
+    m_ActionName: MainKeyboard/SkipSkill[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: MainKeyboard
@@ -9890,6 +9787,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2009902815}
   - component: {fileID: 2009902816}
+  - component: {fileID: 2009902817}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -9949,6 +9847,188 @@ MonoBehaviour:
   SkillView: {fileID: 148554282}
   WinningPrefab: {fileID: 478258155727345794, guid: 1fb716d43e127d5479b6bcff13bf75cc, type: 3}
   MoveSpeed: 0
+--- !u!114 &2009902817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009902814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 284d432272dc9144a95ba052250355d2, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1581112657}
+        m_TargetAssemblyTypeName: DefaultNamespace.InputConnector, Assembly-CSharp
+        m_MethodName: InputCallBack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3fb55a62-2116-46d8-aa50-8b30388b19c5
+    m_ActionName: MainKeyboard/OnUseSkill_1[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1496717310}
+        m_TargetAssemblyTypeName: DefaultNamespace.InputConnector, Assembly-CSharp
+        m_MethodName: InputCallBack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: edec807b-b590-4064-897c-103eb280f7cb
+    m_ActionName: MainKeyboard/OnUseSkill_2[/Keyboard/w]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1531625045}
+        m_TargetAssemblyTypeName: DefaultNamespace.InputConnector, Assembly-CSharp
+        m_MethodName: InputCallBack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 151b4632-5f93-4e70-ba91-1335abef61a2
+    m_ActionName: MainKeyboard/OnUseSkill_3[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1625332025}
+        m_TargetAssemblyTypeName: DefaultNamespace.InputConnector, Assembly-CSharp
+        m_MethodName: InputCallBack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2009902816}
+        m_TargetAssemblyTypeName: Core.BattleManager, Assembly-CSharp
+        m_MethodName: OnRefreshSkills
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5666f74b-ed0e-4965-9532-bbd30031e966
+    m_ActionName: MainKeyboard/OnRefreshSkills[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5c828ae7-a003-4372-8658-e6cda3f43496
+    m_ActionName: MainKeyboard/OnViewSkills[/Keyboard/c]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8a52df67-3223-4cb1-84c7-42facd657af4
+    m_ActionName: MainKeyboard/Help[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d12e9cee-123d-4f40-919e-b018d92c5e8b
+    m_ActionName: MainKeyboard/StartGame[/Keyboard/anyKey]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2009902816}
+        m_TargetAssemblyTypeName: Core.BattleManager, Assembly-CSharp
+        m_MethodName: ChooseRewardInput_1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c4a82dc7-9d1f-41b2-92c9-eb93458fcd06
+    m_ActionName: MainKeyboard/ChooseReward1[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2009902816}
+        m_TargetAssemblyTypeName: Core.BattleManager, Assembly-CSharp
+        m_MethodName: ChooseRewardInput_2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9b5c50bd-c3db-47c6-a8ad-c9f6c2956d22
+    m_ActionName: MainKeyboard/ChooseReward2[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2009902816}
+        m_TargetAssemblyTypeName: Core.BattleManager, Assembly-CSharp
+        m_MethodName: ChooseRewardInput_3
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ebc12d72-13a7-4d66-a774-8b7f1d384dd3
+    m_ActionName: MainKeyboard/ChooseReward3[/Keyboard/3]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2009902816}
+        m_TargetAssemblyTypeName: Core.BattleManager, Assembly-CSharp
+        m_MethodName: OnSkipReward
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4f8f64a2-6843-475b-9123-632ab860e7eb
+    m_ActionName: MainKeyboard/SkipSkill[/Keyboard/space]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: MainKeyboard
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &2052343911
 GameObject:
   m_ObjectHideFlags: 0

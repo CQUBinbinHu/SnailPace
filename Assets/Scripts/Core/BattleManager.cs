@@ -9,6 +9,7 @@ using Lean.Pool;
 using MoreMountains.Tools;
 using ParadoxNotion;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -29,6 +30,8 @@ namespace Core
         [SerializeField] private Image ChoosePanel;
         [SerializeField] private Transform SkillViewSocket;
         [SerializeField] private Transform SkillView;
+
+        private List<SkillReward> _currentRewards;
         public GameObject WinningPrefab;
         private LoopMoveGrid _loopMoveGrid;
         public int MoveSpeed;
@@ -48,6 +51,7 @@ namespace Core
         {
             base.Awake();
             _isRefreshOpen = true;
+            _currentRewards = new List<SkillReward>();
             _currentSkills = new List<SkillComponent>();
             _skillRewardDict = new Dictionary<string, SkillReward>();
             _skillDict = new Dictionary<string, SkillComponent>();
@@ -234,6 +238,7 @@ namespace Core
 
         private void AddRandomRewards()
         {
+            _currentRewards.Clear();
             List<int> record = new List<int>();
             int count = 0;
             while (count < 3)
@@ -261,6 +266,71 @@ namespace Core
                 var skillName = _skillNames[index];
                 var skillReward = LeanPool.Spawn(_skillRewardDict[skillName], RewardSkillSocket);
                 skillReward.SetSkillObject(_skillDict[skillName]);
+                _currentRewards.Add(skillReward);
+            }
+        }
+
+        public void ChooseRewardInput_1(InputAction.CallbackContext context)
+        {
+            switch (GameManager.Instance.CurrentState)
+            {
+                case GameStatus.Reward:
+                    switch (context.phase)
+                    {
+                        case InputActionPhase.Performed:
+                            _currentRewards[0].OnAddSkill();
+                            break;
+                    }
+
+                    break;
+            }
+        }
+
+        public void ChooseRewardInput_2(InputAction.CallbackContext context)
+        {
+            switch (GameManager.Instance.CurrentState)
+            {
+                case GameStatus.Reward:
+                    switch (context.phase)
+                    {
+                        case InputActionPhase.Performed:
+                            _currentRewards[1].OnAddSkill();
+                            break;
+                    }
+
+                    break;
+            }
+        }
+
+        public void ChooseRewardInput_3(InputAction.CallbackContext context)
+        {
+            switch (GameManager.Instance.CurrentState)
+            {
+                case GameStatus.Reward:
+                    switch (context.phase)
+                    {
+                        case InputActionPhase.Performed:
+                            _currentRewards[2].OnAddSkill();
+                            break;
+                    }
+
+                    break;
+            }
+        }
+
+        public void OnSkipReward(InputAction.CallbackContext context)
+        {
+            switch (GameManager.Instance.CurrentState)
+            {
+                case GameStatus.Reward:
+                    switch (context.phase)
+                    {
+                        case InputActionPhase.Performed:
+                            GameEventManager.Instance.OnRunContinue.Invoke();
+                            break;
+                    }
+
+                    break;
             }
         }
 
@@ -278,7 +348,7 @@ namespace Core
             }
         }
 
-        public void OnRefreshSkills()
+        public void OnRefreshSkills(InputAction.CallbackContext context)
         {
             if (!_isRefreshOpen || GameManager.Instance.IsPaused)
             {
@@ -289,16 +359,21 @@ namespace Core
             {
                 case GameStatus.Encounter:
                 case GameStatus.Run:
-                    OnRefreshUseEnergy();
-                    _isRefreshOpen = false;
-                    foreach (var skill in _currentSkills)
+                    switch (context.phase)
                     {
-                        skill.OnRefresh();
+                        case InputActionPhase.Performed:
+                            OnRefreshUseEnergy();
+                            _isRefreshOpen = false;
+                            foreach (var skill in _currentSkills)
+                            {
+                                skill.OnRefresh();
+                            }
+
+                            _currentSkills.Clear();
+                            StartCoroutine(RefreshRandomSkills(0.4f));
+                            break;
                     }
 
-                    _currentSkills.Clear();
-
-                    StartCoroutine(RefreshRandomSkills(0.4f));
                     break;
             }
         }

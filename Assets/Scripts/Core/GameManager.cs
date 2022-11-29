@@ -53,20 +53,20 @@ namespace Core
         public int MaxNameLength = 16;
         public int LeaderBoardKey;
         private float _runClock;
-        public GameStatus CurrentState;
-        private StateMachine<GameManager, GameStatus, GameTransition> _stateMachine;
         private bool _isPaused;
+        private float _loadTimer;
+        public int CountDown;
+        public bool LoggedIn;
+        public List<PlayerScoreData> PlayerScores;
+        public PlayerScoreData CurrentScore;
+        private StateMachine<GameManager, GameStatus, GameTransition> _stateMachine;
+        public GameStatus CurrentState => _stateMachine.CurrentStateID;
         public string RunClock => GetStringScore(GetScore());
         public bool IsPaused => _isPaused;
         public float ProgressValue { get; set; }
-        public int CountDown;
-        private float _loadTimer;
-        public bool LoggedIn;
         private int PlayerScore { get; set; }
         public bool IsSuccessRegistered { get; set; }
 
-        public List<PlayerScoreData> PlayerScores;
-        public PlayerScoreData CurrentScore;
 
         protected override void Awake()
         {
@@ -90,11 +90,11 @@ namespace Core
             runState.AddTransition(GameTransition.Encounter, GameStatus.Encounter);
             runState.AddTransition(GameTransition.Reward, GameStatus.Reward);
             runState.AddTransition(GameTransition.WinGame, GameStatus.GameWining);
+            runState.AddTransition(GameTransition.OnGameOver, GameStatus.GameOver);
             encounter.AddTransition(GameTransition.ContinueRun, GameStatus.Run);
             encounter.AddTransition(GameTransition.Reward, GameStatus.Reward);
-            reward.AddTransition(GameTransition.ContinueRun, GameStatus.Run);
-            runState.AddTransition(GameTransition.OnGameOver, GameStatus.GameOver);
             encounter.AddTransition(GameTransition.OnGameOver, GameStatus.GameOver);
+            reward.AddTransition(GameTransition.ContinueRun, GameStatus.Run);
             gameOverState.AddTransition(GameTransition.Restart, GameStatus.Idle);
             _stateMachine.AddState(splashState);
             _stateMachine.AddState(idleState);
@@ -152,7 +152,6 @@ namespace Core
             }
 
             _stateMachine.Tick(Time.deltaTime);
-            CurrentState = _stateMachine.CurrentStateID;
         }
 
         private void FixedUpdate()
