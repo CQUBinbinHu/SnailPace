@@ -51,6 +51,7 @@ namespace Core
         [SerializeField] public BuffShowData BuffShowData;
         [SerializeField] public ShowTipComponent ShowTipComponent;
         [SerializeField] private float MinLoadDuration;
+        public int InitSpeed = 0;
         public int MaxNameLength = 16;
         public int LeaderBoardKey;
         private float _runClock;

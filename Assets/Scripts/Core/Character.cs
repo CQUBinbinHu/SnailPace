@@ -29,6 +29,8 @@ namespace Core
         private static readonly int Walk = Animator.StringToHash("Walk");
         private static readonly int Attack = Animator.StringToHash("Attack");
         private static readonly int Opacity = Shader.PropertyToID("_Opacity");
+        private SpeedComponent _speedComponent;
+        public SpeedComponent SpeedComponent => _speedComponent;
         private Animator _animator;
         private HealthComponent _health;
         private EnergyComponent _energyComponent;
@@ -50,6 +52,7 @@ namespace Core
         {
             TryGetComponent(out _energyComponent);
             TryGetComponent(out _health);
+            _speedComponent = GetComponentInChildren<SpeedComponent>();
             _animator = GetComponentInChildren<Animator>();
             _buffAddCurrent = new List<Buff>();
             _buffRemoveCurrent = new List<Buff>();
@@ -189,6 +192,11 @@ namespace Core
             if (_energyComponent)
             {
                 _energyComponent.Initialize();
+            }
+
+            if (_speedComponent)
+            {
+                _speedComponent.SetSpeed(GameManager.Instance.InitSpeed);
             }
 
             if (BehaviourController.Intent)

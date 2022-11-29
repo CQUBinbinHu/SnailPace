@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 437899297624758777, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 781366615, guid: dee7369aae3cf2a4fbd9834b5437e638, type: 3}
+      objectReference: {fileID: 2118538567, guid: 101d54cadbba51c4eb6b8baf96f47d09, type: 3}
     - target: {fileID: 2473258263193706704, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_Name
       value: Shield
@@ -158,4 +158,5 @@ MonoBehaviour:
   SkillName: Shield
   Introduction: 
   NeedEnergy: 30
+  IsActive: 0
   Armor: 10

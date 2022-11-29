@@ -76,7 +76,7 @@ public class LoopMoveGrid : MonoBehaviour
 
         bool doUpdateLoop = false;
         MoveSocketStruct lastSocket = new MoveSocketStruct();
-        float deltaDistance = BattleManager.Instance.MoveSpeed * deltaTime;
+        float deltaDistance = BattleManager.Instance.Hero.SpeedComponent.MoveSpeed * deltaTime;
         foreach (var socket in MoveSocketStructs)
         {
             var pos = socket.Block.transform.localPosition;
