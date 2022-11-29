@@ -141,6 +141,11 @@ namespace Core
                 _health.Initialize();
             }
 
+            if (_energyComponent)
+            {
+                _energyComponent.Initialize();
+            }
+
             if (BehaviourController.Intent)
             {
                 _behaviourController.Intent.SetIntent(Intent.None);
@@ -154,17 +159,10 @@ namespace Core
 
         private void OnEnable()
         {
-            GameEventManager.Instance.OnGameRestart += OnRestart;
         }
 
         private void OnDisable()
         {
-            GameEventManager.Instance.OnGameRestart -= OnRestart;
-        }
-
-        private void OnRestart()
-        {
-            LeanPool.Despawn(this.gameObject);
         }
     }
 }

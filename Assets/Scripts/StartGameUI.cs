@@ -63,6 +63,11 @@ namespace DefaultNamespace
                 return;
             }
 
+            if (!_isOnSplash)
+            {
+                return;
+            }
+
             switch (context.phase)
             {
                 case InputActionPhase.Performed:

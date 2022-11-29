@@ -62,6 +62,11 @@ namespace Core
 
         public void OnGameStart()
         {
+            if (_hero)
+            {
+                LeanPool.Despawn(_hero.gameObject);
+            }
+
             var hero = LeanPool.Spawn(HeroPrefab, SpawnSocket.position, Quaternion.identity);
             SetHero(hero.GetComponent<Character>());
             MoveSpeed = InitSpeed;

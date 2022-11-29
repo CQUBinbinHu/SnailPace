@@ -158,7 +158,7 @@ namespace Core
                     break;
             }
 
-            LeanPool.Despawn(this);
+            LeanPool.Despawn(_owner.gameObject);
             // StartCoroutine(DelayDead_Cro(0.6f));
         }
 

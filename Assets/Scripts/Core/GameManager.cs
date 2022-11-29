@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DefaultNamespace;
 using DefaultNamespace.Tools.IncrementScoreCharacters;
+using Lean.Pool;
 using LootLocker;
 using LootLocker.Requests;
 using MoreMountains.Tools;
