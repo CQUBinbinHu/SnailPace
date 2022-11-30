@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkillName: RedBook
-  Introduction: Deal Double Damage in 3s
+  Introduction: Deal Double Damage in 5s
   NeedEnergy: 20
-  IsActive: 0
+  IsExhausted: 0
+  Duration: 5

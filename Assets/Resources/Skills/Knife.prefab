@@ -134,7 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a2cb6f8cbf54effa6e1a84fd65be38e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NeedEnergy: 30
-  Introduction: Deal 10 Damage
   SkillName: Knife
+  Introduction: Deal 10 Damage
+  NeedEnergy: 10
+  IsExhausted: 0
   Atk: 10
