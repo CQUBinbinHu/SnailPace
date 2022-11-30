@@ -16,6 +16,11 @@ namespace DefaultNamespace
         {
         }
 
+        public override void OnOverride(float duration)
+        {
+            ResetCoolDown(_duration);
+        }
+
         public override void OnRemoveBuff()
         {
             Owner.Health.RemoveAllArmors();

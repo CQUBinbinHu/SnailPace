@@ -23,5 +23,10 @@ namespace DefaultNamespace
         {
             Owner.AddDamageMultiplier(BuffType.Vulnerable, DamageMultiplier);
         }
+
+        public override void OnOverride(float duration)
+        {
+            ResetCoolDown(duration);
+        }
     }
 }

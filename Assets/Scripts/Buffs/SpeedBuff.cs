@@ -9,6 +9,10 @@ namespace DefaultNamespace
         {
         }
 
+        public override void OnOverride(float duration)
+        {
+        }
+
         public void AddSpeed(int value)
         {
             Owner.SpeedComponent.AddSpeed(value);

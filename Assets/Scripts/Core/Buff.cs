@@ -72,9 +72,7 @@ namespace Core
             }
         }
 
-        public virtual void OnOverride(float duration)
-        {
-        }
+        public abstract void OnOverride(float duration);
 
         protected void ResetCoolDown(float duration)
         {

@@ -26,7 +26,6 @@ namespace DefaultNamespace
 
         public override void OnOverride(float duration)
         {
-            base.OnOverride(duration);
             ResetCoolDown(duration);
         }
     }
