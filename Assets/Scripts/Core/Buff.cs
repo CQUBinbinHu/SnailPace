@@ -12,7 +12,8 @@ namespace Core
         Enhancement,
         Vulnerable,
         Cure,
-        Armor
+        Armor,
+        Speed
     }
 
     public abstract class Buff : MonoBehaviour
@@ -79,6 +80,11 @@ namespace Core
         {
             Duration = duration;
             _timer = duration;
+        }
+
+        public virtual int GetLayers()
+        {
+            return 0;
         }
     }
 }

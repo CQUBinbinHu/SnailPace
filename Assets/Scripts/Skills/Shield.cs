@@ -9,7 +9,6 @@ namespace HeroPerform
     public class Shield : SkillComponent
     {
         [SerializeField] public int Armor = 6;
-        private readonly float _duration = 3;
 
         public override void OnUse()
         {
@@ -18,7 +17,7 @@ namespace HeroPerform
                 return;
             }
 
-            ArmorBuff armorBuff = (Owner.AddBuff<ArmorBuff>(BuffType.Armor, _duration)) as ArmorBuff;
+            ArmorBuff armorBuff = (Owner.AddBuff<ArmorBuff>(BuffType.Armor)) as ArmorBuff;
             if (armorBuff != null)
             {
                 armorBuff.AddArmor(Armor);

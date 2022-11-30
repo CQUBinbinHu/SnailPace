@@ -1,4 +1,5 @@
-﻿using DefaultNamespace;
+﻿using Core;
+using DefaultNamespace;
 using UnityEngine;
 
 namespace HeroPerform
@@ -9,7 +10,12 @@ namespace HeroPerform
 
         public override void OnUse()
         {
-            Owner.SpeedComponent.AddSpeed(Speed);
+            SpeedBuff buff = (Owner.AddBuff<SpeedBuff>(BuffType.Speed)) as SpeedBuff;
+            if (buff != null)
+            {
+                buff.AddSpeed(Speed);
+            }
+
             base.OnUse();
         }
     }

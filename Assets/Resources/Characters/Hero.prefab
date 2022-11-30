@@ -47,10 +47,6 @@ PrefabInstance:
       propertyPath: CharacterType
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5943824946930573707, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 6140105975915262992, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
       propertyPath: m_Name
       value: Hero
@@ -103,13 +99,13 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: -1
       objectReference: {fileID: 0}
-    - target: {fileID: 6186424825793187805, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.721
-      objectReference: {fileID: 0}
     - target: {fileID: 8416081440247500314, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8687921901995452122, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
