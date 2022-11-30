@@ -13,7 +13,7 @@ namespace DefaultNamespace
             Owner.AddDamageMultiplier(BuffType.Vulnerable, DamageMultiplier);
         }
 
-        protected override void OnRemoveBuff()
+        public override void OnRemoveBuff()
         {
             Owner.RemoveBuffDamageMultiplier(BuffType.Vulnerable);
             base.OnRemoveBuff();

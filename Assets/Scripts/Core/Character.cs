@@ -54,10 +54,10 @@ namespace Core
             TryGetComponent(out _health);
             _speedComponent = GetComponentInChildren<SpeedComponent>();
             _animator = GetComponentInChildren<Animator>();
-            _buffAddCurrent = new List<Buff>();
-            _buffRemoveCurrent = new List<Buff>();
             _buffs = new Dictionary<BuffType, Buff>();
             _health = GetComponent<HealthComponent>();
+            _buffRemoveCurrent = new List<Buff>();
+            _buffAddCurrent = new List<Buff>();
             _behaviourController = GetComponent<BehaviourController>();
             _buffAtkMultiplier = new Dictionary<BuffType, float>();
             _buffDamageMultiplier = new Dictionary<BuffType, float>();
@@ -205,11 +205,15 @@ namespace Core
                 _behaviourController.IsOnCountDown = false;
             }
 
+            _buffs.Clear();
+            _buffAtkMultiplier.Clear();
+            _buffDamageMultiplier.Clear();
             _behaviourController.Init();
         }
 
         public void OnDespawn()
         {
+            foreach (var buff in BuffSocket.GetComponents<Buff>()) buff.OnRemoveBuff();
         }
 
         private void OnEnable()

@@ -13,7 +13,7 @@ namespace DefaultNamespace
             Owner.AddAtkMultiplier(BuffType.Week, WeekMultiplier);
         }
 
-        protected override void OnRemoveBuff()
+        public override void OnRemoveBuff()
         {
             Owner.RemoveBuffAtkMultiplier(BuffType.Week);
             base.OnRemoveBuff();

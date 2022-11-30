@@ -13,7 +13,7 @@ namespace DefaultNamespace
             Owner.AddAtkMultiplier(BuffType.Enhancement, AtkMultiplier);
         }
 
-        protected override void OnRemoveBuff()
+        public override void OnRemoveBuff()
         {
             Owner.RemoveBuffAtkMultiplier(BuffType.Enhancement);
             base.OnRemoveBuff();

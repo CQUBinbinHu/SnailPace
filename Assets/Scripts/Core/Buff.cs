@@ -35,11 +35,12 @@ namespace Core
             _showBuffComponentTarget.SetOwner(this);
         }
 
-        protected virtual void OnRemoveBuff()
+        public virtual void OnRemoveBuff()
         {
             IsBuffActivated = false;
             Owner.RemoveBuff(this);
-            StartCoroutine(DespawnNextFrame());
+            LeanPool.Despawn(_showBuffComponentTarget);
+            Destroy(this);
         }
 
         protected abstract void OnBuffTick(float deltaTime);
@@ -77,13 +78,6 @@ namespace Core
         {
             Duration = duration;
             _timer = duration;
-        }
-
-        IEnumerator DespawnNextFrame()
-        {
-            yield return new WaitForFixedUpdate();
-            LeanPool.Despawn(_showBuffComponentTarget);
-            Destroy(this);
         }
     }
 }
