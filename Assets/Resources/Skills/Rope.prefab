@@ -144,6 +144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SkillName: Rope
   Introduction: Make Enemy <color=#FF535B>Week</color> in 5s
-  NeedEnergy: 30
+  NeedEnergy: 20
   IsExhausted: 0
   Duration: 5

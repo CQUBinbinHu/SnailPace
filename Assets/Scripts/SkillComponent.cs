@@ -44,6 +44,7 @@ namespace DefaultNamespace
         protected Character Owner;
         protected Character Target;
         private LoopSocket _follow;
+        protected int Level;
         private bool IsEnergySatisfied;
         public bool IsActive { get; set; }
         private bool RefreshOnCancel = false;
@@ -65,7 +66,16 @@ namespace DefaultNamespace
             TryGetComponent(out _skillShow);
         }
 
-        public void Initialize()
+        public virtual void RefreshStatus()
+        {
+        }
+
+        public void SetLevel(int level)
+        {
+            Level = level;
+        }
+
+        public virtual void Initialize()
         {
             _follow = null;
             IsActive = true;

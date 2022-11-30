@@ -119,8 +119,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkillName: CurePotion
-  Introduction: Cure 30HP in 10s
+  Introduction: Cure 30HP in 60s
   NeedEnergy: 0
   IsExhausted: 1
-  Duration: 10
+  Duration: 60
   TotalCure: 30

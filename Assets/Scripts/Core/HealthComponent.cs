@@ -11,13 +11,14 @@ namespace Core
         [SerializeField] private bool ShowHealthBar;
         [SerializeField] private Color TipsColor;
 
+        private float _maxHp;
         private int _armor;
         private bool _isDead;
         private Character _owner;
         private HealthBar _healthBar;
         public float CurrentHp { get; private set; }
         public int RoundHp => Mathf.RoundToInt(CurrentHp);
-        public int RoundMaxHp => Mathf.RoundToInt(MaxHp);
+        public int RoundMaxHp => Mathf.RoundToInt(_maxHp);
         public int Armors => _armor;
         public bool IsWithArmor => Armors != 0;
         public float ArmorCountDown => _armorTimer / RemoveArmorAfter;
@@ -30,6 +31,7 @@ namespace Core
         {
             _owner = GetComponent<Character>();
             _healthBar = GetComponentInChildren<HealthBar>();
+            _maxHp = MaxHp;
         }
 
         public void Init()
@@ -60,32 +62,32 @@ namespace Core
 
         public float GetHpRatio()
         {
-            if (CurrentHp + Armors > MaxHp)
+            if (CurrentHp + Armors > _maxHp)
             {
                 return CurrentHp / (CurrentHp + Armors);
             }
             else
             {
-                return CurrentHp / MaxHp;
+                return CurrentHp / _maxHp;
             }
         }
 
         public float GetArmorRatio()
         {
-            if (CurrentHp + Armors > MaxHp)
+            if (CurrentHp + Armors > _maxHp)
             {
                 return 1;
             }
             else
             {
-                return (float)(CurrentHp + Armors) / MaxHp;
+                return (float)(CurrentHp + Armors) / _maxHp;
             }
         }
 
         private void ResetHp()
         {
             _armor = 0;
-            CurrentHp = MaxHp;
+            CurrentHp = _maxHp;
         }
 
         public void Cure(float cure)
@@ -118,7 +120,7 @@ namespace Core
         private void ChangeHp(float hp)
         {
             CurrentHp += hp;
-            CurrentHp = Mathf.Clamp(CurrentHp, 0, MaxHp);
+            CurrentHp = Mathf.Clamp(CurrentHp, 0, _maxHp);
             if (RoundHp == 0)
             {
                 Dead();
@@ -173,6 +175,12 @@ namespace Core
             {
                 _healthBar.UpdateDamageBar();
             }
+        }
+
+        public void SetLevel(int level)
+        {
+            _maxHp = MaxHp * (1 + 0.1f * level);
+            Init();
         }
     }
 }

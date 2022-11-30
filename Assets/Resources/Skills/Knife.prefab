@@ -135,7 +135,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkillName: Knife
-  Introduction: Deal 10 Damage
+  Introduction: Deal 6 Damage
   NeedEnergy: 10
   IsExhausted: 0
-  Atk: 10
+  Atk: 6
+  UseRandom: 0
+  MinAtk: 0
+  MaxAtk: 0

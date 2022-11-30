@@ -29,7 +29,7 @@ namespace Core
         private static readonly int Walk = Animator.StringToHash("Walk");
         private static readonly int Attack = Animator.StringToHash("Attack");
         private static readonly int Opacity = Shader.PropertyToID("_Opacity");
-        private int _level;
+        public int Level;
         private SpeedComponent _speedComponent;
         public SpeedComponent SpeedComponent => _speedComponent;
         private EnemyAnimatorComponent _enemyAnimator;
@@ -255,7 +255,17 @@ namespace Core
 
         public void SetLevel(int level)
         {
-            _level = level;
+            Level = level;
+            // 技能等级
+            foreach (var skill in _behaviourController.CurrentSkills)
+            {
+                skill.SetLevel(Level);
+            }
+            // 血量等级
+            if (_health)
+            {
+                _health.SetLevel(Level);
+            }
         }
     }
 }

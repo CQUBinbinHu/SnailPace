@@ -9,8 +9,8 @@ namespace DefaultNamespace.SkillTasks
     [Category("Snail")]
     public class SetIntentSkill : ActionTask
     {
-        private Character Owner;
         public SkillComponent Current;
+        private Character Owner;
 
         protected override string OnInit()
         {
@@ -22,6 +22,7 @@ namespace DefaultNamespace.SkillTasks
         protected override void OnExecute()
         {
             base.OnExecute();
+            Current.RefreshStatus();
             Owner.BehaviourController.SetCurrent(Current);
             EndAction(true);
         }

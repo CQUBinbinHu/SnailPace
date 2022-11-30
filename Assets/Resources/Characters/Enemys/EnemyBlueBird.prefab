@@ -177,6 +177,9 @@ MonoBehaviour:
   NeedEnergy: 10
   IsExhausted: 0
   Atk: 6
+  UseRandom: 0
+  MinAtk: 0
+  MaxAtk: 0
 --- !u!4 &6601545136371749257 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6140105975915262995, guid: 4b65ea96d95e5a749aab114592d8de97, type: 3}
