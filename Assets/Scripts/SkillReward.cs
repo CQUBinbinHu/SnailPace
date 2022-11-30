@@ -18,6 +18,7 @@ namespace DefaultNamespace
         [SerializeField] private TextMeshProUGUI TextSkillName;
         [SerializeField] private TextMeshProUGUI TextIntroduction;
         [SerializeField] private GameObject Model;
+        [SerializeField] private GameObject ExhaustPresentation;
 
         private SkillComponent _skillObject;
         private SkillComponent _skillTarget;
@@ -71,6 +72,7 @@ namespace DefaultNamespace
             _skillTarget = LeanPool.Spawn(_skillObject, SkillSocket);
             TextSkillName.text = _skillTarget.SkillName;
             TextIntroduction.text = _skillTarget.Introduction;
+            ExhaustPresentation.SetActive(skill.IsExhausted);
         }
 
         public void OnSpawn()
