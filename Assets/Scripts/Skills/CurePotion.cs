@@ -11,7 +11,7 @@ namespace HeroPerform
 
         public override void OnUse()
         {
-            CureBuff cure = (Owner.AddBuff(BuffType.Cure, Duration)) as CureBuff;
+            CureBuff cure = (Owner.AddBuff<CureBuff>(BuffType.Cure, Duration)) as CureBuff;
             if (cure != null)
             {
                 cure.SetCure(TotalCure / Duration);

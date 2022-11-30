@@ -22,7 +22,7 @@ namespace HeroPerform
             }
 
             Target.Health.TakeDamage(Damage);
-            Target.AddBuff(BuffType.Vulnerable);
+            Target.AddBuff<VulnerableBuff>(BuffType.Vulnerable);
             base.OnUse();
         }
 

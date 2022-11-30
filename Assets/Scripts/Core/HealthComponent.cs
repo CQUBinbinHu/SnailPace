@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using DefaultNamespace;
 using Lean.Pool;
 using UnityEngine;
@@ -49,31 +48,9 @@ namespace Core
             }
         }
 
-        private void FixedUpdate()
+        public void RemoveAllArmors()
         {
-            TickUpdateArmor(Time.fixedDeltaTime);
-        }
-
-        private void TickUpdateArmor(float fixedDeltaTime)
-        {
-            if (_armor == 0) return;
-            if (_armorTimer > 0)
-            {
-                _armorTimer -= fixedDeltaTime;
-            }
-            else
-            {
-                Debug.Log("debug RemoveArmor");
-                RemoveArmor(Int32.MaxValue);
-            }
-        }
-
-        private void Update()
-        {
-            if (ShowHealthBar)
-            {
-                _healthBar.UpdateArmorPresentation();
-            }
+            RemoveArmor(Int32.MaxValue);
         }
 
         private void ResetArmorTimer()
@@ -185,7 +162,6 @@ namespace Core
             if (ShowHealthBar)
             {
                 _healthBar.UpdateDamageBar();
-                _healthBar.UpdateArmorPresentation();
             }
         }
 
@@ -196,7 +172,6 @@ namespace Core
             if (ShowHealthBar)
             {
                 _healthBar.UpdateDamageBar();
-                _healthBar.UpdateArmorPresentation();
             }
         }
     }

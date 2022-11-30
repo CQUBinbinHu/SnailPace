@@ -20,7 +20,7 @@ namespace HeroPerform
                 return;
             }
 
-            Target.AddBuff(BuffType.Week, Duration);
+            Target.AddBuff<WeekBuff>(BuffType.Week, Duration);
             base.OnUse();
         }
 

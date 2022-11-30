@@ -32,6 +32,8 @@ namespace Core
         private SpeedComponent _speedComponent;
         public SpeedComponent SpeedComponent => _speedComponent;
         private Animator _animator;
+        private StrengthComponent _strengthComponent;
+        public StrengthComponent StrengthComponent => _strengthComponent;
         private HealthComponent _health;
         private EnergyComponent _energyComponent;
         private BehaviourController _behaviourController;
@@ -50,6 +52,7 @@ namespace Core
 
         private void Awake()
         {
+            TryGetComponent(out _strengthComponent);
             TryGetComponent(out _energyComponent);
             TryGetComponent(out _health);
             _speedComponent = GetComponentInChildren<SpeedComponent>();
@@ -229,6 +232,10 @@ namespace Core
         private void OnDisable()
         {
             GameEventManager.Instance.OnGameRestart -= OnRestart;
+        }
+
+        public void AddStrength(int strength)
+        {
         }
     }
 }

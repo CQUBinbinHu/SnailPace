@@ -9,7 +9,7 @@ namespace HeroPerform
 
         public override void OnUse()
         {
-            Owner.SpeedComponent.AddSped(Speed);
+            Owner.SpeedComponent.AddSpeed(Speed);
             base.OnUse();
         }
     }

@@ -6,63 +6,21 @@ namespace Core
 {
     public static class BuffSystem
     {
-        public static Buff AddBuff(this Character target, BuffType buffType, float duration = -1)
+        public static Buff AddBuff<T>(this Character target, BuffType buffType, float duration = -1) where T : Buff
         {
-            Buff buff = null;
-            switch (buffType)
+            bool hasBuff = false;
+            if (target.BuffSocket.TryGetComponent(out T buff))
             {
-                case BuffType.Cure:
-                    if (target.BuffSocket.TryGetComponent(out CureBuff cureBuff))
-                    {
-                        if (cureBuff.IsBuffActivated)
-                        {
-                            cureBuff.OnOverride(duration);
-                            break;
-                        }
-                    }
+                if (buff.IsBuffActivated)
+                {
+                    hasBuff = true;
+                    buff.OnOverride(duration);
+                }
+            }
 
-                    buff = target.BuffSocket.AddComponent<CureBuff>();
-                    break;
-                case BuffType.Week:
-                    if (target.BuffSocket.TryGetComponent(out WeekBuff weekBuff))
-                    {
-                        if (weekBuff.IsBuffActivated)
-                        {
-                            weekBuff.OnOverride(duration);
-                            break;
-                        }
-                    }
-
-                    buff = target.BuffSocket.AddComponent<WeekBuff>();
-                    break;
-                case BuffType.Enhancement:
-                    if (target.BuffSocket.TryGetComponent(out EnhancementBuff enhancementBuff))
-                    {
-                        if (enhancementBuff.IsBuffActivated)
-                        {
-                            enhancementBuff.OnOverride(duration);
-                            break;
-                        }
-                    }
-
-                    buff = target.BuffSocket.AddComponent<EnhancementBuff>();
-                    break;
-                case BuffType.Vulnerable:
-                    if (target.BuffSocket.TryGetComponent(out VulnerableBuff vulnerableBuff))
-                    {
-                        if (vulnerableBuff)
-                        {
-                            vulnerableBuff.OnOverride(duration);
-                            break;
-                        }
-                    }
-
-
-                    buff = target.BuffSocket.AddComponent<VulnerableBuff>();
-                    break;
-                default:
-                    Debug.LogWarning("Not find Buff " + buffType);
-                    return null;
+            if (!hasBuff)
+            {
+                buff = target.BuffSocket.AddComponent<T>();
             }
 
             if (buff != null)

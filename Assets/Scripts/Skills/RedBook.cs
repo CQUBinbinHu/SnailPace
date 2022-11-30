@@ -15,7 +15,7 @@ namespace HeroPerform
                 return;
             }
 
-            Owner.AddBuff(BuffType.Enhancement, Duration);
+            Owner.AddBuff<EnhancementBuff>(BuffType.Enhancement, Duration);
             base.OnUse();
         }
 

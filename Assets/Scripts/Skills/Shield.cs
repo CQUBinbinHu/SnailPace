@@ -6,9 +6,10 @@ using UnityEngine.UI;
 
 namespace HeroPerform
 {
-    public class Defense : SkillComponent
+    public class Shield : SkillComponent
     {
         [SerializeField] public int Armor = 6;
+        private readonly float _duration = 3;
 
         public override void OnUse()
         {
@@ -17,17 +18,13 @@ namespace HeroPerform
                 return;
             }
 
-            Owner.Health.AddArmor(Armor);
+            ArmorBuff armorBuff = (Owner.AddBuff<ArmorBuff>(BuffType.Armor, _duration)) as ArmorBuff;
+            if (armorBuff != null)
+            {
+                armorBuff.AddArmor(Armor);
+            }
+
             base.OnUse();
-        }
-
-        public override void OnCancel()
-        {
-            base.OnCancel();
-        }
-
-        private void FixedUpdate()
-        {
         }
     }
 }

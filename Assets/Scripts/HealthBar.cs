@@ -14,9 +14,6 @@ namespace DefaultNamespace
         [SerializeField] private Image HealthBarImage;
         [SerializeField] private Image DamageBarImage;
         [SerializeField] private Image WhiteBarImage;
-        [SerializeField] private Image ArmorImage;
-        [SerializeField] private Image ArmorBackGround;
-        [SerializeField] private Image ArmorCountDown;
         [SerializeField] private TextMeshProUGUI HealthAmount;
         [SerializeField] private TextMeshProUGUI ArmorAmount;
         [Range(0, 1)] public float CurrentRatio;
@@ -32,7 +29,6 @@ namespace DefaultNamespace
 
         public void Initialize()
         {
-            ArmorImage.enabled = false;
             WhiteBarImage.fillAmount = _healthComponent.GetArmorRatio();
             CurrentRatio = _healthComponent.GetHpRatio();
             HealthBarImage.fillAmount = CurrentRatio;
@@ -59,16 +55,7 @@ namespace DefaultNamespace
                                 + _healthComponent.RoundMaxHp;
             int armors = _healthComponent.Armors;
             ArmorAmount.text = armors == 0 ? string.Empty : armors.ToString();
-
             StartCoroutine(UpdateDamageDelay_Cro(Delay));
-        }
-
-        public void UpdateArmorPresentation()
-        {
-            ArmorImage.enabled = _healthComponent.IsWithArmor;
-            ArmorCountDown.enabled = _healthComponent.IsWithArmor;
-            ArmorBackGround.enabled = _healthComponent.IsWithArmor;
-            ArmorCountDown.fillAmount = _healthComponent.ArmorCountDown;
         }
 
         IEnumerator UpdateDamageDelay_Cro(float delay)

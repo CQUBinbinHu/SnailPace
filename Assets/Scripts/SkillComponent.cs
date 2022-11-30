@@ -50,6 +50,11 @@ namespace DefaultNamespace
 
         protected delegate void CallBack();
 
+        public virtual int GetDamage(int atk)
+        {
+            return (int)(Owner.GetBuffAtkMultiplier() * (atk + Owner.StrengthComponent.Strength));
+        }
+
         public virtual int GetDamage()
         {
             return 0;

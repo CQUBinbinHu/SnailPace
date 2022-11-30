@@ -11,7 +11,8 @@ namespace Core
         Week,
         Enhancement,
         Vulnerable,
-        Cure
+        Cure,
+        Armor
     }
 
     public abstract class Buff : MonoBehaviour

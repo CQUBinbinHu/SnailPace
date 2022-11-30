@@ -8,7 +8,7 @@ namespace HeroPerform
 
         public override int GetDamage()
         {
-            return (int)(Owner.GetBuffAtkMultiplier() * Atk);
+            return base.GetDamage(Atk);
         }
 
         public override void OnUse()
