@@ -4,11 +4,18 @@ using UnityEngine;
 
 namespace HeroPerform
 {
-    public class Enhancement : SkillComponent
+    public class RedBook : SkillComponent
     {
+        [SerializeField] private float Duration = 3;
+
         public override void OnUse()
         {
-            Owner.AddBuff(BuffType.Enhancement);
+            if (!TryGetPermission())
+            {
+                return;
+            }
+
+            Owner.AddBuff(BuffType.Enhancement, Duration);
             base.OnUse();
         }
 

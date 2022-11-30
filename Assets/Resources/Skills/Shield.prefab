@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkillName: Shield
-  Introduction: 
+  Introduction: Add 10 Armor
   NeedEnergy: 30
   IsActive: 0
   Armor: 10

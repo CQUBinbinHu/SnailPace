@@ -7,7 +7,7 @@ namespace DefaultNamespace
     {
         private const float AtkMultiplier = 2f;
 
-        public override void OnAddBuff(Character owner, float duration)
+        public override void OnAddBuff(Character owner, float duration = -1)
         {
             base.OnAddBuff(owner, duration);
             Owner.AddAtkMultiplier(BuffType.Enhancement, AtkMultiplier);
@@ -16,11 +16,18 @@ namespace DefaultNamespace
         protected override void OnRemoveBuff()
         {
             Owner.RemoveBuffAtkMultiplier(BuffType.Enhancement);
+            base.OnRemoveBuff();
         }
 
         protected override void OnBuffTick(float deltaTime)
         {
             Owner.AddAtkMultiplier(BuffType.Enhancement, AtkMultiplier);
+        }
+
+        public override void OnOverride(float duration)
+        {
+            base.OnOverride(duration);
+            ResetCoolDown(duration);
         }
     }
 }

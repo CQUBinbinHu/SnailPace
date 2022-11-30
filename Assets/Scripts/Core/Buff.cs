@@ -23,7 +23,7 @@ namespace Core
         public float lastCoolDown => _timer / Duration;
         public bool IsBuffActivated { get; private set; }
 
-        public virtual void OnAddBuff(Character owner, float duration = 1)
+        public virtual void OnAddBuff(Character owner, float duration = -1)
         {
             IsBuffActivated = true;
             Owner = owner;
@@ -50,14 +50,21 @@ namespace Core
                 return;
             }
 
-            if (_timer > 0)
+            if (Duration < 0)
             {
-                _timer -= deltaTime;
                 OnBuffTick(deltaTime);
             }
             else
             {
-                OnRemoveBuff();
+                if (_timer > 0)
+                {
+                    _timer -= deltaTime;
+                    OnBuffTick(deltaTime);
+                }
+                else
+                {
+                    OnRemoveBuff();
+                }
             }
         }
 

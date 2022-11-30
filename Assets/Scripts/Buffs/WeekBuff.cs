@@ -7,7 +7,7 @@ namespace DefaultNamespace
     {
         private const float WeekMultiplier = 0.5f;
 
-        public override void OnAddBuff(Character owner, float duration)
+        public override void OnAddBuff(Character owner, float duration = -1)
         {
             base.OnAddBuff(owner, duration);
             Owner.AddAtkMultiplier(BuffType.Week, WeekMultiplier);

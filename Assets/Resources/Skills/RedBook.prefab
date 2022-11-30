@@ -7,9 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 437899297624758777, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 437899297624758777, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1505564891, guid: 87d4112ef1831434ab1fa122e037ef1b, type: 3}
     - target: {fileID: 2473258263193706704, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_Name
-      value: SkillBase
+      value: RedBook
       objectReference: {fileID: 0}
     - target: {fileID: 2473258263193706705, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_Pivot.x
@@ -95,5 +103,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7751173232433198232, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751173232433198232, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7751173232433198232, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.045
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+--- !u!1 &8482724088603019212 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2473258263193706704, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+  m_PrefabInstance: {fileID: 6335007578998761244}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3574233668439381954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8482724088603019212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf1a1b871fac4435807e2cfee9cfb068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillName: RedBook
+  Introduction: Deal Double Damage in 3s
+  NeedEnergy: 20
+  IsActive: 0

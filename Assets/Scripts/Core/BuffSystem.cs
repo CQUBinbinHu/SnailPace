@@ -6,7 +6,7 @@ namespace Core
 {
     public static class BuffSystem
     {
-        public static void AddBuff(this Character target, BuffType buffType, float duration = 1)
+        public static void AddBuff(this Character target, BuffType buffType, float duration = -1)
         {
             Buff buff = null;
             switch (buffType)

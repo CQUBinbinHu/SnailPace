@@ -377,7 +377,6 @@ namespace Core
             switch (GameManager.Instance.CurrentState)
             {
                 case GameStatus.Encounter:
-                case GameStatus.Run:
                     switch (context.phase)
                     {
                         case InputActionPhase.Performed:

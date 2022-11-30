@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HeroPerform
 {
-    public class Weekness : SkillComponent
+    public class Rope : SkillComponent
     {
         public float Duration = 3;
 

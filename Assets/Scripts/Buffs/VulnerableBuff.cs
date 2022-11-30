@@ -7,7 +7,7 @@ namespace DefaultNamespace
     {
         private float DamageMultiplier = 1.5f;
 
-        public override void OnAddBuff(Character owner, float duration)
+        public override void OnAddBuff(Character owner, float duration = -1)
         {
             base.OnAddBuff(owner, duration);
             Owner.AddDamageMultiplier(BuffType.Vulnerable, DamageMultiplier);
