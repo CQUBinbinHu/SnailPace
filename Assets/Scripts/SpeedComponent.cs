@@ -10,30 +10,19 @@ namespace DefaultNamespace
         public int Speed => _speed;
         public float MoveSpeed => SpeedTransition.GetMoveSpeed(_speed);
 
+        public void Init()
+        {
+            _speed = 0;
+        }
+
         public void AddSpeed(int spd)
         {
             _speed += spd;
-            // ShowSpeed();
         }
 
         public void SetSpeed(int spd)
         {
             _speed += spd;
-            // ShowSpeed();
-        }
-
-        private void ShowSpeed()
-        {
-            // SpeedText.text = _speed.ToString();
-            // if (_speed == 0)
-            // {
-            //     ShowSpeedObj.SetActive(false);
-            // }
-            // else
-            // {
-            //     ShowSpeedObj.SetActive(true);
-            //     SpeedText.text = _speed.ToString();
-            // }
         }
     }
 }

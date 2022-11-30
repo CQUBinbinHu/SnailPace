@@ -1,4 +1,5 @@
-﻿using DefaultNamespace;
+﻿using Core;
+using DefaultNamespace;
 using UnityEngine;
 
 namespace HeroPerform
@@ -9,8 +10,12 @@ namespace HeroPerform
 
         public override void OnUse()
         {
-            // TODO: UseBuff
-            Owner.StrengthComponent.AddStrength(Strength);
+            StrengthBuff buff = (Owner.AddBuff<StrengthBuff>(BuffType.Strength)) as StrengthBuff;
+            if (buff != null)
+            {
+                buff.AddStrength(Strength);
+            }
+
             base.OnUse();
         }
     }

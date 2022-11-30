@@ -22,7 +22,7 @@ namespace DefaultNamespace
             // _energyBar = GetComponentInChildren<EnergyBar>();
         }
 
-        public void Initialize()
+        public void Init()
         {
             _current = 0;
         }

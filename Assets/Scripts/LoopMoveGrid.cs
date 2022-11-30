@@ -100,17 +100,17 @@ public class LoopMoveGrid : MonoBehaviour
             lastSocket.Block.transform.localPosition = movePos;
             if (_passedBlocks + 3 < GameManager.Instance.MaxEncounters)
             {
+                var encounter = LeanPool.Spawn(BattleManager.Instance.EncounterPrefab, lastSocket.Block.IncidentSocket);
+                encounter.transform.localPosition = Vector3.zero;
+            }
+            else
+            {
                 if (!_isCompleteGame)
                 {
                     _isCompleteGame = true;
                     var winning = LeanPool.Spawn(BattleManager.Instance.WinningPrefab, lastSocket.Block.IncidentSocket);
                     winning.transform.localPosition = Vector3.zero;
                 }
-            }
-            else
-            {
-                var encounter = LeanPool.Spawn(BattleManager.Instance.EncounterPrefab, lastSocket.Block.IncidentSocket);
-                encounter.transform.localPosition = Vector3.zero;
             }
         }
     }

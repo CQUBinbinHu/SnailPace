@@ -13,7 +13,8 @@ namespace Core
         Vulnerable,
         Cure,
         Armor,
-        Speed
+        Speed,
+        Strength
     }
 
     public abstract class Buff : MonoBehaviour

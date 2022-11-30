@@ -187,14 +187,24 @@ namespace Core
 
         public void OnSpawn()
         {
+            if (_speedComponent)
+            {
+                _speedComponent.Init();
+            }
+
+            if (_strengthComponent)
+            {
+                _strengthComponent.Init();
+            }
+
             if (_health)
             {
-                _health.Initialize();
+                _health.Init();
             }
 
             if (_energyComponent)
             {
-                _energyComponent.Initialize();
+                _energyComponent.Init();
             }
 
             if (_speedComponent)

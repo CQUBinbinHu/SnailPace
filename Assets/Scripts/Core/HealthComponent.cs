@@ -32,7 +32,7 @@ namespace Core
             _healthBar = GetComponentInChildren<HealthBar>();
         }
 
-        public void Initialize()
+        public void Init()
         {
             _isDead = false;
             ResetArmorTimer();
