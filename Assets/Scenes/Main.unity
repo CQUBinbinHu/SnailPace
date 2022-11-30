@@ -10222,13 +10222,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89be9d2f447c49239d5d035f79dc1716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EncounterEnemyData: {fileID: 11400000, guid: 01392d99e7cef80429dedeee3961a564, type: 2}
   InitSkills:
   - Knife
   - Shield
   - Rope
   SkillRewardPref: {fileID: 4952286686185422733, guid: f4f0860675b641140990ce5105005201, type: 3}
   HeroPrefab: {fileID: 2148605894072053727, guid: 846ae99cf784c1c4bb9adbdb171d92f2, type: 3}
-  EncounterEnemyPrefab: {fileID: 6601545136371749258, guid: 1d031ad694a0a004980cc0f349673907, type: 3}
   SkillTransform: {fileID: 462484139}
   SkillSockets:
   - {fileID: 1581112656}

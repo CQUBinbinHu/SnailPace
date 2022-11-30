@@ -29,9 +29,12 @@ namespace Core
         private static readonly int Walk = Animator.StringToHash("Walk");
         private static readonly int Attack = Animator.StringToHash("Attack");
         private static readonly int Opacity = Shader.PropertyToID("_Opacity");
+        private int _level;
         private SpeedComponent _speedComponent;
         public SpeedComponent SpeedComponent => _speedComponent;
+        private EnemyAnimatorComponent _enemyAnimator;
         private Animator _animator;
+        public Animator Animator => _animator;
         private StrengthComponent _strengthComponent;
         public StrengthComponent StrengthComponent => _strengthComponent;
         private HealthComponent _health;
@@ -55,6 +58,7 @@ namespace Core
             TryGetComponent(out _strengthComponent);
             TryGetComponent(out _energyComponent);
             TryGetComponent(out _health);
+            TryGetComponent(out _enemyAnimator);
             _speedComponent = GetComponentInChildren<SpeedComponent>();
             _animator = GetComponentInChildren<Animator>();
             _buffs = new Dictionary<BuffType, Buff>();
@@ -218,6 +222,11 @@ namespace Core
                 _behaviourController.IsOnCountDown = false;
             }
 
+            if (_enemyAnimator)
+            {
+                _enemyAnimator.TriggerAnimator();
+            }
+
             _buffs.Clear();
             _buffAtkMultiplier.Clear();
             _buffDamageMultiplier.Clear();
@@ -244,8 +253,9 @@ namespace Core
             GameEventManager.Instance.OnGameRestart -= OnRestart;
         }
 
-        public void AddStrength(int strength)
+        public void SetLevel(int level)
         {
+            _level = level;
         }
     }
 }

@@ -19,11 +19,14 @@ public class LoopMoveGrid : MonoBehaviour
     private float _endPos;
     private float _passedBlocks;
     private bool _isCompleteGame;
+    private int _currentLevel;
 
     private void Awake()
     {
         _initPositions = new List<Vector3>();
     }
+
+    private GameObject _lastEnemy;
 
     void Start()
     {
@@ -48,6 +51,7 @@ public class LoopMoveGrid : MonoBehaviour
 
     public void OnReset()
     {
+        _lastEnemy = null;
         _isCompleteGame = false;
         _passedBlocks = 0;
         for (int i = 0; i < MoveSockets.Count; i++)
@@ -60,10 +64,13 @@ public class LoopMoveGrid : MonoBehaviour
 
     private void InitStartEncounters()
     {
+        _currentLevel = 0;
         for (int i = 3; i < MoveSocketStructs.Count; i++)
         {
-            var encounter = LeanPool.Spawn(BattleManager.Instance.EncounterPrefab, MoveSocketStructs[i].Block.IncidentSocket);
+            var encounter = LeanPool.Spawn(GetRandomEnemy(), MoveSocketStructs[i].Block.IncidentSocket);
             encounter.transform.localPosition = Vector3.zero;
+            encounter.GetComponent<Character>().SetLevel(_currentLevel);
+            _currentLevel += 1;
         }
     }
 
@@ -100,8 +107,10 @@ public class LoopMoveGrid : MonoBehaviour
             lastSocket.Block.transform.localPosition = movePos;
             if (_passedBlocks + 3 < GameManager.Instance.MaxEncounters)
             {
-                var encounter = LeanPool.Spawn(BattleManager.Instance.EncounterPrefab, lastSocket.Block.IncidentSocket);
+                var encounter = LeanPool.Spawn(GetRandomEnemy(), lastSocket.Block.IncidentSocket);
                 encounter.transform.localPosition = Vector3.zero;
+                encounter.GetComponent<Character>().SetLevel(_currentLevel);
+                _currentLevel += 1;
             }
             else
             {
@@ -113,5 +122,24 @@ public class LoopMoveGrid : MonoBehaviour
                 }
             }
         }
+    }
+    
+    private GameObject GetRandomEnemy()
+    {
+        int num = BattleManager.Instance.EncounterEnemyData.Enemys.Length;
+        Debug.Assert(num > 1, "enemy num should not less than 2");
+        bool ok = false;
+        GameObject enemy = null;
+        while (!ok)
+        {
+            enemy = BattleManager.Instance.EncounterEnemyData.Enemys[Random.Range(0, num)];
+            ok = _lastEnemy == null || _lastEnemy != enemy;
+            if (ok)
+            {
+                _lastEnemy = enemy;
+            }
+        }
+
+        return _lastEnemy;
     }
 }

@@ -14,10 +14,10 @@ namespace Core
 {
     public class BattleManager : MMSingleton<BattleManager>
     {
+        [SerializeField] public EnemyData EncounterEnemyData;
         [SerializeField] private string[] InitSkills;
         [SerializeField] private SkillReward SkillRewardPref;
         [SerializeField] private GameObject HeroPrefab;
-        [SerializeField] private GameObject EncounterEnemyPrefab;
         [SerializeField] private Transform SkillTransform;
         [SerializeField] private Transform[] SkillSockets;
         [SerializeField] private Transform RewardSkillSocket;
@@ -40,7 +40,6 @@ namespace Core
         private Dictionary<string, SkillComponent> _skillDict;
         public int CurrentRewardNum => SkillViewSocket.childCount;
         public Character Hero => _hero;
-        public GameObject EncounterPrefab => EncounterEnemyPrefab;
         public Character EncounterEnemy => _encounterEnemy;
 
         protected override void Awake()
