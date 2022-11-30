@@ -13,5 +13,10 @@ namespace DefaultNamespace
         {
             Owner.SpeedComponent.AddSpeed(value);
         }
+
+        public override int GetLayers()
+        {
+            return Owner.SpeedComponent.Speed;
+        }
     }
 }
