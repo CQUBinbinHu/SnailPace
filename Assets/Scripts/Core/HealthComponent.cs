@@ -8,14 +8,17 @@ namespace Core
 {
     public class HealthComponent : MonoBehaviour
     {
-        [SerializeField] public int MaxHp;
+        [SerializeField] private float MaxHp;
         [SerializeField] private bool ShowHealthBar;
         [SerializeField] private Color TipsColor;
+
         private int _armor;
         private bool _isDead;
         private Character _owner;
         private HealthBar _healthBar;
-        public int CurrentHp { get; private set; }
+        public float CurrentHp { get; private set; }
+        public int RoundHp => Mathf.RoundToInt(CurrentHp);
+        public int RoundMaxHp => Mathf.RoundToInt(MaxHp);
         public int Armors => _armor;
         public bool IsWithArmor => Armors != 0;
         public float ArmorCountDown => _armorTimer / RemoveArmorAfter;
@@ -82,11 +85,11 @@ namespace Core
         {
             if (CurrentHp + Armors > MaxHp)
             {
-                return (float)CurrentHp / (CurrentHp + Armors);
+                return CurrentHp / (CurrentHp + Armors);
             }
             else
             {
-                return (float)CurrentHp / MaxHp;
+                return CurrentHp / MaxHp;
             }
         }
 
@@ -108,26 +111,26 @@ namespace Core
             CurrentHp = MaxHp;
         }
 
-        public void Cure(int cure)
+        public void Cure(float cure)
         {
             ChangeHp(cure);
             _healthBar.UpdateDamageBar();
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(float damage)
         {
-            damage = (int)(_owner.GetBuffDamageMultiplier() * damage);
+            var roundToInt = Mathf.RoundToInt(_owner.GetBuffDamageMultiplier() * damage);
             // show tip
             var tip = LeanPool.Spawn(GameManager.Instance.ShowTipComponent);
             tip.transform.position = _owner.TipSocket.position;
             tip.SetTips(damage.ToString(), TipsColor);
             // 
-            _armor -= damage;
-            damage = _armor;
+            _armor -= roundToInt;
+            var RoundDamage = _armor;
             _armor = Mathf.Clamp(_armor, 0, Int32.MaxValue);
-            damage = Mathf.Clamp(damage, Int32.MinValue, 0);
-            ChangeHp(damage);
-            if (damage < 0)
+            RoundDamage = Mathf.Clamp(RoundDamage, Int32.MinValue, 0);
+            ChangeHp(RoundDamage);
+            if (RoundDamage < 0)
             {
                 _owner.TriggerHurt();
             }
@@ -135,11 +138,11 @@ namespace Core
             _healthBar.UpdateDamageBar();
         }
 
-        private void ChangeHp(int hp)
+        private void ChangeHp(float hp)
         {
             CurrentHp += hp;
             CurrentHp = Mathf.Clamp(CurrentHp, 0, MaxHp);
-            if (CurrentHp == 0)
+            if (RoundHp == 0)
             {
                 Dead();
             }

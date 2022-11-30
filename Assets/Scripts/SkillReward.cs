@@ -18,6 +18,7 @@ namespace DefaultNamespace
         [SerializeField] private TextMeshProUGUI TextSkillName;
         [SerializeField] private TextMeshProUGUI TextIntroduction;
         [SerializeField] private GameObject Model;
+
         private SkillComponent _skillObject;
         private SkillComponent _skillTarget;
         public SkillComponent SkillTarget => _skillTarget;

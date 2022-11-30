@@ -129,10 +129,20 @@ namespace Core
 
         private void OnAddSkill(SkillReward skillReward)
         {
-            skillReward.transform.SetParent(SkillViewSocket);
-            _allRewards.Add(skillReward);
-            AddSkillTarget(skillReward.SkillTarget);
-            // TODO: Run Continue Delay
+            if (skillReward.SkillTarget.IsExhausted)
+            {
+                skillReward.SkillTarget.SetOwner(Hero);
+                skillReward.SkillTarget.OnUse();
+                LeanPool.Despawn(skillReward);
+            }
+            else
+            {
+                skillReward.transform.SetParent(SkillViewSocket);
+                _allRewards.Add(skillReward);
+                AddSkillTarget(skillReward.SkillTarget);
+                // TODO: Run Continue Delay
+            }
+
             GameEventManager.Instance.OnRunContinue.Invoke();
         }
 

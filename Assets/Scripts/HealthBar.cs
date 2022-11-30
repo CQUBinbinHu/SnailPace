@@ -37,9 +37,9 @@ namespace DefaultNamespace
             CurrentRatio = _healthComponent.GetHpRatio();
             HealthBarImage.fillAmount = CurrentRatio;
             DamageBarImage.fillAmount = CurrentRatio;
-            HealthAmount.text = _healthComponent.CurrentHp
+            HealthAmount.text = _healthComponent.RoundHp
                                 + "/"
-                                + _healthComponent.MaxHp;
+                                + _healthComponent.RoundMaxHp;
             int armors = _healthComponent.Armors;
             ArmorAmount.text = armors == 0 ? string.Empty : armors.ToString();
         }
@@ -54,9 +54,9 @@ namespace DefaultNamespace
             CurrentRatio = _healthComponent.GetHpRatio();
             HealthBarImage.fillAmount = CurrentRatio;
             WhiteBarImage.fillAmount = _healthComponent.GetArmorRatio();
-            HealthAmount.text = _healthComponent.CurrentHp
+            HealthAmount.text = _healthComponent.RoundHp
                                 + "/"
-                                + _healthComponent.MaxHp;
+                                + _healthComponent.RoundMaxHp;
             int armors = _healthComponent.Armors;
             ArmorAmount.text = armors == 0 ? string.Empty : armors.ToString();
 

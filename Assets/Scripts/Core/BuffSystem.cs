@@ -6,11 +6,23 @@ namespace Core
 {
     public static class BuffSystem
     {
-        public static void AddBuff(this Character target, BuffType buffType, float duration = -1)
+        public static Buff AddBuff(this Character target, BuffType buffType, float duration = -1)
         {
             Buff buff = null;
             switch (buffType)
             {
+                case BuffType.Cure:
+                    if (target.BuffSocket.TryGetComponent(out CureBuff cureBuff))
+                    {
+                        if (cureBuff.IsBuffActivated)
+                        {
+                            cureBuff.OnOverride(duration);
+                            break;
+                        }
+                    }
+
+                    buff = target.BuffSocket.AddComponent<CureBuff>();
+                    break;
                 case BuffType.Week:
                     if (target.BuffSocket.TryGetComponent(out WeekBuff weekBuff))
                     {
@@ -50,7 +62,7 @@ namespace Core
                     break;
                 default:
                     Debug.LogWarning("Not find Buff " + buffType);
-                    return;
+                    return null;
             }
 
             if (buff != null)
@@ -58,6 +70,8 @@ namespace Core
                 buff.BuffType = buffType;
                 buff.OnAddBuff(target, duration);
             }
+
+            return buff;
         }
     }
 }

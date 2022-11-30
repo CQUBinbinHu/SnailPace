@@ -38,15 +38,17 @@ namespace DefaultNamespace
         [SerializeField] public string SkillName;
         [SerializeField] public string Introduction;
         [SerializeField] private int NeedEnergy = 10;
+        [SerializeField] public bool IsExhausted;
+
         private SkillShowComponent _skillShow;
         protected Character Owner;
         protected Character Target;
         private LoopSocket _follow;
         private bool IsEnergySatisfied;
-        public bool IsActive;
-        protected bool RefreshOnCancel = false;
+        public bool IsActive { get; set; }
+        private bool RefreshOnCancel = false;
 
-        public delegate void CallBack();
+        protected delegate void CallBack();
 
         public virtual int GetDamage()
         {
@@ -69,7 +71,7 @@ namespace DefaultNamespace
         {
             if (_skillShow)
             {
-                _skillShow.EnergyText.text = NeedEnergy.ToString();
+                _skillShow.EnergyText.text = NeedEnergy == 0 ? String.Empty : NeedEnergy.ToString();
                 IsEnergySatisfied = true;
                 EnableSkillMask(IsEnergySatisfied);
             }

@@ -95,17 +95,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6395574119461164424, guid: 38d9bc74dce60634fb9647d0cfa7e56f, type: 3}
-      propertyPath: m_FillAmount
-      value: 0.507
-      objectReference: {fileID: 0}
     - target: {fileID: 7350481763671667146, guid: 38d9bc74dce60634fb9647d0cfa7e56f, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 1750635376, guid: 101d54cadbba51c4eb6b8baf96f47d09, type: 3}
+      objectReference: {fileID: -36125227, guid: 101d54cadbba51c4eb6b8baf96f47d09, type: 3}
     - target: {fileID: 8173532165548958474, guid: 38d9bc74dce60634fb9647d0cfa7e56f, type: 3}
       propertyPath: m_Name
-      value: WeekShowBuff
+      value: CureShowBuff
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38d9bc74dce60634fb9647d0cfa7e56f, type: 3}
