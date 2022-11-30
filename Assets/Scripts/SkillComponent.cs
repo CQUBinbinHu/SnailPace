@@ -39,13 +39,13 @@ namespace DefaultNamespace
         [SerializeField] public string Introduction;
         [SerializeField] private int NeedEnergy = 10;
         [SerializeField] public bool IsExhausted;
-
+        private readonly Vector3 DeActivePos = 100 * Vector3.down;
         private SkillShowComponent _skillShow;
         protected Character Owner;
         protected Character Target;
         private LoopSocket _follow;
         private bool IsEnergySatisfied;
-        public bool IsActive { get; set; }
+        private bool IsActive { get; set; }
         private bool RefreshOnCancel = false;
 
         protected delegate void CallBack();
@@ -60,15 +60,10 @@ namespace DefaultNamespace
             TryGetComponent(out _skillShow);
         }
 
-        private void Initialize()
+        public void Initialize()
         {
             _follow = null;
             IsActive = true;
-            ResetStatus();
-        }
-
-        public void ResetStatus()
-        {
             if (_skillShow)
             {
                 _skillShow.EnergyText.text = NeedEnergy == 0 ? String.Empty : NeedEnergy.ToString();
@@ -174,7 +169,19 @@ namespace DefaultNamespace
         {
             if (_skillShow)
             {
-                _skillShow.SkillMask.DOFade(enable ? 0 : 0.6f, 0.2f);
+                _skillShow.SkillMask.DOFade(enable ? 0 : 0.6f, 0.15f);
+            }
+        }
+
+        private Vector3 GetTargetPos()
+        {
+            if (_follow != null)
+            {
+                return _follow.Trans.position + 2 * Vector3.down;
+            }
+            else
+            {
+                return DeActivePos;
             }
         }
 
@@ -182,31 +189,34 @@ namespace DefaultNamespace
         {
             _follow = follow;
             _follow.SetSkill(this);
-            var position = follow.Trans.position;
-            transform.position = position + Vector3.down;
-            transform.DOMove(position, 0.5f);
+            transform.position = GetTargetPos();
+            transform.DOMove(follow.Trans.position, 0.15f);
         }
 
         public void OnRefresh()
         {
-            if (_follow == null)
+            if (_follow == null || !IsActive)
             {
                 return;
             }
 
-            var position = _follow.Trans.position + Vector3.down;
+            var targetPos = GetTargetPos();
             _follow.RemoveSkill();
             _follow = null;
+            transform.DOMove(targetPos, 0.15f);
             IsActive = false;
-            transform.DOMove(position, 0.3f);
-            StartCoroutine(DelayDeActive(0.4f));
+            // StartCoroutine(DelayDeActive(0.25f));
         }
 
-        IEnumerator DelayDeActive(float delay)
+        public void SetInvisible()
         {
-            yield return new WaitForSeconds(delay);
-            this.gameObject.SetActive(false);
+            transform.position = DeActivePos;
         }
+        // IEnumerator DelayDeActive(float delay)
+        // {
+        //     yield return new WaitForSeconds(delay);
+        //     this.transform.position = DeActivePos;
+        // }
 
         public void OnSpawn()
         {

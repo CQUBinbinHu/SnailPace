@@ -155,7 +155,7 @@ namespace Core
             skill.SetOwner(Hero);
             if (index == 3)
             {
-                skill.gameObject.SetActive(false);
+                skill.SetInvisible();
                 return;
             }
 
@@ -389,19 +389,16 @@ namespace Core
                 case GameStatus.Encounter:
                     switch (context.phase)
                     {
-                        case InputActionPhase.Performed:
+                        case InputActionPhase.Started:
                             OnRefreshUseEnergy();
                             _isRefreshOpen = false;
                             foreach (var skill in _currentSkills)
                             {
-                                if (skill.IsActive)
-                                {
-                                    skill.OnRefresh();
-                                }
+                                skill.OnRefresh();
                             }
 
                             _currentSkills.Clear();
-                            StartCoroutine(RefreshRandomSkills(0.4f));
+                            StartCoroutine(RefreshRandomSkills(0.2f));
                             break;
                     }
 
@@ -428,9 +425,8 @@ namespace Core
             int num = Mathf.Min(3, skills.Count);
             for (int i = 0; i < num; i++)
             {
-                skills[i].gameObject.SetActive(true);
+                skills[i].Initialize();
                 skills[i].SetFollow(_loopSockets[i]);
-                skills[i].ResetStatus();
                 _currentSkills.Add(skills[i]);
             }
 
