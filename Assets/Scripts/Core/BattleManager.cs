@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using DG.Tweening;
@@ -15,7 +14,6 @@ namespace Core
 {
     public class BattleManager : MMSingleton<BattleManager>
     {
-        [SerializeField] private int InitSpeed;
         [SerializeField] private string[] InitSkills;
         [SerializeField] private SkillReward SkillRewardPref;
         [SerializeField] private GameObject HeroPrefab;
@@ -28,23 +26,22 @@ namespace Core
         [SerializeField] private Image ChoosePanel;
         [SerializeField] private Transform SkillViewSocket;
         [SerializeField] private Transform SkillView;
+        [SerializeField] public GameObject WinningPrefab;
 
-        public int MoveSpeed;
         private bool _isRefreshOpen;
-        private List<SkillReward> _currentRewards;
-        public GameObject WinningPrefab;
-        private LoopMoveGrid _loopMoveGrid;
-        public GameObject EncounterPrefab => EncounterEnemyPrefab;
-        private List<LoopSocket> _loopSockets;
-        private List<SkillComponent> _currentSkills;
-        private List<string> _skillNames;
         private Character _hero;
         private Character _encounterEnemy;
-        private Dictionary<string, SkillComponent> _skillDict;
-        public Character Hero => _hero;
-        public Character EncounterEnemy => _encounterEnemy;
-        public int CurrentRewardNum => SkillViewSocket.childCount;
+        private LoopMoveGrid _loopMoveGrid;
+        private List<string> _skillNames;
         private List<SkillReward> _allRewards;
+        private List<SkillReward> _currentRewards;
+        private List<LoopSocket> _loopSockets;
+        private List<SkillComponent> _currentSkills;
+        private Dictionary<string, SkillComponent> _skillDict;
+        public int CurrentRewardNum => SkillViewSocket.childCount;
+        public Character Hero => _hero;
+        public GameObject EncounterPrefab => EncounterEnemyPrefab;
+        public Character EncounterEnemy => _encounterEnemy;
 
         protected override void Awake()
         {
@@ -90,7 +87,6 @@ namespace Core
             var hero = LeanPool.Spawn(HeroPrefab, SpawnSocket.position, Quaternion.identity);
             SetHero(hero.GetComponent<Character>());
             Hero.TriggerIdle();
-            MoveSpeed = InitSpeed;
             ContinueButton.SetActive(false);
             SkillView.gameObject.SetActive(false);
             //
