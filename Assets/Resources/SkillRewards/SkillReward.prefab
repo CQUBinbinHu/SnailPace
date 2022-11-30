@@ -427,7 +427,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Deal 10 Damage
+  m_text: Deal 10 <color=#FF535B>Damage</color>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 99770d22f6f3bda4b81b32d2149e9161, type: 2}
   m_sharedMaterial: {fileID: -1500516237369622713, guid: 99770d22f6f3bda4b81b32d2149e9161, type: 2}

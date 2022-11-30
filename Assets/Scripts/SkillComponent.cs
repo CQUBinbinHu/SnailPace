@@ -45,7 +45,7 @@ namespace DefaultNamespace
         protected Character Target;
         private LoopSocket _follow;
         private bool IsEnergySatisfied;
-        private bool IsActive { get; set; }
+        public bool IsActive { get; set; }
         private bool RefreshOnCancel = false;
 
         protected delegate void CallBack();
@@ -87,6 +87,7 @@ namespace DefaultNamespace
             if (!RefreshOnCancel)
             {
                 OnRefresh();
+                BattleManager.Instance.CheckSkillRefresh();
             }
         }
 

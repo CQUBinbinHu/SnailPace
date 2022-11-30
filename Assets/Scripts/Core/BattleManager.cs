@@ -379,31 +379,36 @@ namespace Core
 
         public void OnRefreshSkills(InputAction.CallbackContext context)
         {
-            if (!_isRefreshOpen || GameManager.Instance.IsPaused)
-            {
-                return;
-            }
-
             switch (GameManager.Instance.CurrentState)
             {
                 case GameStatus.Encounter:
                     switch (context.phase)
                     {
                         case InputActionPhase.Started:
-                            OnRefreshUseEnergy();
-                            _isRefreshOpen = false;
-                            foreach (var skill in _currentSkills)
-                            {
-                                skill.OnRefresh();
-                            }
-
-                            _currentSkills.Clear();
-                            StartCoroutine(RefreshRandomSkills(0.2f));
+                            RefreshSkills();
                             break;
                     }
 
                     break;
             }
+        }
+
+        private void RefreshSkills()
+        {
+            if (!_isRefreshOpen || GameManager.Instance.IsPaused)
+            {
+                return;
+            }
+
+            OnRefreshUseEnergy();
+            _isRefreshOpen = false;
+            foreach (var skill in _currentSkills)
+            {
+                skill.OnRefresh();
+            }
+
+            _currentSkills.Clear();
+            StartCoroutine(RefreshRandomSkills(0.2f));
         }
 
         private void OnRefreshUseEnergy()
@@ -431,6 +436,23 @@ namespace Core
             }
 
             _isRefreshOpen = true;
+        }
+
+        public void CheckSkillRefresh()
+        {
+            int count = 0;
+            foreach (var skill in _currentSkills)
+            {
+                if (skill.IsActive)
+                {
+                    count += 1;
+                }
+            }
+
+            if (count == 0)
+            {
+                RefreshSkills();
+            }
         }
     }
 }

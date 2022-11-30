@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SkillName: RedBook
-  Introduction: Deal Double Damage in 5s
+  Introduction: <color=#FF535B>Enhance</color> in 5s
   NeedEnergy: 20
   IsExhausted: 0
   Duration: 5

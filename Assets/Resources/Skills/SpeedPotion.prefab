@@ -101,3 +101,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+--- !u!1 &2743444136215014719 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2473258263193706704, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
+  m_PrefabInstance: {fileID: 306364214602927599}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &303495743372730009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2743444136215014719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 399dc3eb00e74d19bbeed07f5bf066bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillName: SpeedPotion
+  Introduction: +1 Speed
+  NeedEnergy: 0
+  IsExhausted: 1
+  Speed: 1
