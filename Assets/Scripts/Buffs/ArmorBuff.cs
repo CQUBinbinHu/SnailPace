@@ -5,7 +5,7 @@ namespace DefaultNamespace
 {
     public class ArmorBuff : Buff
     {
-        private float _duration = 3;
+        private readonly float _duration = 3;
 
         public override void OnAddBuff(Character owner, float duration = -1)
         {

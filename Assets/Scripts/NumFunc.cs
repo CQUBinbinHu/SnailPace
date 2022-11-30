@@ -2,7 +2,7 @@
 
 namespace DefaultNamespace
 {
-    public static class SpeedTransition
+    public static class NumFunc
     {
         public static float MaxMoveSpeed = 10f;
         public static float MinMoveSpeed = 0f;
@@ -23,6 +23,11 @@ namespace DefaultNamespace
         public static float GetEnergyRecovery(int spd)
         {
             return 0.5f * (MaxEnergyRecovery + MinEnergyRecovery + (MaxEnergyRecovery - MinEnergyRecovery) * GetSpeedMultiplier(spd));
+        }
+
+        public static int GetLevelUpAtk(int val, int level)
+        {
+            return val + level;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace DefaultNamespace
     {
         private int _speed;
         public int Speed => _speed;
-        public float MoveSpeed => SpeedTransition.GetMoveSpeed(_speed);
+        public float MoveSpeed => NumFunc.GetMoveSpeed(_speed);
 
         public void Init()
         {

@@ -17,20 +17,15 @@ namespace HeroPerform
             _atk = Atk;
         }
 
-        private int GetLevelVal(int val)
-        {
-            return val + 2 * Level;
-        }
-
         public override void RefreshStatus()
         {
             if (UseRandom)
             {
-                _atk = Random.Range(GetLevelVal(MinAtk), GetLevelVal(MaxAtk));
+                _atk = Random.Range(NumFunc.GetLevelUpAtk(MinAtk, Level), NumFunc.GetLevelUpAtk(MaxAtk, Level));
             }
             else
             {
-                _atk = GetLevelVal(Atk);
+                _atk = NumFunc.GetLevelUpAtk(Atk, Level);
             }
         }
 

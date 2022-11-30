@@ -29,7 +29,7 @@ namespace DefaultNamespace
 
         public void FixedTick(float deltaTime)
         {
-            _current += deltaTime * SpeedTransition.GetEnergyRecovery(_owner.SpeedComponent.Speed);
+            _current += deltaTime * NumFunc.GetEnergyRecovery(_owner.SpeedComponent.Speed);
             _current = Mathf.Clamp(_current, 0, MaxEnergy);
         }
 
