@@ -42,16 +42,18 @@ namespace Core
         private BehaviourController _behaviourController;
         private List<Buff> _buffAddCurrent;
         private List<Buff> _buffRemoveCurrent;
-        private Dictionary<BuffType, Buff> _buffs;
+        private HashSet<Buff> _buffs;
         private Dictionary<BuffType, float> _buffAtkMultiplier;
         private Dictionary<BuffType, float> _buffDamageMultiplier;
-        public Dictionary<BuffType, Buff> Buffs => _buffs;
+        public HashSet<Buff> Buffs => _buffs;
         public HealthComponent Health => _health;
         public EnergyComponent Energy => _energyComponent;
         public BehaviourController BehaviourController => _behaviourController;
         public float CurrentEnergy => _energyComponent.Current;
         public bool HasEnergy => _energyComponent;
         public bool IsDead => _health.IsDead;
+
+        public delegate void CallBack();
 
         private void Awake()
         {
@@ -61,7 +63,7 @@ namespace Core
             TryGetComponent(out _enemyAnimator);
             _speedComponent = GetComponentInChildren<SpeedComponent>();
             _animator = GetComponentInChildren<Animator>();
-            _buffs = new Dictionary<BuffType, Buff>();
+            _buffs = new HashSet<Buff>();
             _health = GetComponent<HealthComponent>();
             _buffRemoveCurrent = new List<Buff>();
             _buffAddCurrent = new List<Buff>();
@@ -122,18 +124,18 @@ namespace Core
             // Add Buffs
             foreach (var buff in _buffAddCurrent)
             {
-                if (!_buffs.ContainsKey(buff.BuffType))
+                if (!_buffs.Contains(buff))
                 {
-                    _buffs.Add(buff.BuffType, buff);
+                    _buffs.Add(buff);
                 }
             }
 
             // Remove Buffs
             foreach (var buff in _buffRemoveCurrent)
             {
-                if (_buffs.ContainsKey(buff.BuffType))
+                if (_buffs.Contains(buff))
                 {
-                    _buffs.Remove(buff.BuffType);
+                    _buffs.Remove(buff);
                 }
             }
 
@@ -261,6 +263,7 @@ namespace Core
             {
                 skill.SetLevel(Level);
             }
+
             // 血量等级
             if (_health)
             {

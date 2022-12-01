@@ -84,7 +84,7 @@ namespace Core
                 _energy.FixedTick(deltaTime);
             }
 
-            foreach (var buff in _owner.Buffs.Values)
+            foreach (var buff in _owner.Buffs)
             {
                 buff.FixedTick(deltaTime);
             }
