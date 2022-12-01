@@ -45,6 +45,11 @@ namespace Core
                 skill.SetOwner(_owner);
                 _skills.Add(skill);
             }
+
+            if (_intentComponent)
+            {
+                _intentComponent.Init();
+            }
         }
 
         public virtual void InitializeOnCombat()

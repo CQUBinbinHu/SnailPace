@@ -31,12 +31,16 @@ namespace DefaultNamespace
 
         private void Awake()
         {
-            AttackText.text = String.Empty;
             _behaviourController = GetComponentInParent<BehaviourController>();
             _intents = new Dictionary<Intent, Image>();
             _intents.Add(Intent.Attack, IntentAttack);
             _intents.Add(Intent.Defence, IntentDefence);
             _intents.Add(Intent.UnKnown, IntentUnKnown);
+        }
+
+        public void Init()
+        {
+            AttackText.text = String.Empty;
         }
 
         public void SetIntent(Intent intent)

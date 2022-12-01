@@ -49,7 +49,7 @@ MonoBehaviour:
   NeedEnergy: 10
   IsExhausted: 0
   UseRandom: 0
-  Atk: 10
+  Atk: 8
   MinAtk: 0
   MaxAtk: 0
 --- !u!1 &6623992306676701656
