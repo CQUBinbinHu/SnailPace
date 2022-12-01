@@ -10226,7 +10226,7 @@ MonoBehaviour:
   InitSkills:
   - Knife
   - Shield
-  - Rope
+  - Hook
   SkillRewardPref: {fileID: 4952286686185422733, guid: f4f0860675b641140990ce5105005201, type: 3}
   HeroPrefab: {fileID: 2148605894072053727, guid: 846ae99cf784c1c4bb9adbdb171d92f2, type: 3}
   SkillTransform: {fileID: 462484139}

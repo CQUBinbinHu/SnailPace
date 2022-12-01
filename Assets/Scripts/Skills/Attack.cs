@@ -50,10 +50,5 @@ namespace HeroPerform
             DoCallbackDelay(() => { Target.Health.TakeDamage(GetDamage()); }, 0.1f);
             base.OnUse();
         }
-
-        public override void OnCancel()
-        {
-            base.OnCancel();
-        }
     }
 }

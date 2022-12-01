@@ -27,6 +27,8 @@ namespace Core
         private float _armorTimer;
         private const float RemoveArmorAfter = 3;
 
+        public delegate void CallBack();
+
         private void Awake()
         {
             _owner = GetComponent<Character>();
@@ -96,7 +98,7 @@ namespace Core
             _healthBar.UpdateDamageBar();
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, CallBack onDeadCallBack = null)
         {
             var roundToInt = Mathf.RoundToInt(_owner.GetBuffDamageMultiplier() * damage);
             // show tip
@@ -108,7 +110,7 @@ namespace Core
             var RoundDamage = _armor;
             _armor = Mathf.Clamp(_armor, 0, Int32.MaxValue);
             RoundDamage = Mathf.Clamp(RoundDamage, Int32.MinValue, 0);
-            ChangeHp(RoundDamage);
+            ChangeHp(RoundDamage, onDeadCallBack);
             if (RoundDamage < 0)
             {
                 _owner.TriggerHurt();
@@ -117,17 +119,17 @@ namespace Core
             _healthBar.UpdateDamageBar();
         }
 
-        private void ChangeHp(float hp)
+        private void ChangeHp(float hp, CallBack changeHpCallBack = null)
         {
             CurrentHp += hp;
             CurrentHp = Mathf.Clamp(CurrentHp, 0, _maxHp);
             if (RoundHp == 0)
             {
-                Dead();
+                Dead(changeHpCallBack);
             }
         }
 
-        private void Dead()
+        private void Dead(CallBack callBack)
         {
             if (_isDead)
             {
@@ -146,6 +148,7 @@ namespace Core
                     break;
             }
 
+            callBack?.Invoke();
             LeanPool.Despawn(_owner.gameObject);
             // StartCoroutine(DelayDead_Cro(0.6f));
         }
