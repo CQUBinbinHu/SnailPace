@@ -49,7 +49,7 @@ namespace DefaultNamespace
         public bool IsActive { get; set; }
         private bool RefreshOnCancel = false;
 
-        protected delegate void CallBack();
+        public delegate void CallBack();
 
         public virtual int GetDamage(int atk)
         {
@@ -64,6 +64,12 @@ namespace DefaultNamespace
         private void Awake()
         {
             TryGetComponent(out _skillShow);
+        }
+
+        public void TriggerAttack(CallBack attackCallBack)
+        {
+            Owner.TriggerAttack();
+            DoCallbackDelay(attackCallBack, 0.1f);
         }
 
         public virtual void RefreshStatus()

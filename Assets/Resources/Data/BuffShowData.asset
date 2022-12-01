@@ -25,3 +25,5 @@ MonoBehaviour:
     ShowBuffComponent: {fileID: 601778444622200495, guid: e2ea01fe929201a4b8b0b7251103da69, type: 3}
   - BuffType: 6
     ShowBuffComponent: {fileID: 8318712378794403167, guid: d352ece8cd5bcd04f8bda7c3b57ba176, type: 3}
+  - BuffType: 2
+    ShowBuffComponent: {fileID: 3471374215190765597, guid: 6f79ddac80e05c34aa94ddd49357da7c, type: 3}

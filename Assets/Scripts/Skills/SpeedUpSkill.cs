@@ -1,6 +1,5 @@
 ﻿using Core;
 using DefaultNamespace;
-using UnityEngine;
 
 namespace HeroPerform
 {
@@ -26,8 +25,7 @@ namespace HeroPerform
                 return;
             }
 
-            Owner.TriggerAttack();
-            DoCallbackDelay(() =>
+            TriggerAttack(() =>
             {
                 Target.Health.TakeDamage(GetDamage(), () =>
                     {
@@ -38,7 +36,7 @@ namespace HeroPerform
                         }
                     }
                 );
-            }, 0.1f);
+            });
             base.OnUse();
         }
     }

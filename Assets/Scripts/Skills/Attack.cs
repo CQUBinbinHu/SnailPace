@@ -5,11 +5,11 @@ namespace HeroPerform
 {
     public class Attack : SkillComponent
     {
-        public int Atk;
-        private int _atk;
         [SerializeField] private bool UseRandom;
+        public int Atk;
         public int MinAtk;
         public int MaxAtk;
+        private int _atk;
 
         public override void Initialize()
         {
@@ -46,8 +46,7 @@ namespace HeroPerform
                 return;
             }
 
-            Owner.TriggerAttack();
-            DoCallbackDelay(() => { Target.Health.TakeDamage(GetDamage()); }, 0.1f);
+            TriggerAttack(() => { Target.Health.TakeDamage(GetDamage()); });
             base.OnUse();
         }
     }

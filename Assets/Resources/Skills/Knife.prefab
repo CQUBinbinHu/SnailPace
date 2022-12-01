@@ -138,7 +138,7 @@ MonoBehaviour:
   Introduction: Deal 6 Damage
   NeedEnergy: 20
   IsExhausted: 0
-  Atk: 6
   UseRandom: 0
+  Atk: 8
   MinAtk: 0
   MaxAtk: 0

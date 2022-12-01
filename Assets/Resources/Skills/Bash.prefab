@@ -10,10 +10,10 @@ PrefabInstance:
     - target: {fileID: 437899297624758777, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 453049366, guid: 87d4112ef1831434ab1fa122e037ef1b, type: 3}
+      objectReference: {fileID: 369114359, guid: 87d4112ef1831434ab1fa122e037ef1b, type: 3}
     - target: {fileID: 2473258263193706704, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_Name
-      value: SpeedUp
+      value: Bash
       objectReference: {fileID: 0}
     - target: {fileID: 2473258263193706705, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
       propertyPath: m_Pivot.x
@@ -99,14 +99,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7751173232433198232, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7751173232433198232, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0.8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
 --- !u!1 &8337621694784819387 stripped
@@ -114,7 +106,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2473258263193706704, guid: 4962419dd625d5a4ca7979239e0a8075, type: 3}
   m_PrefabInstance: {fileID: 5901942610947780715}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5729708446506291652
+--- !u!114 &2896697614290358081
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,12 +115,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8337621694784819387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b23129df8084fc99bc89b9f82c916ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cac6c6da41743a4830dc588cf3b04fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SkillName: Hook
-  Introduction: Deal 8 damage,Raise 1 speed if <color=#FF535B>Fatal</color>
-  NeedEnergy: 50
+  SkillName: Knucks
+  Introduction: Deal 6 Damage,Apply <color=#FF535B>Vulnerable</color>
+  NeedEnergy: 30
   IsExhausted: 0
-  Atk: 5
-  Speed: 1
+  UseRandom: 0
+  Duration: 5
+  Atk: 6
+  MinAtk: 0
+  MaxAtk: 0
