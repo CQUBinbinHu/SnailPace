@@ -51,6 +51,8 @@ namespace Core
         [SerializeField] public BuffShowData BuffShowData;
         [SerializeField] public ShowTipComponent ShowTipComponent;
         [SerializeField] private float MinLoadDuration;
+        [SerializeField] private int ScreenWidth;
+        [SerializeField] private int ScreenHeight;
         public int InitSpeed = 0;
         public int MaxNameLength = 16;
         public int LeaderBoardKey;
@@ -110,6 +112,8 @@ namespace Core
         private void Start()
         {
             _runClock = 0;
+            Application.targetFrameRate = 60;
+            Screen.SetResolution(ScreenWidth, ScreenHeight, true);
             _stateMachine.SetCurrent(GameStatus.Splash);
         }
 
