@@ -182,7 +182,7 @@ namespace Core
 
         public void SetLevel(int level)
         {
-            _maxHp = MaxHp * (1 + 0.1f * level);
+            _maxHp = NumFunc.GetLevelUpHP(MaxHp, level);
             Init();
         }
     }

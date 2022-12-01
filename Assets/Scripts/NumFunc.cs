@@ -27,7 +27,12 @@ namespace DefaultNamespace
 
         public static int GetLevelUpAtk(int val, int level)
         {
-            return val + level;
+            return val + level / 2;
+        }
+
+        public static float GetLevelUpHP(float val, int level)
+        {
+            return val * (1.0f + 0.05f * level);
         }
     }
 }
