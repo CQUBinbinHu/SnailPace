@@ -4,7 +4,7 @@ namespace DefaultNamespace
 {
     public static class NumFunc
     {
-        public static float MaxMoveSpeed = 10f;
+        public static float MaxMoveSpeed = 7f;
         public static float MinMoveSpeed = 0f;
         public static float MaxEnergyRecovery = 20;
         public static float MinEnergyRecovery = 0;
