@@ -40,7 +40,7 @@ namespace Core
         public void Init()
         {
             _skills.Clear();
-            foreach (var skill in _owner.SkillSocket.GetComponents<SkillComponent>())
+            foreach (var skill in _owner.SkillSocket.GetComponentsInChildren<SkillComponent>())
             {
                 skill.SetOwner(_owner);
                 _skills.Add(skill);
