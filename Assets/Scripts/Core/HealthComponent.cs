@@ -104,7 +104,7 @@ namespace Core
             // show tip
             var tip = LeanPool.Spawn(GameManager.Instance.ShowTipComponent);
             tip.transform.position = _owner.TipSocket.position;
-            tip.SetTips(damage.ToString(), TipsColor);
+            tip.SetTips(roundToInt.ToString(), TipsColor);
             // 
             _armor -= roundToInt;
             var RoundDamage = _armor;
