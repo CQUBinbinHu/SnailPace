@@ -161,7 +161,7 @@ namespace Core
 
         public void AddArmor(int armor)
         {
-            _armor += armor;
+            _armor += Mathf.CeilToInt(_owner.GetBuffArmorMultiplier() * armor);
             _armor = Mathf.Clamp(_armor, 0, Int32.MaxValue);
             ResetArmorTimer();
             if (ShowHealthBar)

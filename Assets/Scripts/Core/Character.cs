@@ -44,6 +44,7 @@ namespace Core
         private List<Buff> _buffRemoveCurrent;
         private HashSet<Buff> _buffs;
         private Dictionary<BuffType, float> _buffAtkMultiplier;
+        private Dictionary<BuffType, float> _buffArmorMultiplier;
         private Dictionary<BuffType, float> _buffDamageMultiplier;
         public HashSet<Buff> Buffs => _buffs;
         public HealthComponent Health => _health;
@@ -69,6 +70,7 @@ namespace Core
             _buffAddCurrent = new List<Buff>();
             _behaviourController = GetComponent<BehaviourController>();
             _buffAtkMultiplier = new Dictionary<BuffType, float>();
+            _buffArmorMultiplier = new Dictionary<BuffType, float>();
             _buffDamageMultiplier = new Dictionary<BuffType, float>();
         }
 
@@ -269,6 +271,30 @@ namespace Core
             {
                 _health.SetLevel(Level);
             }
+        }
+
+        public void AddArmorMultiplier(BuffType origin, float armorMultiplier)
+        {
+            if (!_buffArmorMultiplier.ContainsKey(origin))
+            {
+                _buffArmorMultiplier.Add(origin, armorMultiplier);
+            }
+        }
+
+        public float GetBuffArmorMultiplier()
+        {
+            float multiplier = 1;
+            foreach (var value in _buffArmorMultiplier)
+            {
+                multiplier *= value.Value;
+            }
+
+            return multiplier;
+        }
+
+        public void RemoveBuffArmorMultiplier(BuffType buff)
+        {
+            _buffArmorMultiplier.Remove(buff);
         }
     }
 }
